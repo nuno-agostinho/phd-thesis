@@ -1,0 +1,46 @@
+% !TEX root = ../PhD Thesis.tex
+\chapter{psichomics}
+
+After finishing the first year of my Masters in Informatics, I was looking for a challenge. I wanted to apply everything I have learned to biology as part of my thesis. However, it was not clear to me how to do it.
+
+While looking for computational biology groups in Portugal and their projects, I found out about Nuno Morais lab, a research group focused on using computational biology methods to better understand alternative splicing in disease. I wanted to make sure that the project I would be developing would have a strong component in informatics. So I went to personally talk with Nuno Morais about the gaps in the field and how to mitigate them. Nuno immediately replied that there is a need for graphical, interactive tools to allow non-experts to analyse and visualise splicing from big datasets. I loved the idea and started exploring ways of going from concept to reality.
+
+After toying with multiple frameworks and programming languages, I decided to stick with the R statistical language and the Shiny web app framework. Shiny allows to develop web apps using R and helped immensely in kick-starting what would be later known as psichomics.
+
+The tool was first made available in 2016 via Bioconductor. When released, the tool was focused on quantifying, analysing and visualising alternative splicing in TCGA. As the time went by, more and more functionality was added.
+
+\begin{table}
+\caption{Major released features of psichomics}
+\label{tab:psichomics}
+\begin{tabularx}{\textwidth}{ l l X }
+\toprule
+\textbf{Version} & \textbf{Release data} & \textbf{Major features} \\
+\midrule
+1.0.0  & 18 Oct 2016 & Alternative splicing quantification and analysis from TCGA data \\
+1.0.8  & 18 Feb 2017 & Load GTEx data \\
+1.4.0  & 31 Oct 2017 & Analyse gene expression data from GTex and TCGA \\
+1.6.1  & 5 Jul 2018  & Load SRA data via recount2 and improved user-owned data \\
+1.12.1 & 29 Jan 2020 & Diagram of alternative splicing events \\
+1.14.2 & 11 Aug 2020 & improved support for loading more data formats, including VAST-TOOLS output \\
+1.18.6 & 4 Oct 2021  & Support for ShinyProxy \\                                                  
+\bottomrule
+\end{tabularx}
+\end{table}
+
+I feel like it took until 2021 for the tool to fully realise its potential: when it finally became available via our app server.
+
+Nowadays, psichomics allows to analyse gene expression and alternative splicing based on user-provided or public transcriptomic data, including The Cancer Genome Atlas (TCGA) (Cancer Genome Atlas Research Network et al., 2013), The Genotype-Tissue Expression (GTEx) project (The GTEx Consortium, 2013) and recount2 (Collado-Torres, 2017). Following an invitation from Springer Methods, I also prepared a book chapter on using psichomics to analyse alternative splicing in stem cell differentiation (Saraiva-Agostinho \& Barbosa-Morais, 2020).
+
+Following typical user requests, I added built-in support for analysing non-human data, including new alternative splicing annotations for 14 species (including mouse, fruit fly, frog, and Arabidopsis thaliana). These annotations are based on those provided by the alternative splicing quantification tool VAST-TOOLS (Irimia et al., 2014; Tapial et al., 2017). Other improvements include visual diagrams for intuitive representation of alternative splicing events and support for loading VAST-TOOLS output tables, thus allowing to analyse intron retention events quantified by VAST-TOOLS.
+
+\section{Methods article / stem cells}
+
+One day, I received an email from an editor of Springer Methods asking me to contribute for a chapter for a new edition of a book of protocols. I immediately sent an email to Nuno Morais stating that I was almost certain that this email was not spam.
+
+\section{GitHub Actions}
+
+\section{Docker}
+
+\section{Feedback}
+
+It is wonderful to see that the work I put into psichomics is appreciated based on feedback received via GitHub and email. psichomics is still used nowadays based on citations from recent published articles (Ling et al., 2020; Baeza-Centurion et al., 2020; Birladeanu et al., 2021). In the lab, we can also track visitors of psichomics’ documentation via Google Analytics to better understand our users (e.g., what pages they visit the most).

@@ -1,0 +1,100 @@
+\documentclass[12pt, twoside]{report}
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
+
+%\usepackage[parfill]{parskip}    % Begin paragraphs with empty line instead of indent
+\usepackage{graphicx}             % Use pdf, png, jpg or eps with pdflatex (eps in DVI mode)
+                                  % TeX automatically converts eps --> pdf in pdflatex
+\usepackage{amssymb}
+%\usepackage{ebgaramond}
+
+\usepackage[onehalfspacing]{setspace}
+\setlength{\parskip}{0cm}
+
+\usepackage{nameref}
+\usepackage{hyperref}
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1}: \textbf{\nameref*{#1}}}}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+%\usepackage{type1cm}
+%\usepackage{lettrine}
+
+% ------------------------------------------------------------------
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{-.2cm}
+        UNIVERSIDADE DE LISBOA
+        
+        Faculdade de Medicina
+        
+        \includegraphics[width=0.6\textwidth]{images/logo/ulisboa}
+        
+        \vspace{1.8cm}
+        Thesis Title
+        
+        \vspace{0.5cm}
+        Thesis Subtitle
+            
+        \vspace{0.9cm}            
+        Nuno Daniel Saraiva Agostinho
+    \end{center}
+
+    \vspace{0.9cm}
+    Orientador: Prof. Doutor Nuno Luís Barbosa Morais
+    
+    \vspace{2.2cm}
+    \begin{center}
+        Documento provisório
+        
+        Tese especialmente elaborada para obtenção do grau de Doutor em\\
+        Ciências Biomédicas, Ramo da Biologia Computacional
+            
+        \vfill
+        2021
+        \vspace{.7cm}    
+    \end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+
+\chapter*{Resumo}
+\addcontentsline{toc}{chapter}{Resumo}
+
+\chapter*{Summary}
+\addcontentsline{toc}{chapter}{Summary}
+Abstract goes here
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+\input{chapters/introduction}
+\pagenumbering{arabic}
+
+\input{chapters/objectives}
+\input{chapters/methods}
+
+\input{chapters/psichomics}
+\input{chapters/cTRAP}
+\input{chapters/appServer}
+\input{chapters/panashe}
+
+\input{chapters/discussion}
+
+\appendix
+\chapter{Appendix}
+%\input{chapters/appendix}
+
+\end{document}  
