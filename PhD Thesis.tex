@@ -6,6 +6,8 @@
 %\usepackage[parfill]{parskip}    % Begin paragraphs with empty line instead of indent
 \usepackage{graphicx}             % Use pdf, png, jpg or eps with pdflatex (eps in DVI mode)
                                   % TeX automatically converts eps --> pdf in pdflatex
+\usepackage{wrapfig}
+
 \usepackage{amssymb}
 %\usepackage{ebgaramond}
 
@@ -13,14 +15,55 @@
 \setlength{\parskip}{0cm}
 
 \usepackage{nameref}
-\usepackage{hyperref}
-\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1}: \textbf{\nameref*{#1}}}}
+\usepackage[colorlinks,linkcolor=magenta]{hyperref} % set link colour to magenta?
+
+\usepackage[font=small,labelfont=bf]{caption}
+
+\usepackage{listings}
+\usepackage{xcolor}
 
 \usepackage{booktabs}
 \usepackage{tabularx}
 
 %\usepackage{type1cm}
 %\usepackage{lettrine}
+
+% FUNCTIONS --------------------------------------------------------
+
+% Use \rurl{} to create a link without displaying https://
+\newcommand*{\rurl}[1]{\small{\href{https://#1}{\nolinkurl{#1}}}}
+
+% Use \fullref{} to fully reference a \label{}, e.g.
+%   Latex -> For more details, read \fullref{chap:methods}.
+%   PDF   -> For more details, read chapter 4: \textbf{Methods}.
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1}: \textbf{\nameref*{#1}}}}
+
+% CODE STYLING -----------------------------------------------------
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false
+}
+
+\lstset{style=mystyle}
 
 % ------------------------------------------------------------------
 
@@ -92,6 +135,10 @@ Abstract goes here
 \input{chapters/panashe}
 
 \input{chapters/discussion}
+
+% citations using BibTeX
+\bibliographystyle{plos2015}
+\bibliography{refs}
 
 \appendix
 \chapter{Appendix}
