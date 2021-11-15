@@ -1,20 +1,20 @@
 % !TEX root = ../PhD Thesis.tex
 \chapter{psichomics}
 
-After finishing the first year of my Masters in Informatics, I was looking for a challenge. I wanted to apply everything I have learned to biology as part of my thesis. However, it was not clear to me how to do it.
+After finishing the first year of my Masters in Informatics, I was looking for a challenge: I wanted to apply everything I had learned to biology as part of my thesis. However, it was not clear to me how to do it.
 
-While looking for computational biology groups in Portugal and their projects, I found out about Nuno Morais lab, a research group focused on using computational biology methods to better understand alternative splicing in disease. I wanted to make sure that the project I would be developing would have a strong component in informatics. So I went to personally talk with Nuno Morais about the gaps in the field and how to mitigate them. Nuno immediately replied that there is a need for graphical, interactive tools to allow non-experts to analyse and visualise splicing from big datasets. I loved the idea and started exploring ways of going from concept to reality.
+While looking for computational biology groups and their projects, I found out about Nuno Morais lab, a research group focused on using computational biology methods to better understand alternative splicing in disease. I wanted to make sure that the project I would be developing would have a strong component in informatics. So I went to personally talk with Nuno Morais about the gaps in the field and how to mitigate them. Nuno immediately mentioned the need for graphical, interactive tools to allow non-experts to analyse and visualise splicing from big datasets. I loved the idea and started exploring ways of going from concept to reality.
 
 After toying with multiple frameworks and programming languages, I decided to stick with the R statistical language and the Shiny web app framework. Shiny allows to develop web apps using R and helped immensely in kick-starting what would be later known as psichomics.
 
-The tool was first made available in 2016 via Bioconductor. When released, the tool was focused on quantifying, analysing and visualising alternative splicing in TCGA. As the time went by, more and more functionality was added.
+The tool was first made available in 2016 via Bioconductor. When released, the tool was focused on quantifying, analysing and visualising alternative splicing in TCGA. As the time went by, more and more functionality was added. I feel like it took until 2021 for the tool to fully realise its potential: when it finally became available via our app server.
 
 \begin{table}
 \caption{Major released features of psichomics}
 \label{tab:psichomics}
 \begin{tabularx}{\textwidth}{ l l X }
 \toprule
-\textbf{Version} & \textbf{Release data} & \textbf{Major features} \\
+\textbf{Version} & \textbf{Release date} & \textbf{Major features} \\
 \midrule
 1.0.0  & 18 Oct 2016 & Alternative splicing quantification and analysis from TCGA data \\
 1.0.8  & 18 Feb 2017 & Load GTEx data \\
@@ -27,19 +27,17 @@ The tool was first made available in 2016 via Bioconductor. When released, the t
 \end{tabularx}
 \end{table}
 
-I feel like it took until 2021 for the tool to fully realise its potential: when it finally became available via our app server.
+Nowadays, psichomics allows to analyse gene expression and alternative splicing based on user-provided or public transcriptomic data, including The Cancer Genome Atlas (TCGA) (Cancer Genome Atlas Research Network et al., 2013), The Genotype-Tissue Expression (GTEx) project \cite{lonsdale:2013uo} and recount2 \cite{collado-torres:2017uw}. Following an invitation from Springer Methods, I also prepared a book chapter on using psichomics to analyse alternative splicing in stem cell differentiation \cite{saraiva-agostinho:2020ue}.
 
-Nowadays, psichomics allows to analyse gene expression and alternative splicing based on user-provided or public transcriptomic data, including The Cancer Genome Atlas (TCGA) (Cancer Genome Atlas Research Network et al., 2013), The Genotype-Tissue Expression (GTEx) project (The GTEx Consortium, 2013) and recount2 (Collado-Torres, 2017). Following an invitation from Springer Methods, I also prepared a book chapter on using psichomics to analyse alternative splicing in stem cell differentiation (Saraiva-Agostinho \& Barbosa-Morais, 2020).
-
-Following typical user requests, I added built-in support for analysing non-human data, including new alternative splicing annotations for 14 species (including mouse, fruit fly, frog, and Arabidopsis thaliana). These annotations are based on those provided by the alternative splicing quantification tool VAST-TOOLS (Irimia et al., 2014; Tapial et al., 2017). Other improvements include visual diagrams for intuitive representation of alternative splicing events and support for loading VAST-TOOLS output tables, thus allowing to analyse intron retention events quantified by VAST-TOOLS.
+Following typical user requests, I added built-in support for analysing non-human data, including new alternative splicing annotations for 14 species (including mouse, fruit fly, frog, and Arabidopsis thaliana). These annotations are based on those provided by the alternative splicing quantification tool VAST-TOOLS \cite{irimia:2014wt,tapial:2017ui}. Other improvements include visual diagrams for intuitive representation of alternative splicing events and support for loading VAST-TOOLS output tables, thus allowing to analyse intron retention events quantified by VAST-TOOLS.
 
 \section{Methods article / stem cells}
 
-One day, I received an email from an editor of Springer Methods asking me to contribute for a chapter for a new edition of a book of protocols. I immediately sent an email to Nuno Morais stating that I was almost certain that this email was not spam.
-
-\section{GitHub Actions}
+One day, I received an email from an editor of Springer Methods asking me to contribute a chapter for a new edition of a book of protocols. I forwarded the email to Nuno Morais stating that I was almost certain that it was not spam and whether we should accept the offer.
 
 \section{Docker}
+
+\section{GitHub Actions}
 
 \section{Feedback}
 
