@@ -33,8 +33,18 @@
 
 % FUNCTIONS --------------------------------------------------------
 
-% Use \rurl{} to create a link without displaying https://
-\newcommand*{\rurl}[1]{\small{\href{https://#1}{\nolinkurl{#1}}}}
+% Use \link{} to create a formatted link
+\newcommand*{\link}[2]{\small{\href{#1}{\nolinkurl{#2}}}}
+
+% Use \alink{} to create a formatted link without displaying https://
+% example: \alink{docker.com} -> displays "docker.com" with a link to https://docker.com
+\newcommand*{\alink}[1]{\link{https://#1}{#1}}
+
+% Use \dockerlink{} to create a formatted link to Docker Hub using only an image name
+% example:
+%   \dockerlink{nunoagostinho/psichomics} -> links to hub.docker.com/r/nunoagostinho/psichomics
+%   \dockerlink[_]{nginx}                 -> links to hub.docker.com/_/nginx (official Docker)
+\newcommand*{\dockerlink}[2][r]{\link{https://hub.docker.com/#1/#2}{#2}}
 
 % Use \fullref{} to fully reference a \label{}, e.g.
 %   Latex -> For more details, read \fullref{chap:methods}.

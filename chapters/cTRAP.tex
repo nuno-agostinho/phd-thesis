@@ -2,9 +2,9 @@
 \chapter{cTRAP: identification of candidate causal perturbations from differential gene expression data}
 \label{chap:ctrap}
 
-We had a brainstorm session during a stormy day in our 2017 lab retreat in Madeira, where we discussed what the lab could provide to the scientific community. One of the ideas seemed easy to do: comparing a custom differential gene expression against a large database of differential expression profiles. The idea was already been discussed in the original paper of CMap and implemented in their online tool at \rurl{clue.io}, but there were issues with their implementation.
+We had a brainstorm session during a stormy day in our 2017 lab retreat in Madeira, where we discussed what the lab could provide to the scientific community. One of the ideas seemed easy to do: comparing a custom differential gene expression against a large database of differential expression profiles. The idea was already been discussed in the original paper of CMap and implemented in their online tool at \alink{clue.io}, but there were issues with their implementation.
 
-The Connectivity Map or CMap \cite{subramanian:2017ul} is a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations tested in human cancer cell lines. We developed cTRAP (\rurl{bioconductor.org/packages/cTRAP}), an R/Bioconductor package to compare user-provided differential gene expression profiles with those from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them. The comparisons are made based on correlation and gene set enrichment \cite{subramanian:2005wu} approaches.
+The Connectivity Map or CMap \cite{subramanian:2017ul} is a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations tested in human cancer cell lines. We developed cTRAP (\alink{bioconductor.org/packages/cTRAP}), an R/Bioconductor package to compare user-provided differential gene expression profiles with those from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them. The comparisons are made based on correlation and gene set enrichment \cite{subramanian:2005wu} approaches.
 
 The associated manuscript (of which I am a co-first and co-corresponding author) is in preparation for submission to an international peer-reviewed scientific journal.
 
@@ -112,7 +112,7 @@ Afterwards, we benchmarked R scripts running cTRAP with:
 R -d heaptrack -f ${cTRAP_Rscript} --args ${cTRAP_Rscript_args}
 \end{lstlisting}
 
-All benchmarks were run in a workstation running Ubuntu 18.04.5 LTS with 768 GB of RAM memory and 72 cores (Intel Xeon Gold 6254 CPU @ 3.10GHz). The benchmarked cTRAP scripts are publicly available in cTRAP's GitHub repository: \rurl{github.com/nuno-agostinho/cTRAP/tree/master/dev/benchmark}
+All benchmarks were run in a workstation running Ubuntu 18.04.5 LTS with 768 GB of RAM memory and 72 cores (Intel Xeon Gold 6254 CPU @ 3.10GHz). The benchmarked cTRAP scripts are publicly available in cTRAP's GitHub repository: \alink{github.com/nuno-agostinho/cTRAP/tree/master/dev/benchmark}
 
 \section{Results}
 
