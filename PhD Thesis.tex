@@ -15,7 +15,7 @@
 \setlength{\parskip}{0cm}
 
 \usepackage{nameref}
-\usepackage[colorlinks,linkcolor=magenta]{hyperref} % set link colour to magenta?
+\usepackage{hyperref} % set link colour to magenta?
 
 \usepackage[font=small,labelfont=bf]{caption}
 
@@ -23,33 +23,39 @@
 \usepackage{xcolor}
 
 \usepackage{booktabs}
-\usepackage{tabularx}
-\usepackage[roman]{parnotes}
+\usepackage{tabularx,colortbl}	
+\usepackage[alph]{parnotes}
 \usepackage{multirow}
 \usepackage{csquotes}
 
 %\usepackage{type1cm}
 %\usepackage{lettrine}
 
+\usepackage{relsize}
+
 % FUNCTIONS --------------------------------------------------------
 
-% Use \link{} to create a formatted link
-\newcommand*{\link}[2]{\small{\href{#1}{\nolinkurl{#2}}}}
+% Formatted link, e.g. \link{https://github.com/nuno-agostinho/psichomics}{psichomics}
+\newcommand*{\link}[2]{\textsmaller{\href{#1}{\nolinkurl{#2}}}}
 
-% Use \alink{} to create a formatted link without displaying https://
-% example: \alink{docker.com} -> displays "docker.com" with a link to https://docker.com
+% Small formatted link (only use in "normal" text)
+%\newcommand*{\slink}[2]{\small{\link{#1}{#2}}
+
+% Automatic link: formatted link without displaying https://, e.g.
+%   \alink{docker.com} -> displays "docker.com" with a link to https://docker.com
 \newcommand*{\alink}[1]{\link{https://#1}{#1}}
 
-% Use \dockerlink{} to create a formatted link to Docker Hub using only an image name
-% example:
+% Docker Hub link: formatted link to Docker Hub using only an image name, e.g.
 %   \dockerlink{nunoagostinho/psichomics} -> links to hub.docker.com/r/nunoagostinho/psichomics
 %   \dockerlink[_]{nginx}                 -> links to hub.docker.com/_/nginx (official Docker)
 \newcommand*{\dockerlink}[2][r]{\link{https://hub.docker.com/#1/#2}{#2}}
 
-% Use \fullref{} to fully reference a \label{}, e.g.
-%   Latex -> For more details, read \fullref{chap:methods}.
-%   PDF   -> For more details, read chapter 4: \textbf{Methods}.
-\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1}: \textbf{\nameref*{#1}}}}
+% Fully reference a \label{}, e.g. with a previous \label{chap:methods} for Chapter 3:
+%   \fullref{chap:methods} -> \textbf{chapter 3: Materials and methods}
+%\newcommand*{\fullref}[2][]{\hyperref[{#2}]{\autoref*{#2}#1: \textbf{\nameref*{#2}}}}
+\newcommand*{\fullref}[2][]{\shortref[#1: \textbf{\nameref*{#2}}]{#2}}
+
+\newcommand*{\shortref}[2][]{\hyperref[{#2}]{\autoref*{#2}#1}}
 
 % CODE STYLING -----------------------------------------------------
 
@@ -59,24 +65,27 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{backcolour},
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    breakatwhitespace=false,
+    breaklines=true,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
     showstringspaces=false,
     showtabs=false
 }
 
 \lstset{style=mystyle}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{14.49998pt}
 
 % ------------------------------------------------------------------
 
@@ -92,10 +101,11 @@
         \includegraphics[width=0.6\textwidth]{images/logo/ulisboa}
         
         \vspace{1.8cm}
-        Thesis Title
-        
-        \vspace{0.5cm}
-        Thesis Subtitle
+        Designing Transcriptomic Web Apps
+
+        \vspace{1.1cm}        
+%        \vspace{0.5cm}
+%        Thesis Subtitle
             
         \vspace{0.9cm}            
         Nuno Daniel Saraiva Agostinho
@@ -129,8 +139,7 @@
 \addcontentsline{toc}{chapter}{Summary}
 Abstract goes here
 
-\chapter*{Acknowledgements}
-\addcontentsline{toc}{chapter}{Acknowledgements}
+\input{chapters/acknowledgements}
 
 \listoffigures
 \addcontentsline{toc}{chapter}{List of Figures}
@@ -138,10 +147,11 @@ Abstract goes here
 \listoftables
 \addcontentsline{toc}{chapter}{List of Tables}
 
+\input{chapters/preface}
 \input{chapters/introduction}
 
 \input{chapters/objectives}
-\input{chapters/methods}
+%\input{chapters/methods}
 
 \input{chapters/psichomics}
 \input{chapters/cTRAP}
@@ -151,10 +161,11 @@ Abstract goes here
 
 % citations using BibTeX
 \bibliographystyle{plos2015}
-\bibliography{refs}
+{\footnotesize
+\bibliography{refs}}
 
-\appendix
-\chapter{Appendix}
+%\appendix
+%\chapter{Appendix}
 %\input{chapters/appendix}
 
 \end{document}  
