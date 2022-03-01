@@ -179,8 +179,6 @@ Alternative splicing is deregulated in multiple disease contexts, including canc
 
 \section{Bioinformatics}
 
-% what is bioinformatics
-
 % The fact that we need to specifically name the computer-aided analysis as sub-field of biological research demonstrates how bioinformatics is not as widely used as it should.
 
 % 1. sequencing, annotation and comparison
@@ -189,8 +187,7 @@ Alternative splicing is deregulated in multiple disease contexts, including canc
 % 4. structure prediction
 % 5. network modelling
 
-% Similar to the history of molecular biology, bioinformatics started with the analysis of proteins \cite{gauthier:2018ws}.
-Following Sanger's work in 1959 on identifying the amino-acid composition of the protein insulin in multiple species, many proteins started being sequenced \cite{sanger:1955uw,ryle:1955wf,harris:1956ut,gauthier:2018ws}.
+Bioinformatics is a multidisciplinary field based on the usage and development of computer programs to efficiently analyse large-scale biological data and it all started from protein analysis \cite{gauthier:2018ws}. Following Sanger's work in 1959 on identifying the amino-acid composition of the protein insulin in multiple species, many proteins started being sequenced \cite{sanger:1955uw,ryle:1955wf,harris:1956ut,gauthier:2018ws}.
 % He used acids to break the molecule into smaller parts, which were separated from one another with the help of electrophoresis and chromatography. Further analyses determined the amino acid sequences in the molecule's two chains, and in 1955 Frederick Sanger identified how the chains are linked together.
 Pointing to such studies, Crick predicted in 1958 that:
 
@@ -198,11 +195,17 @@ Pointing to such studies, Crick predicted in 1958 that:
 Biologists should realize that before long we shall have a subject which might be called 'protein taxonomy' - the study of the amino acid sequences of the proteins of an organism and the comparison of them between species.
 \end{displayquote}
 
-For that to come to fruition, more proteins from different species would first need to be fully sequenced for comparison. A technique known as Edman degradation was popularly used at the time to sequence proteins: the amino acids were identified by chemically fragmenting the protein, identifying the first 50-60 amino acids of each fragment and then reconstructing the full sequence based on the overlapping fragments, a long and tedious process performed by hand \cite{gauthier:2018ws,edman:1949ww}. All these limitations meant that only 6 different proteins were fully sequenced by 1962 \cite{dayhoff:1962up}. To overcome the difficulties in this reconstruction step, Margaret Dayhoff and Robert S. Ledley published the first bioinformatic program: Comprotein \cite{gauthier:2018ws,dayhoff:1962up}. By 1965, the number of published protein sequences grew up to 65 and were published by Dayhoff in the first protein database, otherwise known as the book entitled \emph{Atlas of Protein Sequence and Structure}\cite{dayhoff:1965vv}.
+For that to come to fruition, more distinct proteins from different species would first need to be fully sequenced for comparison. A technique known as Edman degradation was popularly used at the time to sequence proteins: the amino acids were identified by chemically fragmenting the protein, identifying the first 50-60 amino acids of each fragment and then reconstructing the full sequence based on the overlapping fragments, a long and tedious process performed by hand \cite{gauthier:2018ws,edman:1949ww}. All these limitations meant that only 6 different proteins were fully sequenced by 1962 \cite{dayhoff:1962up}. To overcome the difficulties in this reconstruction step, Margaret Dayhoff and Robert S. Ledley developed a specialised computer program in the biology domain, the first bioinformatics program: COMPROTEIN \cite{gauthier:2018ws,dayhoff:1962up}. By 1965, the number of published protein sequences grew up to 65 and were published by Dayhoff in the first protein database, otherwise known as the book entitled \emph{Atlas of Protein Sequence and Structure}\cite{dayhoff:1965vv}.
 
-In 1963, Linus Pauling and Emile Zuckerkandl discussed that cross-species comparative analysis of protein sequences could help determine the original protein sequence of their common ancestor and measure the evolutionary distance of the sequence of each species to that of their common ancestor \cite{pauling:1963uo}. However, these protein comparison methods were performed by hand, which meant that they were only practical for closely-related proteins such as homologs from different mammals \cite{gauthier:2018ws}. Starting in 1970, computer-assisted phylogenetics started being a reality with the introduction of the Needleman-Wunsch algorithm \cite{needleman:1970vq} and variants, such as the Smith-Waterman algorithm \cite{smith:1981up}. These programs allowed to computationally measure the distance between two sequences by pair-wise comparison of amino acid of each protein sequence \cite{needleman:1970vq,smith:1981up}.
+In 1963, Linus Pauling and Emile Zuckerkandl discussed that cross-species comparative analysis of protein sequences could help determine the original protein sequence of their common ancestor and measure the evolutionary distance of the sequence of each species to that of their common ancestor \cite{pauling:1963uo}. However, these protein comparison methods were performed by hand, which meant that they were only practical for closely-related proteins such as homologs from different mammals \cite{gauthier:2018ws}. Since 1970, computer-assisted phylogenetics started being a reality with the introduction of the Needleman-Wunsch algorithm \cite{needleman:1970vq} and variants, such as the Smith-Waterman algorithm \cite{smith:1981up}. These programs computationally measure the distance between two sequences by pair-wise comparison of amino acids between protein sequence \cite{needleman:1970vq,smith:1981up}.
+
+% Substitution matrices in 1978:
+% - Dayhoff, M.O., Schwartz, R.M., Orcutt, B.C. (1978) "A model of evolutionary change in proteins." In "Atlas of Protein Sequence and Structure, vol. 5, suppl. 3," M.O. Dayhoff (ed.), pp. 345-352, Natl. Biomed. Res. Found., Washington, DC.
+% - Schwartz, R.M., Dayhoff, M.O. (1978) "Matrices for detecting distant relationships." In "Atlas of Protein Sequence and Structure, vol. 5, suppl. 3," M.O. Dayhoff (ed.), pp. 353-358, Natl. Biomed. Res. Found., Washington, DC.
 
 % conservation, structural conformation, functional domains
+
+% when did computers started being used?
 
 Years after automatic protein sequencing machines being available based on Edman degradation -- \emph{protein sequenators} as first called in 1967 \cite{edman:1967tc} --, DNA sequencing methods were presented based on electrophoresis: the enzymatic Sanger method (also known as dideoxy method) \cite{sanger:1977vp} and the chemical degradation method Maxam-Gilbert sequencing \cite{maxam:1977vy}. These tedious and slow processes required manual intervention \emph{at both the experimental and interpretative levels} \cite{hood:1987va}.
 
