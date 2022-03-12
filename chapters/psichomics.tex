@@ -12,7 +12,7 @@
 
 After finishing the first year of my Masters in Informatics, I was looking for a challenging thesis where I could apply all that I learned into a bioinformatics project. While looking for computational biology groups, I found out about Nuno Morais lab, a research group interested in studying transcriptomics in disease.
 
-Nuno made me aware of the need for graphical, interactive tools to allow non-experts to analyse and visualise splicing from processed big datasets. I loved the idea and started exploring ways of going from concept to reality. After toying with multiple frameworks and programming languages, I decided to stick with the R statistical language and the Shiny web app framework \cite{chang:2021ul}. Shiny helped kick-start what would later be known as psichomics (\shortref{fig:psichomics-screenshot}).
+Nuno made me aware of the need for graphical, interactive tools to allow non-experts to analyse and visualise splicing from processed big datasets. I loved the idea and started exploring ways of going from concept to reality. After toying with multiple frameworks and programming languages, I decided to stick with the R statistical language and the Shiny web app framework \cite{chang:2021ul} that helped me to kick-start what would be later known as psichomics (\shortref{fig:psichomics-screenshot}).
 
 psichomics was first made available in 2016 via Bioconductor to quantify, analyse and visualise alternative splicing using TCGA data \cite{chang:2013ww}. Later on, I started my PhD project in the same lab and continued my work on psichomics. Nowadays, the tool allows to analyse gene expression and alternative splicing based on user-provided or public transcriptomic data, including those from TCGA \cite{chang:2013ww}, GTEx \cite{lonsdale:2013uo} and recount2 \cite{collado-torres:2017uw} (\shortref{tab:psichomics}).
 
@@ -39,7 +39,7 @@ psichomics was first made available in 2016 via Bioconductor to quantify, analys
 1.12.1 & 29 Jan 2020 & Display visual diagrams of alternative splicing events \\
 1.14.2 & 11 Aug 2020 & Load VAST-TOOLS output\parnote{First time supporting intron retention events (psichomics does not calculate intron retention).} and more data formats \\
 1.18.6 & 4 Oct 2021  & Add web server support (optimised to run in ShinyProxy)\parnote{First version available online.} \\
-1.20.0 & 28 Oct 2021 & Download alternative splicing annotations for 14 species\parnote{\emph{Homo sapiens} (hg19 and hg38), \emph{Mus musculus} (mm9 and mm10), \emph{Bos taurus}, \emph{Gallus gallus} (galGal3 and galGal4), \emph{Xenopus tropicalis}, \emph{Danio rerio}, \emph{Branchiostoma lanceolatum}, \emph{Strongylocentrotus purpuratus}, \emph{Drosophila melanogaster}, \emph{Strigamia maritima}, \emph{Caenorhabditis elegans}, \emph{Schmidtea mediterranea}, \emph{Nematostella vectensis} and \emph{Arabidopsis thaliana} based on VAST-TOOLS annotation.} \\
+1.20.0 & 28 Oct 2021 & Readily quantify alternative splicing for 14 species\parnote{Alternative splicing annotations are  available for \emph{Homo sapiens} (hg19 and hg38), \emph{Mus musculus} (mm9 and mm10), \emph{Bos taurus}, \emph{Gallus gallus} (galGal3 and galGal4), \emph{Xenopus tropicalis}, \emph{Danio rerio}, \emph{Branchiostoma lanceolatum}, \emph{Strongylocentrotus purpuratus}, \emph{Drosophila melanogaster}, \emph{Strigamia maritima}, \emph{Caenorhabditis elegans}, \emph{Schmidtea mediterranea}, \emph{Nematostella vectensis} and \emph{Arabidopsis thaliana} based on VAST-TOOLS annotation. Custom alternative splicing annotation can also be imported.} \\
 \bottomrule
 \end{tabularx}
 \parnotes
@@ -84,16 +84,18 @@ psichomics allows to automatically process data (provided by the user or automat
   \label{fig:psichomics-workflow}
 \end{figure}
 
-psichomics was designed as a modular R package to easily modify and extend its components (\shortref{fig:psichomics-file-structure}). These include support for multiple file formats and automatic data retrieval from multiple sources, parsing and standardisation of alternative splicing event identifiers from different programs and a variety of data analysis methodologies.
+The tool was designed as a modular R package to be easily modified and extended (\shortref{fig:psichomics-file-structure}), including modules for automatic data retrieval from multiple sources, parsing and standardisation of alternative splicing event identifiers from different programs and a variety of data analysis methodologies.
 
+% TODO: add new symbol for a group of files to make it more intuitive to understand why there are multiple R files for the same data source
 \begin{figure}[!ht]
   \includegraphics[width=1\textwidth]{images/psichomics/file-structure}
   \centering
-  \caption[psichomics file structure]{\textbf{Visual representation of psichomics' file structure.} As usual in an R package, the \texttt{R} folder contains the scripts with psichomics functions and data. \texttt{dev} is a custom folder that stores supporting scripts (e.g. test workflows); its contents are not included when building the R package.}
+  \caption[psichomics file structure]{\textbf{Visual representation of psichomics' file structure.} psichomics is a modular program where, for instance, functions specific for different data sources and analyses can be found in different files. As usual for R packages, the \texttt{R} folder is the heart of the code and contains the main R scripts that define the logic and interface of the app. \texttt{dev} is a non-standard folder in R packages used to store supporting scripts (e.g. test workflows); its contents are not included when building the R package.}
   \label{fig:psichomics-file-structure}
 \end{figure}
 
-Using psichomics for alternative splicing analysis begins with the loading of splice junction read count data provided by the user or from external sources, followed by the quantification of alternative splicing (in case no pre-computed quantification is loaded) and subsequent analyses. Alternative splicing quantification is computed based on RNA-seq reads that align to exon-exon junctions and the genomic coordinates (annotation) of alternative splicing events. The proportion of reads aligned to junctions that support the inclusion isoform, known as the Percent Spliced-In or PSI \cite{wang:2008wa}, was the chosen quantification metric.
+To analyse alternative splicing, psichomics can load
+ splice junction read count data provided by the user or from external sources, followed by the quantification of alternative splicing (in case no pre-computed quantification is loaded) and subsequent analyses. Alternative splicing quantification is computed based on RNA-seq reads that align to exon-exon junctions and the genomic coordinates (annotation) of alternative splicing events. The proportion of reads aligned to junctions that support the inclusion isoform, known as the Percent Spliced-In or PSI \cite{wang:2008wa}, was the chosen quantification metric.
 
 \subsection{Data retrieval}
 
@@ -104,7 +106,7 @@ Other SRA projects and user-provided files may also be loaded in appropriate for
 \begin{table}[!ht]
 \parnotereset
 \small
-\caption[Supported file formats in psichomics by source]{\textbf{Supported file formats in psichomics by source.}}
+\caption[Supported file formats in psichomics based on data source]{\textbf{Supported file formats in psichomics based on data source.}}
 \label{tab:psichomics-file-formats}
 \begin{tabularx}{\textwidth}{ l X X X X X }
 \toprule
@@ -251,13 +253,13 @@ psichomics has three GitHub Actions scripts. The first one creates Docker images
 
 \section{Results}
 
-psichomics offers both a graphical and a command-line interface. Although most features are common to both interfaces, we recommend less experienced users to opt for the Shiny-based graphical interface \cite{chang:2021ul}. To start the graphical interface, the user is required to load the psichomics package in R and run function \texttt{psichomics()}, resulting in the automatic launch of the user's default web browser and of the program's graphical interface as a local web app.
-p
+The graphical interface of psichomics is available at \alink{compbio.imm.medicina.ulisboa.pt/psichomics}. Alternatively, users can install psichomics in their own computers, allowing to use local computing resources. psichomics offers both a graphical and a command-line interface. Although most features are common to both interfaces, we recommend less experienced users to opt for the Shiny-based graphical interface. To start the graphical interface in the local version, load the psichomics package in R via \texttt{library(psichomics)} and run \texttt{psichomics()}. The user's default web browser will be launched with a local version of the psichomics web app.
+
 \subsection{Case study}
 
 \subsection{Time benchmarking}
 
-The times required to load, quantify and analyse data from different TCGA (data version 2016\_01\_28 from FireBrowse) and GTEx v7 cohorts were benchmarked. The breast cancer cohort contains the highest number of RNA-seq samples available in TCGA, thus being that for which it takes more time to load, quantify and analyse alternative splicing and gene expression data. Contrastingly, processed data from GTEx come bundled in files containing all tissues. Although only data from specified tissues are loaded, scanning though the large GTEx file still delays data loading. Tissues from GTEx were loaded in pairs for subsequent differential splicing analyses (\shortref[A]{fig:psichomics-performance}).
+The times required to load, quantify and analyse data from different TCGA (data version \texttt{2016\_01\_28} from FireBrowse) and GTEx v7 cohorts were benchmarked. The breast cancer cohort contains the highest number of RNA-seq samples available in TCGA, thus being that for which it takes more time to load, quantify and analyse alternative splicing and gene expression data. Contrastingly, processed data from GTEx come bundled in files containing all tissues. Although only data from specified tissues are loaded, scanning though the large GTEx file still delays data loading. Tissues from GTEx were loaded in pairs for subsequent differential splicing analyses (\shortref[A]{fig:psichomics-performance}).
 
 \begin{figure}[!ht]
   \includegraphics[width=1\textwidth]{images/psichomics/performance-benchmark}
@@ -278,6 +280,8 @@ Alternative splicing events annotated by TCGASpliceSeq \cite{ryan:2016tm}, an on
 
 \subsection{Impact}
 \label{sec:impact}
+
+There are multiple ways to measure the impact of psichomics. First, we can check the metrics surrounding the article itself. 
 
 % importance of maintaining software and replying to user feedback
 
@@ -311,11 +315,11 @@ The integrative analysis of publicly available TCGA data by psichomics allowed u
 
 To ensure researchers with different skills can take the most out of psichomics, users lacking a computational background may feel more comfortable using the intuitive and more accessible graphical interface, whereas advanced users may opt for the command-line view. Should the demanding computational resources for hosting psichomics in a web server become available, we also envisage its web deployment, so that the program's latest version is publicly available on-demand with no installation required, levering the intuitive graphical interface to make alternative splicing analyses more enticing to less computationally-inclined biomedical researchers.
 
-Notwithstanding its merits, a current limitation of psichomics is the current support only for events quantified based on exon–exon junction read counts, as not all types of alternative splicing events can be profiled using splice junction reads alone. For instance, exon–intron junction, exon body and intron body quantifications are vital to confirm intron retention and alternative 5$'$ and 3$'$ UTR events over further transcriptional variations \cite{braunschweig:2014tr}. % duplicated citation in psichomics article -- maybe two different citations?
-However, although GTEx (but neither TCGA nor recount2) readily provides intron and exon body read quantification for retrieval, none provides exon–intron junction quantification.
+Notwithstanding its merits, psichomics only quantifies alternative splicing events based on exon–exon junction read counts, limiting the types of alternative splicing events profiled. For instance, exon–intron junction, exon body and intron body quantifications are vital to confirm intron retention and alternative 5$'$ and 3$'$ UTR events over further transcriptional variations \cite{braunschweig:2014tr}.
+However, although GTEx (but neither TCGA nor recount2) readily provides intron and exon body read quantification for retrieval, none provides exon–intron junction quantification. To overcome this, psichomics allows to import alternative splicing events quantified from other programs, including VAST-TOOLS that quantifies intron retention events.
 
-Another limitation of psichomics is its reliance on existing alternative splicing event annotations and an on the pre-processing of RNA-seq data by third-party pipelines (as is the case for GTEx, TCGA and recount2), depriving the user of the flexibility to identify de novo alternative splicing events. However, as we detail in \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}, when FASTQ or BAM files are accessible, psichomics supports the loading of alternative splicing annotations generated by different programs that take those files as input, namely rMATS \cite{shen:2014tk}, which is able to generate de novo annotations.
+Another limitation is psichomics reliance on existing alternative splicing event annotations and an on the pre-processing of RNA-seq data by third-party pipelines (as is the case for GTEx, TCGA and recount2), depriving the user of the flexibility to identify de novo alternative splicing events. However, as we detail in \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}, when FASTQ or BAM files are accessible, psichomics supports the loading of alternative splicing annotations generated by different programs that take those files as input, namely rMATS \cite{shen:2014tk}, which is able to generate de novo annotations.
 
 Using psichomics, we are able not only to identify novel exons differentially spliced between tumour stage I and normal breast samples but also to pinpoint potentially clinically relevant splicing events by embracing clinical data and evaluating their prognostic value. We expect that fellow researchers and clinicians will be able to intuitively employ psichomics to assist them in uncovering novel splicing-associated prognostic factors and therapeutic targets, as well as in advancing our understanding of how alternative splicing is regulated in physiological and disease contexts.
 
-% recount3?
+% For future iterations of psichomics, Potentially useful recount3?
