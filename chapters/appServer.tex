@@ -149,11 +149,21 @@ Docker Compose has multiple commands to manage the services. For instance, it is
 % kubernetes?
 % Ansible?
 
+\subsubsection{Automated Testing}
+
+Testing is automatically performed via GitHub Actions. Every change to the GitHub repository is automatically checked to see if Docker Compose can run.
+
+In the future, automated testing could be extended to check specific functionalities of each service in the project, allowing to better understand if everything is working as expected following changes to the code.
+
+\subsubsection{Passwords}
+
+Since most configuration files of the server are public, the default passwords can be changed in a local file, untracked by git. The default passwords are sufficient for testing purposes but should not be left as such in the production environment, otherwise third-party actors may hack into our system.
+
 \subsection{ShinyProxy}
 
 ShinyProxy is an open-source program that deploys R/Shiny and Python apps via Docker. When a user starts an app, ShinyProxy creates a new Docker container exclusively for that user. The containers are automatically terminated 30 minutes (by default) after the last user interaction.
 
-Deploying new Shiny apps in the app server is as simple as adding the name of the Docker image in the ShinyProxy configuration file (\texttt{shinyproxy/application.yml}), downloading the respective Docker image and restarting ShinyProxy. Alternatively, running the script \texttt{download-shinyproxy-dockers.sh} automatically downloads or updates Docker images used in ShinyProxy.
+Deploying new Shiny apps in the app server is as simple as adding the name of the Docker image in the ShinyProxy configuration file (\texttt{shinyproxy/application.yml}), downloading the respective Docker image and restarting ShinyProxy. Alternatively, running the script \texttt{download-shinyproxy-dockers.sh} automatically fetches or updates Docker images used in ShinyProxy.
 
 ShinyProxy offers multiple built-in features, including:
 
@@ -163,6 +173,12 @@ ShinyProxy offers multiple built-in features, including:
 %    \item \textbf{User sessions:} user data can be stored in user-specific folders. As the sessions are only accessible when the Docker container is already attached to the volumes, this allows for complete isolation from other user folders. This feature works best with user authentication enabled (otherwise, random identifiers are used for each visitor and requires custom logic to load data between computers).
 	\item \textbf{Multiple app instances:} users can open and manage multiple app instances simultaneously (not currently enabled in the app server)\footnote{More information in \alink{shinyproxy.io/documentation/ui/\#using-multiple-instances-of-an-app}.}.
 \end{itemize}
+
+\subsubsection{Custom HTML pages}
+
+Custom HTML pages are located in folder \texttt{shinyproxy/templates}. ShinyProxy looks first for files in there and, if a required file does not exist, uses its own default files instead. In other words, to get the original ShinyProxy behaviour for the default HTML pages, simply remove the custom pages from that folder and restart ShinyProxy.
+
+Editing HTML pages provided by ShinyProxy allows to add new features described in the following sections.
 
 \subsubsection{Progress bar when loading ShinyProxy apps}
 
@@ -182,11 +198,21 @@ ShinyProxy offers multiple built-in features, including:
 
 When ShinyProxy is loading an app, a spinning wheel is shown as a loading indicator. For apps that take more than 10 seconds to load (e.g. psichomics and cTRAP), the user may think the website is not working and close the window before the app is loaded. To avoid that, the spinning wheel was replaced with a progress bar to provide a time estimate for app loading (\autoref{fig:progress-bar}), making wait times more tolerable \cite{myers:1985us,yablonski:2020ts}.
 
-By default, the progress bar takes 5 seconds to fill (as sample Shiny apps take that much to launch in ShinyProxy), but the time is customisable for specific apps by editing the ShinyProxy configuration file (\texttt{shinyproxy/application.yml}) and adding a \texttt{template-properties.start-up} parameter to a specific app. For instance, psichomics takes 20 seconds to fully load the progress bar (i.e. \texttt{template-properties.start-up: 20s}), whereas cTRAP takes 15 seconds. When the app finishes loading, the progress bar is replaced by the app regardless of the progress displayed to the user. The accuracy of the progress bar does not have to be perfect to serve its purpose \cite{myers:1985us,yablonski:2020ts}.
+By default, the progress bar takes 5 seconds to fill (as sample Shiny apps take that much to launch in ShinyProxy), but the time is customisable for specific apps by editing the ShinyProxy configuration file (\texttt{shinyproxy/application.yml}) and adding a \texttt{template-properties.start-up} parameter to a specific app. For instance, psichomics takes 20 seconds to fully load the progress bar (i.e. \texttt{template-properties.start-up: 20s}), whereas cTRAP takes 15 seconds. When the app finishes loading, the progress bar is replaced by the app regardless of the progress displayed to the user. The accuracy of the progress bar does not need to be perfect to serve its purpose \cite{myers:1985us,yablonski:2020ts}.
 
-%To create this progress bar, \verb|shinyproxy/templates/app.html| was edited to remove the spinning wheel and to include an empty progress bar. The progress bar's width is changed from 0\% to 100\% using JavaScript. By default, the CSS width transition applied to the progress bar is \texttt{transition: width 5s ease-in-out;} (animating a change of width that last for 5 seconds in an ease-in animation) where \texttt{5s} is replaced by the \texttt{template-properties.startup-time} parameter if set.
+To create this progress bar, \verb|shinyproxy/templates/app.html| was edited to remove the spinning wheel and to include an empty progress bar. The progress bar's width is changed from 0\% to 100\% using JavaScript. By default, the CSS width transition applied to the progress bar is \texttt{transition: width 5s ease-in-out;} (animating a change of width that last for 5 seconds in an ease-in animation) where \texttt{5s} is replaced by the \texttt{template-properties.startup-time} parameter if set.
 
-\subsubsection{Custom HTML pages}
+\subsubsection{Report issue}
+
+The report issue button creates an email based on the page it is.
+
+\subsubsection{Staging and production environment}
+
+\subsubsection{Private web apps}
+
+In the website's landing page (\autoref{fig:homepage}), ShinyProxy lists all apps described in the configuration file (\texttt{shinyproxy/application.yml}). This may not be desired when hosting apps with confidential results to be shared with specific collaborators. For this reason, we added a key \texttt{template-properties.public} that can either be \texttt{false} (default) or \texttt{true}. The file \texttt{shinyproxy/templates/index.html} was edited to show only apps whose \texttt{template-properties.public} key is set to \texttt{true}. Thus, private web apps are not listed in the landing page, but are still accessible via URL based on their app ID, e.g. \texttt{https://compbio.imm.medicina.ulisboa.pt/app/appID}.
+
+However, if the information contained in the web app should not be accessible to strangers at all, we recommend implementing a password input form (e.g. \texttt{shiny::passwordInput}) in the code itself before loading any data and/or information. Ensure the password is securely shared only with the intended audience.
 
 \subsection{Nginx}
 
@@ -201,24 +227,47 @@ A public folder is available via Nginx.
 In case ShinyProxy is down, Nginx will serve a custom error page stating that the server is down probably because of ShinyProxy. This is informative enough to end-users that know they should wait to refresh the page in a moment and also to admins that will understand that ShinyProxy is temporarily down (this can happen because of multiple reasons, such as a restart of the service or overloading).
 
 % favicon
+Nginx is responsible for showing the favicon that is stored in folder \texttt{favicon}.
 
-% An issue with Nginx is that it is especially verbose compared to more recent reverse proxies. Although I would have liked to replace Nginx with a simpler reverse proxy -- such as Caddy (\alink{caddyserver.com}) --, Nginx is more popular and widely used, thus making it easier to find documentation and to Google issues.
+An issue with Nginx is that it is especially verbose compared to more recent reverse proxies. Although I would have liked to replace Nginx with a simpler reverse proxy -- such as Caddy (\alink{caddyserver.com}) --, Nginx is more popular and widely used, thus making it easier to find documentation and to search for issues.
 
 \subsection{Background tasks}
 
-The main goal of our app server is to deploy Shiny apps, i.e. apps that were developed in R. The main disadvantage of using R is that it was designed for running single-thread processes. When running a Shiny app, that is specifically hard, as users cannot interact with the app while analysing data. This has been solved in multiple ways that extend R:
+The main goal of our app server is to deploy Shiny apps, i.e. apps that were developed in R.
+
+% move paragraphs below to cTRAP?
+The main disadvantage of using R is that it was designed for running single-thread processes. When running a Shiny app, that is specifically hard, as users cannot interact with the app while analysing data. This has been solved in multiple ways that extend R:
 
 - by using promises/future
 
 - by running R in the background
 
-However, using any of those solutions implies that the Docker container needs to be active during the whole process, which can be especially egregious if the user session is big and is consuming many resources, disallowing other users to  use those resources.
+However, using any of those solutions implies that the Shiny app needs to be active during the whole process, which can be especially egregious if the R session is big and is consuming heavy resources, disallowing other apps or users to take advantage of those resources until the whole session is terminated.
 
-But how to make large tasks run in the background? In Lobo, iMM's computing cluster, we use a task manager for that function: SLURM. However, SLURM is too complex to install -- I was not able to make a working prototype of SLURM with Docker Compose. So, what about a light-weight SLURM? That is what Celery is, a Python package that 
+Then how to make large tasks run in the background? In Lobo, iMM's computing cluster, we use a task manager for that function: SLURM. However, SLURM is too complex to install -- I was not able to make a working prototype of SLURM for a single machine using Docker or otherwise. So, what about a light-weight SLURM? That is what Celery basically is, a Python package that allows to queue and run background jobs.
 
-% Redis as database
-% Flower for HTTP API + table
+% Redis as database: answer in cTRAP?
+% Flower for HTTP API + table: answer in cTRAP
+
+
+
 % How does it run R?
+
+The Docker image of Celery requires the tools and their dependencies to run as background tasks. As Celery is easy to install, the Docker image of Celery + cTRAP is based on the official cTRAP Docker image from Docker Hub with the Celery app installed afterwards, as can be seen in \texttt{Celery/Dockerfile}.
+
+To add a new Celery worker, a new Dockerfile needs to be added based on a Docker for the new app to run in the background. A separate service needs to be included in the Nginx configuration, similar to the code snippet shown in \shortref{lst:celery-worker}.
+
+\begin{lstlisting}[caption=Template for a new Celery worker.,language=XML,label={lst:celery-worker}]{celery-worker}
+  celery-ctrap:
+    container_name: celery-ctrap
+    build: ./celery
+    command: celery -A tasks worker -c5 -l info -E -n ctrap
+    volumes:
+      - ./celery:/celery:ro
+      - ../apps/cTRAP/sessions:/data
+    depends_on:
+      - redis
+\end{lstlisting}
 
 \subsection{Website analytics}
 
@@ -248,7 +297,7 @@ System % TODO: add Graphana screenshot
 % TODO: Run Docker images as rootless
 % TODO: Change service passwords
 
-CompBio is a web server that hosts Shiny applications and is publicly accessible by everyone online. This makes our server a target for potential security attacks. In order to mitigate such vulnerabilities, it is crucial to update user-facing programs (Docker, Docker Compose, Nginx and ShinyProxy), while components that are not directly available to end-users should be updated when possible. As updates may contain breaking changes that hamper website functionality, it is recommended to read change logs related to new software versions to pinpoint potential issues before updating.
+CompBio is a web server that hosts Shiny applications and is publicly accessible by everyone online. This makes our server a target for potential security attacks. In order to mitigate such vulnerabilities, it is crucial to update its components as possible, including Docker, Docker Compose, Nginx and ShinyProxy. As updates may contain breaking changes that hamper website functionality, it is recommended to read change logs related to new software versions to pinpoint potential issues before updating.
 
 % https://www.sciencedirect.com/science/article/pii/S2352484721007289#b71
 % https://doi.org/10.1145/3038923
