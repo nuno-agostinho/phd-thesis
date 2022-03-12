@@ -15,14 +15,14 @@
 
 Our lab had a brainstorm session during a stormy day in our 2017 Madeira retreat, where we discussed the unique propositions that the lab could provide to the scientific community.
 
-One idea that emerged was to make it easier to identify putative causal perturbations by comparing a custom differential gene expression against the large-scale database of differential expression profiles from CMap \cite{subramanian:2017ul}, a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations in human cancer cell lines. This kind of analysis is available in CMap's web apps at \alink{clue.io} \cite{subramanian:2017ul}, but their issues include difficulty in automating their workflow to use their results in downstream analyses, poor API documentation for proper programatic access and lack of basic visualisation tools.
+One idea that emerged was to make it easier to identify putative causal perturbations by comparing a custom differential gene expression against the large-scale database of differential expression profiles from CMap \cite{subramanian:2017ul}, a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations in human cancer cell lines. This kind of analysis is available in CMap's web apps at \alink{clue.io} \cite{subramanian:2017ul}, but their results are difficult to integrate in downstream analyses, suffer from poor API documentation for programatic access and lack basic visualisation tools.
 
 % clue.io does indeed allow for batch query: https://clue.io/connectopedia/batch_query_tutorial
 % clue.io API's is not straightforward: https://clue.io/connectopedia/query_api_tutorial
 
-To overcome those limitations, we developed cTRAP, an R package to compare user-provided differential gene expression profiles with those from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them.
+To overcome those limitations, we developed cTRAP, an R package to compare user-provided differential gene expression profiles with the perturbations available from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them.
 
-After releasing the first version in Bioconductor, multiple features were added (\shortref{tab:cTRAP}). We ended up including a way to predict targeting drugs by using drug sensitivity datasets that featured gene expression for multiple genes in many cell lines. Moreover, we added a GSEA-based analysis of the enrichment of molecular descriptors for compounds from NCI60 and CMap. More recently, we developed a visual interface to be hosted online, with support for user sessions and background tasks.
+After releasing the first version in Bioconductor, multiple features were added (\shortref{tab:cTRAP}). Inspired by the method used to compare gene expression changes against the CMap database, we also added a way to predict targeting drugs by using drug sensitivity datasets that featured gene expression for multiple genes in many cell lines. Moreover, we added a GSEA-based analysis of the enrichment of molecular descriptors for compounds from NCI60 and CMap. More recently, we developed a visual interface to host cTRAP online with support for user sessions and background tasks.
 
 \begin{table}[!ht]
 \parnotereset
@@ -304,7 +304,7 @@ As usual in an R/Shiny app, cTRAP runs tasks in the same R process as the app it
 
 In order to run cTRAP analyses via Celery, both cTRAP and Celery must be installed in the same system. Celery requires a \texttt{tasks.py} file with its tasks defined. For cTRAP, one of these tasks must be set up to run R commands via Python's \texttt{subprocess} module to spawn new processes and using the \texttt{Rscript} front-end (\shortref{lst:tasks.py}).
 
-\begin{lstlisting}[language=python,caption=An example \texttt{tasks.py} file to run R commands or Rscript files via Celery.,label={lst:tasks.py},morekeywords={import},keywordstyle=\bfseries]
+\begin{lstlisting}[language=python,caption=An example \texttt{tasks.py} file to run R commands or Rscript files via Celery.,label={lst:tasks.py},morekeywords={import},keywordstyle=\bfseries]{tasks.py}
 import os, time
 from datetime import datetime
 from subprocess import run, PIPE
@@ -338,7 +338,7 @@ if __name__ == "__main__": app.start()
 Celery can receive its jobs via HTTP methods from Flower, facilitating the communication between cTRAP and Celery. To assist using Flower's HTTP API, I created the R package floweRy (\alink{github.com/nuno-agostinho/floweRy}) to simplify sending jobs to Celery using R, as briefly demonstrated in \shortref{lst:httr} and \shortref{lst:floweRy}.
 
 \noindent\begin{minipage}{.48\textwidth}
-\begin{lstlisting}[caption=Using plain \texttt{httr}.,language=R,label={lst:httr}]{Name}
+\begin{lstlisting}[caption=Using plain \texttt{httr}.,language=R,label={lst:httr}]{httr}
 library(httr)
 flower <- function(...) paste0(
     "http://localhost:5555", ...)
@@ -349,7 +349,7 @@ GET(flower("/api/tasks"))
 \end{lstlisting}
 \end{minipage}\hfill
 \begin{minipage}{.48\textwidth}
-\begin{lstlisting}[caption=Using \texttt{floweRy}.,language=R,label={lst:floweRy}]{Name}
+\begin{lstlisting}[caption=Using \texttt{floweRy}.,language=R,label={lst:floweRy}]{floweRy}
 library(floweRy)
 options(flowerURL=
     "http://localhost:5555")
