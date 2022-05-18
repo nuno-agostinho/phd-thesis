@@ -14,7 +14,7 @@ After finishing the first year of my Masters in Informatics, I was looking for a
 
 Nuno made me aware of the need for graphical, interactive tools to allow non-experts to analyse and visualise splicing from processed big datasets. I loved the idea and started exploring ways of going from concept to reality. After toying with multiple frameworks and programming languages, I decided to stick with the R statistical language and the Shiny web app framework \cite{chang:2021ul} that helped me to kick-start what would be later known as psichomics (\shortref{fig:psichomics-screenshot}).
 
-psichomics was first made available in 2016 via Bioconductor to quantify, analyse and visualise alternative splicing using TCGA data \cite{chang:2013ww}. Later on, I started my PhD project in the same lab and continued my work on psichomics. Nowadays, the tool allows to analyse gene expression and alternative splicing based on user-provided or public transcriptomic data, including those from TCGA \cite{chang:2013ww}, GTEx \cite{lonsdale:2013uo} and recount2 \cite{collado-torres:2017uw} (\shortref{tab:psichomics}).
+psichomics was first made available in 2016 via Bioconductor to quantify, analyse and visualise human alternative splicing using TCGA data \cite{chang:2013ww}. Later on, I started my PhD project in the same lab and continued my work on psichomics. Nowadays, the tool allows to analyse gene expression and alternative splicing based on user-provided or public transcriptomic data, including those from TCGA \cite{chang:2013ww}, GTEx \cite{lonsdale:2013uo} and recount2 \cite{collado-torres:2017uw} (\shortref{tab:psichomics}).
 
 % Following an invitation from Springer Methods, I also prepared a book chapter on using psichomics to analyse alternative splicing in stem cell differentiation \cite{saraiva-agostinho:2020ue}.
 
@@ -29,6 +29,7 @@ psichomics was first made available in 2016 via Bioconductor to quantify, analys
 1.0.0  & 18 Oct 2016 & Quantify and analyse alternative splicing from TCGA data\parnote{Bioconductor release.} \\
 1.0.8  & 18 Feb 2017 & Analyse GTEx data \\
 1.4.0  & 31 Oct 2017 & Analyse gene expression from TCGA and GTEx data \\
+1.4.2  & 19 Dec 2017 & Support hg38 human genome assembly hg38 \\
 1.4.3  & 13 Jan 2018 & Faster alternative splicing quantification using Rcpp/C++ \\
 1.6.1  &  5 Jul 2018 & Analyse recount2 and user-provided data \\
 \rowcolor{lightgray}
@@ -37,23 +38,23 @@ psichomics was first made available in 2016 via Bioconductor to quantify, analys
 \rowcolor{lightgray}
        & 21 Jan 2020 & psichomics' book chapter \cite{saraiva-agostinho:2020wz} is published online \\
 1.12.1 & 29 Jan 2020 & Display visual diagrams of alternative splicing events \\
-1.14.2 & 11 Aug 2020 & Load VAST-TOOLS output\parnote{First time supporting intron retention events (psichomics does not calculate intron retention).} and more data formats \\
+1.14.2 & 11 Aug 2020 & Load VAST-TOOLS output\parnote{First time supporting intron retention events (psichomics does not quantify intron retention). More information in \fullref{sec:psi-quantification}.} and more data formats \\
 1.18.6 & 4 Oct 2021  & Add web server support (optimised to run in ShinyProxy)\parnote{First version available online.} \\
-1.20.0 & 28 Oct 2021 & Readily quantify alternative splicing for 14 species\parnote{Alternative splicing annotations are  available for \emph{Homo sapiens} (hg19 and hg38), \emph{Mus musculus} (mm9 and mm10), \emph{Bos taurus}, \emph{Gallus gallus} (galGal3 and galGal4), \emph{Xenopus tropicalis}, \emph{Danio rerio}, \emph{Branchiostoma lanceolatum}, \emph{Strongylocentrotus purpuratus}, \emph{Drosophila melanogaster}, \emph{Strigamia maritima}, \emph{Caenorhabditis elegans}, \emph{Schmidtea mediterranea}, \emph{Nematostella vectensis} and \emph{Arabidopsis thaliana} based on VAST-TOOLS annotation. Custom alternative splicing annotation can also be imported.} \\
+1.20.0 & 28 Oct 2021 & Support alternative splicing annotation for 14 species\parnote{Alternative splicing annotations for multiple species are available on-demand based on VAST-TOOLS annotation. \shortref{tab:as-annot} lists all supported species/assemblies. Custom alternative splicing annotations can also be imported.} \\
 \bottomrule
 \end{tabularx}
 \parnotes
 \end{table}
 
-Following many user requests, support for non-human data analysis was added with alternative splicing annotations for 14 species (including mouse, fruit fly, frog, and Arabidopsis thaliana). These annotations were published in Bioconductor (\cite{}) and are based on those provided by the alternative splicing quantification tool VAST-TOOLS \cite{irimia:2014wt,tapial:2017ui}. Other improvements include support for loading VAST-TOOLS output tables, thus allowing to analyse intron retention events. However, I feel like it took until 2021 for the tool to fully realise its potential: when it finally became available online\footnote{More information in \fullref{chap:app-server}.}.
+Following many user requests, support for non-human data analysis was added with alternative splicing annotations for 14 species (including mouse, fruit fly, frog, and Arabidopsis thaliana). These annotations were published in Bioconductor \cite{} and are based on those provided by the alternative splicing quantification tool VAST-TOOLS \cite{irimia:2014wt,tapial:2017ui}. Other improvements include support for loading VAST-TOOLS output tables, thus allowing to analyse intron retention events. However, I feel like it took until 2021 to fully realise psichomics' potential -- when it finally went online\footnote{More information in \fullref{chap:app-server}.}.
 
-The article describing psichomics was published in 2018 \cite{saraiva-agostinho:2018uq}. We later were invited to write a methodological book chapter published in 2020 \cite{saraiva-agostinho:2020wz}. Both publications were written by me as the first and a co-corresponding author, together with Dr. Nuno Morais. The content of those publications, along with some content from my MSc Thesis, greatly inspired this chapter. In \fullref{sec:impact}, I also explore the reception of psichomics by the scientific community.
+Following the publication of the first article describing psichomics in 2018 \cite{saraiva-agostinho:2018uq}, we were invited to write a methodological book chapter published in 2020 \cite{saraiva-agostinho:2020wz}. Both publications were written by me (as the first and a co-corresponding author) and Dr. Nuno Morais. The content of those publications, along with some content from my MSc Thesis \cite{}, greatly inspired this chapter.
 
 \section{Background}
 
 %Alternative splicing fosters transcriptome diversity in eukaryotes through the processing of pre-mRNAs from the same gene into distinct transcripts that may encode for proteins with different functions \cite{kelemen:2013tc,paronetto:2016vw}. Alternative splicing is involved in multiple cellular processes, such as apoptosis and autophagy regulation \cite{kelemen:2013tc,paronetto:2016vw}, and is especially prevalent in humans, where around 93\% of genes display alternatively spliced transcripts whose regulation may differ across tissues and developmental stages \cite{paronetto:2016vw,wang:2008wa,barbosa-morais:2012ut}. Consistently, alternative splicing dysregulation has been linked with cancer, neurodegeneration and other diseases \cite{paronetto:2016vw,oltean:2014vm,gallego-paez:2017wc}. For instance, splicing alterations mediated by the key regulator SRSF1 may impact multiple hallmarks of cancer, such as resistance to apoptosis and tissue invasion \cite{oltean:2014vm}.
 
-The relevance of alternative splicing changes in physiological and disease conditions, along with the increasing economic feasibility of next-generation RNA sequencing (RNA-seq), has progressively driven transcriptome-wide alternative splicing studies \cite{wang:2008wa,tsai:2015ve,danan-gotthold:2015ut,chhibber:2017wm,climente-gonzalez:2017uj} and promoted large consortium efforts to assemble publicly accessible splicing data. Such efforts include The Cancer Genome Atlas (TCGA), that catalogues clinical and molecular profiling data from multiple human tumours \cite{chang:2013ww}; the Genotype-Tissue Expression (GTEx) project, that focuses on profiling normal human multi-tissue data \cite{lonsdale:2013uo}; and the recount2 project, a resource of processed RNA-seq data for over 2000 studies, mostly from the Sequence Read Archive (SRA) \cite{collado-torres:2017uw}.
+The relevance of alternative splicing changes in physiological and disease conditions, along with the increasing economic feasibility of RNA-seq, has progressively driven transcriptome-wide alternative splicing studies \cite{wang:2008wa,tsai:2015ve,danan-gotthold:2015ut,chhibber:2017wm,climente-gonzalez:2017uj} and promoted large consortium efforts to assemble publicly accessible splicing data. Such efforts include The Cancer Genome Atlas (TCGA), that catalogues clinical and molecular profiling data from multiple human tumours \cite{chang:2013ww}; the Genotype-Tissue Expression (GTEx) project, that focuses on profiling normal human multi-tissue data \cite{lonsdale:2013uo}; and the recount2 project, a resource of processed RNA-seq data for over 2000 studies, mostly from the Sequence Read Archive (SRA) \cite{collado-torres:2017uw}.
 
 Among the openly available processed data from those public projects, counts of RNA-seq reads aligned to exon-exon junctions may be exploited for alternative splicing quantification and further analysis. Indeed, the ability to couple proper differential splicing analysis with, for instance, gene expression, protein domain annotation, clinical information or literature-based evidence enables researchers to extract, from those comprehensive public datasets, valuable insights into the role of alternative splicing in physiological and pathological contexts, as well as putative splicing-associated prognostic factors and therapeutic targets \cite{tsai:2015ve,danan-gotthold:2015ut,chhibber:2017wm,climente-gonzalez:2017uj,anczukow:2015vl}.
 
@@ -67,41 +68,38 @@ Several tools are currently available to quantify, analyse and visualise alterna
 	\item No user-friendly interactive graphical interface neither support for customisable statistical plots.
 \end{enumerate}
 
-Using available pre-processed splice junction read counts from big data repositories exempts researchers from storing and processing large raw files that require expensive computational resources. To our knowledge, no tool allows to perform transcriptome-wide alternative splicing analysis using splice junction read counts from publicly available RNA-seq datasets (e.g. from TCGA, GTEx and recount2) with the option to easily compare them with user-provided groups interactively created based on sample metadata. For instance, jSplice \cite{christinat:2016ui} and DIEGO \cite{doose:2018uv} do quantify alternative splicing from junction read counts but the user needs to manually convert such counts into a file format accepted by those programs. Moreover, none of those tools support survival analysis, exploratory and differential analyses of gene expression, or tests for association between gene expression levels and/or alternative splicing quantification changes.
+Using available pre-processed splice junction read counts from big data repositories exempts researchers from storing and processing large raw files that require expensive computational resources. To our knowledge, no tool performs transcriptome-wide alternative splicing analysis using splice junction read counts from publicly available RNA-seq datasets (e.g. from TCGA, GTEx and recount2) with the option to easily compare them with user-provided groups interactively created based on sample metadata. For instance, jSplice \cite{christinat:2016ui} and DIEGO \cite{doose:2018uv} do quantify alternative splicing from junction read counts but the user needs to manually convert such counts into a file format accepted by those programs. Moreover, none of those tools support survival analysis, exploratory and differential analyses of gene expression, or tests for association between gene expression levels and/or alternative splicing quantification changes.
 
-To offer a comprehensive pipeline that integrates all the aforementioned features through both a command-line and an easy-to-use graphical interface, we have developed psichomics, an R package to quantify, analyse and visualise alternative splicing and gene expression data using TCGA, GTEx, recount2 and/or user-provided data. Our tool interactively performs dimensionality reduction, differential splicing and gene expression and survival analyses with direct incorporation of molecular and clinical features. We successfully employed psichomics to analyse stage I breast cancer TCGA data and identified alternative splicing events with putative prognostic value.
+To offer a comprehensive pipeline that integrates all the aforementioned features through both a command-line and an easy-to-use graphical interface, we have developed psichomics, an R package to quantify, analyse and visualise alternative splicing and gene expression data using TCGA, GTEx, recount2 and/or user-provided data. Our tool interactively performs dimensionality reduction, differential splicing and gene expression and survival analyses with direct incorporation of molecular and clinical features. \textcolor{red}{We successfully employed psichomics to analyse stage I breast cancer TCGA data and identified alternative splicing events with putative prognostic value.}
 
-psichomics can be installed via Bioconductor (\alink{bioconductor.org/packages/psichomics}) or Docker (\dockerlink{nunoagostinho/psichomics}). The latest version of psichomics can also be accessed online at \alink{compbio.imm.medicina.ulisboa.pt/psichomics}. The source code of psichomics is available at \alink{github.com/nuno-agostinho/psichomics}.
+psichomics is available online as a web app at \alink{compbio.imm.medicina.ulisboa.pt/psichomics}, but can also be locally installed using Bioconductor (\alink{bioconductor.org/packages/psichomics}) or Docker (\dockerlink{nunoagostinho/psichomics}). The source code of psichomics is available at \alink{github.com/nuno-agostinho/psichomics}.
 
 \section{Materials and methods}
 
 psichomics allows to automatically process data (provided by the user or automatically downloaded from TCGA, GTEX and recount2), quantify alternative splicing, normalise and filter gene expression data and perform downstream analysis, including dimensionality reduction, differential expression/splicing analysis, correlation analysis, survival analysis and annotation of genes, transcripts and proteins (\shortref{fig:psichomics-workflow}).
 
 \begin{figure}[!ht]
-  \includegraphics[width=.9\textwidth]{images/psichomics/workflow}
+  \includegraphics[width=.94\textwidth]{images/psichomics/workflow}
   \centering
   \caption[psichomics workflow]{\textbf{psichomics workflow.} The user can provide their own input data or load data from TCGA, GTEx or recount2 to normalise gene expression data and quantify alternative splicing for downstream analyses.}
   \label{fig:psichomics-workflow}
 \end{figure}
 
-The tool was designed as a modular R package to be easily modified and extended (\shortref{fig:psichomics-file-structure}), including modules for automatic data retrieval from multiple sources, parsing and standardisation of alternative splicing event identifiers from different programs and a variety of data analysis methodologies.
-
 % TODO: add new symbol for a group of files to make it more intuitive to understand why there are multiple R files for the same data source
-\begin{figure}[!ht]
-  \includegraphics[width=1\textwidth]{images/psichomics/file-structure}
+\begin{figure}[!h]
+  \includegraphics[width=\textwidth]{images/psichomics/file-structure}
   \centering
   \caption[psichomics file structure]{\textbf{Visual representation of psichomics' file structure.} psichomics is a modular program where, for instance, functions specific for different data sources and analyses can be found in different files. As usual for R packages, the \texttt{R} folder is the heart of the code and contains the main R scripts that define the logic and interface of the app. \texttt{dev} is a non-standard folder in R packages used to store supporting scripts (e.g. test workflows); its contents are not included when building the R package.}
   \label{fig:psichomics-file-structure}
 \end{figure}
 
-To analyse alternative splicing, psichomics can load
- splice junction read count data provided by the user or from external sources, followed by the quantification of alternative splicing (in case no pre-computed quantification is loaded) and subsequent analyses. Alternative splicing quantification is computed based on RNA-seq reads that align to exon-exon junctions and the genomic coordinates (annotation) of alternative splicing events. The proportion of reads aligned to junctions that support the inclusion isoform, known as the Percent Spliced-In or PSI \cite{wang:2008wa}, was the chosen quantification metric.
+The tool was designed as a modular R package to be easily modified and extended (\shortref{fig:psichomics-file-structure}), including modules for automatic data retrieval from multiple sources, parsing and standardisation of alternative splicing event identifiers from different programs and a variety of data analysis methodologies.
+
+psichomics can load splice junction read count data provided by the user or from external sources, followed by the quantification of alternative splicing (in case no pre-computed quantification is loaded) and subsequent analyses. Alternative splicing quantification is computed based on RNA-seq reads that align to exon-exon junctions and the genomic coordinates (annotation) of alternative splicing events. The proportion of reads aligned to junctions that support the inclusion isoform, known as the Percent Spliced-In or PSI \cite{wang:2008wa}, was the chosen quantification metric.
 
 \subsection{Data retrieval}
 
-Exon-exon junction and gene expression quantifications (obtained from pre-processed RNA-seq data), clinical data and sample metadata are accessible through FireBrowse's web application program interface (API) for TCGA data retrieval (\alink{firebrowse.org/api-docs}). The FireBrowse API is used in psichomics to automatically download TCGA data according to the user-selected tumour type(s) as tab-delimited files within compressed folders, whose contents are subsequently loaded with minimal user interaction. GTEx data are automatically downloaded via the GTEx data portal (\alink{gtexportal.org}) and select SRA project data via recount2 \cite{collado-torres:2017uw}.
-
-Other SRA projects and user-provided files may also be loaded in appropriate formats (\shortref{tab:psichomics-file-formats}), allowing for subsequent alternative splicing analysis, as explained in the tutorial available at \alink{nuno-agostinho.github.io/psichomics/articles/custom_data}).
+Exon-exon junction and gene expression quantifications (obtained from pre-processed RNA-seq data), clinical data and sample metadata are accessible through FireBrowse's web application program interface (API) for TCGA data retrieval (\alink{firebrowse.org/api-docs}). The FireBrowse API is used in psichomics to automatically download TCGA data according to the user-selected tumour type(s) as tab-delimited files within compressed folders, whose contents are subsequently loaded with minimal user interaction. GTEx data are automatically downloaded via the GTEx data portal (\alink{gtexportal.org}) and select SRA project data via recount2 \cite{collado-torres:2017uw}. Other SRA projects and user-provided files may also be loaded in appropriate formats (\shortref{tab:psichomics-file-formats}), allowing for subsequent alternative splicing analysis\footnote{More information in the tutorial at \alink{nuno-agostinho.github.io/psichomics/articles/custom_data}.}.
 
 \begin{table}[!ht]
 \parnotereset
@@ -112,19 +110,19 @@ Other SRA projects and user-provided files may also be loaded in appropriate for
 \toprule
 {\textbf{Source}} & {\textbf{Sample information}} & {\textbf{Subject information}} & {\textbf{Gene expression}} & {\textbf{Exon junction quantification}} & {\textbf{Alternative splicing quantification}} \\
 \toprule
-SRA Run Selector & Yes &     &     &     &     \\
+\textbf{SRA Run Selector} & Yes &     &     &     &     \\
 \midrule
-STAR             &     &     & Yes & Yes &     \\
+\textbf{STAR}             &     &     & Yes & Yes &     \\
 \midrule
-VAST-TOOLS       &     &     & Yes &     & Yes \\
+\textbf{VAST-TOOLS}       &     &     & Yes &     & Yes \\
 \midrule
-TCGA/FireBrowse  & Yes & Yes & Yes & Yes &     \\
+\textbf{TCGA/FireBrowse}  & Yes & Yes & Yes & Yes &     \\
 \midrule
-SRA/recount2     & Yes & Yes & Yes & Yes &    \\
+\textbf{SRA/recount2}     & Yes & Yes & Yes & Yes &    \\
 \midrule
-GTEx             & Yes & Yes & Yes & Yes &     \\
+\textbf{GTEx}             & Yes & Yes & Yes & Yes &     \\
 \midrule
-Other files      & Yes & Yes & Yes & Yes & Limited\parnote{psichomics cannot fully parse alternative splicing events (e.g. it may not identify the cognate gene and coordinates) based on tables from these sources.} \\
+\textbf{Other files}      & Yes & Yes & Yes & Yes & Limited\parnote{psichomics cannot fully parse alternative splicing events (e.g. it may not identify the cognate gene and coordinates) based on tables from these sources.} \\
 \bottomrule
 \end{tabularx}
 \parnotes
@@ -132,48 +130,49 @@ Other files      & Yes & Yes & Yes & Yes & Limited\parnote{psichomics cannot ful
 
 \subsection{Gene expression pre-processing}
 
-Gene expression quantifications can be filtered based on user-provided parameters (for instance, to account solely for genes supported by 10 or more reads in 10 or more samples, as performed by default) and normalised by raw library size scaling using function \texttt{calcNormFactors()} from R package \texttt{edgeR} \cite{robinson:2010wx}. Afterwards, counts per million reads (CPM) are computed and log\textsubscript{2}-transformed (if desired) using the function \texttt{cpm()} from \texttt{edgeR}. Log\textsubscript{2}-transformation is performed by default.
+Gene expression quantifications can be filtered based on user-provided parameters (for instance, to account solely for genes supported by 10 or more reads in 10 or more samples, as performed by default) and normalised by raw library size scaling using \texttt{edgeR::calcNormFactors()} \cite{robinson:2010wx}. Afterwards, counts per million reads (CPM) can be computed and log\textsubscript{2}-transformed using \texttt{edgeR::cpm()}, as performed by default.
 
 \subsection{Alternative splicing annotation}
 
-Annotations of alternative splicing events are available on-demand in psichomics for 14 species (\shortref{tab:as-annot}). Human annotations were first available as a mix from multiple sources (as described in the following paragraphs). To support multiple species, annotations were created based on VAST-TOOLS 23.06.20 (including for human, thus the redundancy). Custom annotation files can also be created by following the appropriate tutorial available at \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}.
-
+Annotations of alternative splicing events are available on-demand in psichomics for 14 species (\shortref{tab:as-annot}). To support multiple species, annotations were created based on VAST-TOOLS 23.06.20 using a function from psichomics (including for human, thus the redundancy with previous human annotations that were originated based on multiple sources). Custom annotation files are also supported\footnote{More information in the appropriate tutorial at \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}.}.
 
 \begin{table}[!ht]
+\centering
 \parnotereset
 \small
-\caption[Available alternative splicing annotations]{\textbf{Available alternative splicing annotations.}}
+\caption[On-demand alternative splicing annotations for psichomics]{\textbf{On-demand alternative splicing annotations for psichomics.}}
 \label{tab:as-annot}
-\begin{tabularx}{\textwidth}{ l l X }
+\begin{tabularx}{.77\textwidth}{ l c c }
 \toprule
 {\textbf{Species}} & {\textbf{Assembly}} & {\textbf{Source}} \\
 \toprule
 
-\multirow{2}{3cm}{\emph{Homo sapiens}} & \multirow{2}{3cm}{\emph{hg19 and hg38}} & VAST-TOOLS, SUPPA, MISO and rMATS \\
-                                       &                     & VAST-TOOLS \\
-\emph{Mus musculus}                    & mm9 and mm10        & VAST-TOOLS \\
-\emph{Bos taurus}                      & bosTau6             & VAST-TOOLS \\
-\emph{Gallus gallus}                   & galGal3 and galGal4 & VAST-TOOLS \\
-\emph{Xenopus tropicalis}              & xenTro3             & VAST-TOOLS \\
-\emph{Danio rerio}                     & danRer10            & VAST-TOOLS \\
-\emph{Branchiostoma lanceolatum}       & braLan2             & VAST-TOOLS \\
-\emph{Strongylocentrotus purpuratus}   & strPur4             & VAST-TOOLS \\
-\emph{Drosophila melanogaster}         & dm6                 & VAST-TOOLS \\
-\emph{Strigamia maritima}              & strMar1             & VAST-TOOLS \\
-\emph{Caenorhabditis elegans}          & ce11                & VAST-TOOLS \\
-\emph{Schmidtea mediterranea}          & schMed31            & VAST-TOOLS \\
-\emph{Nematostella vectensis}          & nemVec1             & VAST-TOOLS \\
-\emph{Arabidopsis thaliana}            & araTha10            & VAST-TOOLS \\
+\multirow{2}*{\emph{Homo sapiens}} & \multirow{2}*{hg19 + hg38} & Multiple\parnote{VAST-TOOLS, SUPPA, MISO and rMATS} \\
+                                       &                   & VAST-TOOLS \\
+\emph{Mus musculus}                    & mm9 + mm10        & VAST-TOOLS \\
+\emph{Bos taurus}                      & bosTau6           & VAST-TOOLS \\
+\emph{Gallus gallus}                   & galGal3 + galGal4 & VAST-TOOLS \\
+\emph{Xenopus tropicalis}              & xenTro3           & VAST-TOOLS \\
+\emph{Danio rerio}                     & danRer10          & VAST-TOOLS \\
+\emph{Branchiostoma lanceolatum}       & braLan2           & VAST-TOOLS \\
+\emph{Strongylocentrotus purpuratus}   & strPur4           & VAST-TOOLS \\
+\emph{Drosophila melanogaster}         & dm6               & VAST-TOOLS \\
+\emph{Strigamia maritima}              & strMar1           & VAST-TOOLS \\
+\emph{Caenorhabditis elegans}          & ce11              & VAST-TOOLS \\
+\emph{Schmidtea mediterranea}          & schMed31          & VAST-TOOLS \\
+\emph{Nematostella vectensis}          & nemVec1           & VAST-TOOLS \\
+\emph{Arabidopsis thaliana}            & araTha10          & VAST-TOOLS \\
 \bottomrule
 \end{tabularx}
 \parnotes
 \end{table}
 
-The hg19 annotation of human alternative splicing events was based on files used as input by MISO \cite{katz:2010tj}, VAST-TOOLS \cite{irimia:2014wt}, rMATS \cite{shen:2014tk} and SUPPA \cite{alamancos:2015vc}. Annotation files from MISO and VAST-TOOLS are provided in their respective websites, whereas rMATS and SUPPA identify alternative splicing events and generate such annotation files based on a given isoform-centered transcript annotation. As such, the human transcript annotation was retrieved from the UCSC Table Browser \cite{karolchik:2004wa} in GTF and TXT formats, so that gene identifiers in the GTF file (misleadingly identical to transcript identifiers) were replaced with proper ones from the TXT version.
+The original hg19 annotation of human alternative splicing events was based on files used as input by MISO \cite{katz:2010tj}, VAST-TOOLS \cite{irimia:2014wt}, rMATS \cite{shen:2014tk} and SUPPA \cite{alamancos:2015vc}. Annotation files from MISO and VAST-TOOLS are provided in their respective websites, whereas rMATS and SUPPA identify alternative splicing events and generate such annotation files based on a given isoform-centered transcript annotation. As such, the human transcript annotation was retrieved from the UCSC Table Browser \cite{karolchik:2004wa} in GTF and TXT formats, so that gene identifiers in the GTF file (misleadingly identical to transcript identifiers) were replaced with proper ones from the TXT version.
 
-The collected hg19 annotation files were non-redundantly merged according to the genomic coordinates and orientation of each alternative splicing event and contain the following event types: skipped exon (SE), mutually exclusive exons (MXE), alternative first exon (AFE), alternative last exon (ALE), alternative 5$'$ splice site (A5SS), alternative 3$'$ splice site (A3SS), alternative 5$'$ UTR length (A5UTR), alternative 3$'$ UTR length (A3UTR), and intron retention (IR). The resulting hg19 annotation is available as an R annotation package in Bioconductor at \alink{bioconductor.org/packages/alternativeSplicingEvents.hg19}, whereas the hg38 annotation (whose coordinates were converted from those of the hg19 annotation through function \texttt{liftOver()} from package \texttt{rtracklayer} \cite{lawrence:2009us}, based on the hg19 to hg38 chain file from UCSC) is also available as an R annotation package in Bioconductor at \alink{bioconductor.org/packages/alternativeSplicingEvents.hg38}.
+The collected hg19 annotation files were non-redundantly merged according to the genomic coordinates and orientation of each alternative splicing event and contain the following event types: skipped exon (SE), mutually exclusive exons (MXE), alternative first exon (AFE), alternative last exon (ALE), alternative 5$'$ splice site (A5SS), alternative 3$'$ splice site (A3SS), alternative 5$'$ UTR length (A5UTR), alternative 3$'$ UTR length (A3UTR), and intron retention (IR). The resulting hg19 annotation is available as an R annotation package in Bioconductor at \alink{bioconductor.org/packages/alternativeSplicingEvents.hg19}, whereas the hg38 annotation (whose coordinates were converted from those of the hg19 annotation using \texttt{rtracklayer::liftOver()} \cite{lawrence:2009us}, based on the hg19 to hg38 chain file from UCSC) is also available as an R annotation package in Bioconductor at \alink{bioconductor.org/packages/alternativeSplicingEvents.hg38}.
 
 \subsection{Alternative splicing quantification}
+\label{sec:psi-quantification}
 
 For each alternative splicing event in a given sample, its PSI value is estimated by the proportion of exon–exon junction read counts supporting the inclusion isoform therein \cite{wang:2008wa}. The junction reads required for alternative splicing quantification depend on the type of event (\shortref{fig:psichomics-calc-psi}). Alternative splicing events involving a sum of junction read counts supporting inclusion and exclusion of the alternative sequence below a user-defined threshold (10 by default) are discarded to avoid imprecise quantifications based on insufficient evidence.
 
@@ -190,19 +189,19 @@ By default, psichomics quantifies all skipped exon events. However, the user can
 
 \subsection{Data grouping}
 
-psichomics allows to group subjects and their samples or genes and their alternative splicing events for subsequent analysis. Subject and sample grouping can be performed based on available phenotypic (e.g. tissue type and histology) and clinical (e.g. disease stage, smoking history and ethnicity) features. Gene and splicing event grouping relies on respective user-provided identifiers. Moreover, the association between subject/sample groups specified by the user and those defined by the outcome of gene expression and alternative splicing analyses or by other clinical categorical variables can be statistically tested with Fisher's exact tests, implemented through function \texttt{fisher.test()} from \texttt{stats}.
+psichomics allows to group subjects and their samples or genes and their alternative splicing events for subsequent analysis. Subject and sample grouping can be performed based on available phenotypic (e.g. tissue type and histology) and clinical (e.g. disease stage, smoking history and ethnicity) features. Gene and splicing event grouping relies on respective user-provided identifiers. Moreover, the association between subject/sample groups specified by the user and those defined by the outcome of gene expression and alternative splicing analyses or by other clinical categorical variables can be statistically tested with Fisher's exact tests, implemented with \texttt{stats::fisher.test()}.
 
 \subsection{Dimensionality reduction}
 
 Dimensionality reduction techniques can be performed on tables containing alternative splicing and gene expression quantifications, with the samples of interest as rows and the selected (if not all) splicing events or genes as columns, after centering and/or scaling the respective distributions (by default, they are only centered).
 
-Principal component analysis (PCA) identifies the combinations of variables that contribute the most to data variance \cite{ringner:2008ve} and it is implemented through the singular value decomposition (SVD) algorithm provided by the \texttt{prcomp()} function from R package \texttt{stats}. The total contribution of each variable (splicing event or gene) towards data variance along selected principal components is measured based on the implementation of \texttt{fviz\_contrib} from \texttt{factoextra}.
+Principal component analysis (PCA) identifies the combinations of variables that contribute the most to data variance \cite{ringner:2008ve} and it is implemented through the singular value decomposition (SVD) algorithm provided by \texttt{stats::prcomp()}. The total contribution of each variable (splicing event or gene) towards data variance along selected principal components is measured based on \texttt{factoextra::fviz\_contrib()} \cite{}.
 
-Independent component analysis (ICA), a method used for decomposing data into statistically independent components \cite{hyvarinen:2000vk}, can also be performed through the \texttt{fastICA()} function from the eponymous R package, preceded by data centering and/or scaling with the \texttt{scale()} function.
+Independent component analysis (ICA), used to decompose data into statistically independent components \cite{hyvarinen:2000vk}, can also be performed based on \texttt{fastICA::fastICA()}, preceded by data centering and/or scaling with \texttt{scale()}.
 
 As many of the aforementioned functions cannot handle missing data, a user-defined threshold for the accepted number of missing values per alternative splicing event or gene (5\%, by default) is used to discard variables before performing dimensionality reduction, whereas the remaining missing values are imputed for each variable as the median from non-missing data samples.
 
-Moreover, samples can be clustered using k-means, partitioning around medoids (PAM) or clustering large applications (CLARA) methods, with the latter being optimised for large datasets and thus preferred by default. The implementation of these methods is based on the \texttt{kmeans()} function from \texttt{stats} and \texttt{pam()} and \texttt{clara()} functions from \texttt{cluster}, respectively.
+Moreover, samples can be clustered using k-means (based on \texttt{stats::kmeans()}), partitioning around medoids (PAM, \texttt{cluster::pam()}) or clustering large applications (CLARA, \texttt{cluster::clara()}) methods, with the latter being optimised for large datasets and thus the default recommendation.
 
 \subsection{Survival analysis}
 
@@ -212,19 +211,19 @@ To evaluate the prognostic value of a given alternative splicing event, survival
 
 \subsection{Differential splicing and gene expression analyses}
 
-In psichomics, analysis of differential splicing between user-defined groups of samples can be performed on all or selected alternative splicing events. Given the non-normal distribution of PSI values \cite{kakaradov:2012wk,jia:2015wy}, median- and variance-based non-parametric tests, such as the Wilcoxon rank-sum (also known as Mann–Whitney U), Kruskal–Wallis rank-sum and Fligner–Killeen tests, are available and recommended \cite{barbaraCaravelaMScThesis}. Levene's and unpaired t-tests can nonetheless be performed as well. All these tests are available through the \texttt{stats} package with their default settings, except for Levene's test that was implemented based on the \texttt{leveneTest.default()} function from the \texttt{car} package.
+In psichomics, analysis of differential splicing between user-defined groups of samples can be performed on all or selected alternative splicing events. Given the non-normal distribution of PSI values \cite{kakaradov:2012wk,jia:2015wy}, median- and variance-based non-parametric tests, such as the Wilcoxon rank-sum (also known as Mann–Whitney U), Kruskal–Wallis rank-sum and Fligner–Killeen tests, are available and recommended \cite{barbaraCaravelaMScThesis}. Levene's and unpaired t-tests can nonetheless be performed as well. All these tests are available through the \texttt{stats} package with their default settings, except for Levene's test that was implemented based on \texttt{car::leveneTest.default()} \cite{}.
 
-To correct for multiple testing where applicable, P-value adjustment methods for the family-wise error rate (Bonferroni, Holm, Hochberg and Hommel corrections) and the false discovery rate (Benjamini–Hochberg and Benjamini–Yekutieli methods) are available through function \texttt{p.adjust()} from package \texttt{stats}. By default, multiple testing correction is performed using the Benjamini-Hochberg method.
+To correct for multiple testing where applicable, P-value adjustment methods for the family-wise error rate (Bonferroni, Holm, Hochberg and Hommel corrections) and the false discovery rate (Benjamini–Hochberg and Benjamini–Yekutieli methods) are available through \texttt{stats::p.adjust()}. By default, multiple testing correction is performed using the Benjamini-Hochberg method.
 
-Although the aforementioned statistical tests are also available to analyse the expression of single genes, genome-wide differential gene expression analysis is implemented based on gene-wise linear model fitting (using \texttt{lmFit} from R package \texttt{limma} \cite{ritchie:2015tm}) for two selected groups, followed by moderated t-tests and the calculation of log-odds of differential expression, using empirical Bayes moderation of standard errors (function \texttt{eBayes()} from \texttt{limma}) and gene-wise variance modelling (\texttt{limma-trend}).
+Although the aforementioned statistical tests are also available to analyse the expression of single genes, genome-wide differential gene expression analysis is implemented based on gene-wise linear model fitting (\texttt{limma::lmFit()} \cite{ritchie:2015tm}) for two selected groups, followed by moderated t-tests and the calculation of log-odds of differential expression, using empirical Bayes moderation of standard errors (\texttt{limma::eBayes()}) and gene-wise variance modelling (\texttt{limma-trend}).
 
-Statistical results can be subsequently explored through density and volcano plots with customisable axes to assist in the identification of the most significant changes when analyzing distributions across single or multiple events, respectively. A corresponding table with the results of all statistical analyses is also available and can be retrieved as a tab-delimited plain text file.
+Statistical results can be subsequently explored through density and volcano plots with customisable axes to assist in the identification of the most significant changes when analysing distributions across single or multiple events, respectively. A corresponding table with the results of all statistical analyses is also available and can be retrieved as a tab-delimited plain text file.
 
 \subsection{Correlation between gene expression and alternative splicing quantifications}
 
-The Pearson product-moment correlation coefficient, Spearman's rho (default) and Kendall's tau, all available with \texttt{cor.test()} from \texttt{stats}, can be used to correlate gene expression levels with alternative splicing quantifications. Such analyses allow, for instance, to test the association between the expression levels of RNA-binding proteins (RBPs) and PSI levels of interesting splicing events to identify which of these may undergo RBP-mediated regulation. As such, a list of RBPs is provided in-app \cite{sebestyen:2016tr}, but the user can also define their own group of genes of interest for the test.
+The Pearson product-moment correlation coefficient, Spearman's rho (default) and Kendall's tau, all available with \texttt{stats::cor.test()}, can be used to correlate gene expression levels with alternative splicing quantifications. Such analyses allow, for instance, to test the association between the expression levels of RNA-binding proteins (RBPs) and PSI levels of interesting splicing events to identify which of these may undergo RBP-mediated regulation. As such, a list of RBPs is provided in-app \cite{sebestyen:2016tr}, but the user can also define their own group of genes of interest for the test.
 
-\subsection{Gene, transcript and protein annotation and literature support}
+\subsection{Feature annotation and literature support}
 
 The representational state transfer (REST) web services provided by Ensembl \cite{yates:2015uo}, UniProt \cite{wu:2006vq}, the Proteins API \cite{nightingale:2017uq} and PubMed \cite{roberts:2001tg} are used in order to annotate genes of interest with relevant biomolecular information (e.g. genomic location, associated transcript isoforms and protein domains, etc.) and related research articles. psichomics also provides the direct link to the cognate entries of relevant external databases, namely Ensembl \cite{cunningham:2015wt}, GeneCards \cite{fishilevich:2016wh}, the Human Protein Atlas \cite{uhlen:2015tg}, the UCSC Genome Browser \cite{goldman:2015un}, UniProt \cite{wu:2006vq} and VAST-DB \cite{tapial:2017ui}.
 
@@ -234,11 +233,11 @@ To measure the time taken by psichomics to load data, normalise gene expression,
 
 To determine the approximate time complexity of the aforementioned steps in psichomics, gene expression and exon-exon junction quantification datasets were prepared based on approximate distributions obtained from the respective TCGA datasets: negative binomial distributions with a dispersion parameter of 0.25 and 0.2 reads and a mean parameter of 2000 and 100 reads for raw gene expression and exon-exon junction quantification, respectively. Each run was performed on datasets with numbers of samples ranging from 100 to 2500 in intervals of 100 (i.e. 100, 200, 300, …, 2500) and 20 000 genes or 200 000 splice junctions (gene expression or exon-exon junction quantification, respectively). Splice junction identifiers (required for alternative splicing quantification) were randomly retrieved from the TCGA reference annotation. Based on their respective read counts, around 9000 alternative splicing events (i.e. those for which all involved inclusion and exclusion junctions were retrieved) were quantified across selected samples per run. For differential gene expression and splicing analyses, samples were randomly divided into two groups based on the emitted values of a Bernoulli distribution with a probability of success of 50\%.
 
-Polynomials of orders 1–6 were fitted to the relation between running time and the number of samples. As the running time is assumed to always increase with an increasing number of analysed samples, fitted polynomials were constrained to be monotone for 0 or more samples, using function \texttt{monpol()} from R package \texttt{MonoPoly} \cite{murray:2016um}. The best polynomial fits (\shortref{fig:psichomics-performance}) were selected based on analyses of variance (ANOVA) between fitted polynomials of consecutive orders, starting with the comparison between polynomials of orders 1 and 2. A polynomial with higher order is only selected if exhibiting a significantly better fit (p-value $< 0.05$).
+Polynomials of orders 1–6 were fitted to the relation between running time and the number of samples. As the running time is assumed to always increase with an increasing number of analysed samples, fitted polynomials were constrained to be monotone for 0 or more samples, using \texttt{MonoPoly::monpol()} \cite{murray:2016um}. The best polynomial fits (\shortref{fig:psichomics-performance}) were selected based on analyses of variance (ANOVA) between fitted polynomials of consecutive orders, starting with the comparison between polynomials of orders 1 and 2. A polynomial with higher order is only selected if exhibiting a significantly better fit (p-value $< 0.05$).
 
 \subsection{Alternative splicing quantification benchmarking}
 
-The publicly available RNA-seq data from multiple human, mouse and chicken tissue and cell line samples used in the development of VastDB \cite{tapial:2017ui} were aligned with splice-aware STAR \cite{dobin:2013ts} against the respective transcript-annotated genomes: UCSC hg19 genome assembly and GENCODE v19 annotation for human, UCSC mm10 genome assembly and GENCODE vM14 annotation for mouse, and Ensembl 70 genome assembly and annotation for chicken. In total, 120/706/34 (human/mouse/chicken) exon skipping events quantified by psichomics (using function \texttt{quantifySplicing()} with default settings) were compared with the respective RT-PCR- and VAST-TOOLS-derived PSI values, available from VastDB \cite{tapial:2017ui}.
+The publicly available RNA-seq data from multiple human, mouse and chicken tissue and cell line samples used in the development of VastDB \cite{tapial:2017ui} were aligned with splice-aware STAR \cite{dobin:2013ts} against the respective transcript-annotated genomes: UCSC hg19 genome assembly and GENCODE v19 annotation for human, UCSC mm10 genome assembly and GENCODE vM14 annotation for mouse, and Ensembl 70 genome assembly and annotation for chicken. In total, 120/706/34 (human/mouse/chicken) exon skipping events quantified by psichomics (using function \texttt{psichomics::quantifySplicing()} with default settings) were compared with the respective RT-PCR- and VAST-TOOLS-derived PSI values, available from VastDB \cite{tapial:2017ui}.
 
 Different numbers of junction reads were simulated for different given PSI values to test the impact of read coverage on the accuracy and precision of PSI estimation by psichomics. For each given PSI, junction reads supporting the exon inclusion were simulated as the number of successes obtained from a Bernoulli distribution with the event's junction read coverage (i.e. reads supporting inclusion plus reads supporting exclusion) as the number of observations and the PSI value as the probability of success. Those inclusion reads were then divided by the event's junction read coverage to estimate an ‘observed’ PSI value (as performed by psichomics) that was compared to the given ‘real’ PSI value. These simulations were performed for PSI values from 0 to 1 in 0.1 intervals and event coverages of 10, 20, 50, 100, 500 and 1000 junction read counts, with each combination being tested 10000 times.
 
@@ -247,15 +246,169 @@ TCGASpliceSeq \cite{ryan:2016tm} provides pre-computed alternative splicing quan
 \subsection{Continuous integration}
 \label{subsec:psichomics-ci}
 
-Continuous integration (CI) tools ensure the automatic testing of software in multiple environments (different versions of operating systems, R, BioConductor, etc.). Currently popular CI tools include Travis CI (macOS and Linux, limited support for Windows), AppVeyor (Windows only) and GitHub Actions (Windows, macOS and Linux). Although psichomics was initially set up with Travis CI and AppVeyor, the flexibility of GitHub Actions in running the three main operating systems and the easiness of adding complex routines led me to replace Travis CI and AppVeyor with GitHub Actions.
+Continuous integration (CI) tools ensure the automatic testing of software in multiple environments (different versions of operating systems, R, BioConductor, etc.). Currently popular CI tools include Travis CI (macOS and Linux, limited support for Windows), AppVeyor (Windows only) and GitHub Actions (Windows, macOS and Linux). Although psichomics was initially set up with Travis CI \cite{} and AppVeyor \cite{}, the flexibility of GitHub Actions \cite{} in running the three main operating systems and the easiness of adding complex routines led me to replace Travis CI and AppVeyor with GitHub Actions.
 
 psichomics has three GitHub Actions scripts. The first one creates Docker images and stores them in GitHub and Docker Hub for every psichomics release or change in the dev branch. The second one updates the package documentation website via \texttt{roxygen} and \texttt{pkgdown}. The last one builds and checks the R package using \texttt{rcmdcheck::rcmdcheck()} and \texttt{BiocCheck::BiocCheck()} for every change that is committed to the GitHub repository. psichomics is tested in Windows, macOS and Ubuntu, allowing to automatically check if the package builds correctly and if it passes all unit tests (created using testthat) in multiple platforms, among other checks. The code coverage of the package is then tested via Codecov. All of these tools are free for open-source projects.
 
 \section{Results}
 
-The graphical interface of psichomics is available at \alink{compbio.imm.medicina.ulisboa.pt/psichomics}. Alternatively, users can install psichomics in their own computers, allowing to use local computing resources. psichomics offers both a graphical and a command-line interface. Although most features are common to both interfaces, we recommend less experienced users to opt for the Shiny-based graphical interface. To start the graphical interface in the local version, load the psichomics package in R via \texttt{library(psichomics)} and run \texttt{psichomics()}. The user's default web browser will be launched with a local version of the psichomics web app.
+psichomics' web app is available at \alink{compbio.imm.medicina.ulisboa.pt/psichomics}. Alternatively, users can install psichomics in their own computers, allowing them to use local computing resources. psichomics offers both a graphical and a command-line interface. Although most features are common to both interfaces, we recommend less experienced users to opt for the Shiny-based graphical interface. To start the graphical interface in the local version, load the psichomics package in R via \texttt{library(psichomics)} and run \texttt{psichomics()}. The user's default web browser will be launched with a local version of the psichomics web app.
 
 \subsection{Case study}
+
+Several splicing factors have been reported to be involved in pluripotency, including SRSF3, MBNL1/2, RBFOX2, and U2AF1 \cite{zavolan:2018vi,han:2013ww,venables:2013tz,chen:2015wm}. For instance, MBNL1/2 regulates the mutually exclusive inclusion of two FOXP1 exons, inducing a switch from its pluripotency-associated FOXP1-ES protein isoform, that promotes the expression of OCT4, NANOG, and other key pluripotency transcription factors, to the canonical differentiation-inducing FOXP1 isoform \cite{gabut:2011wk}.
+
+The early stage of somatic cell reprogramming, characterised by acquisition of pluripotency features, is related with mesenchymal-to-epithelial transition, a crucial development-related process affecting cell polarity and adhesion that is mediated by the aforementioned splicing regulators \cite{zavolan:2018vi,pradella:2017wp}. Consistently, the AS modulation of epithelial-to-mesenchymal transition is linked with both cancer progression and metastasisation and with the generation of cancer stem cells, characterised by enhanced self-renewal, proliferation, and other stemness properties \cite{zavolan:2018vi,pradella:2017wp,aponte:2017wv}.
+
+% We will analyse genetically (i.e., isogenic) and not genetically (nonisogenic) matched human fibroblast and (embryonic and induced-pluripotent) stem cell RNA-seq samples \cite{choi:2015tu}, together with GTEx and TCGA data, using psichomics to highlight putative differentially spliced events between such conditions and candidate RNA-binding protein regulators of those events.
+
+% We will automatically retrieve preprocessed data for the chosen dataset from recount2. We will conduct a typical workflow of filtering and normalising gene expression and quantifying and filtering AS, followed by statistical analyses to identify differentially expressed genes and spliced events between isogenic human fibroblasts and stem cells. We will then correlate the expression of genes encoding for RNA-binding proteins with the PSI values of the most interesting AS events, in the stem cell dataset as well as across multiple tissues (GTEx data) and cancer types (TCGA data), to identify among the former putative regulators of the latter. Finally, the pan-cancer prognostic value of a select AS event will be assessed.
+
+% We hereby show an example of an integrative workflow (both in terms of methods and datasets used) that can be performed using psichomics.
+
+Using the graphical interface of psichomics, we analysed SRA project SRP063867 \cite{choi:2015tu} containing genetically (i.e., isogenic) and not genetically (nonisogenic) matched human induced-pluripotent stem cells (iPSC), embryonic stem cells (ESC), and fibroblasts to compare changes in alternative splicing between isogenic stem cells and isogenic fibroblasts. The code to run this analysis is publicly available at \alink{github.com/nuno-agostinho/stem-cell-analysis-in-psichomics}.
+
+\subsubsection{Data loading}
+
+psichomics allows to download preprocessed RNA-seq data for SRP063867 using recount2 \cite{collado-torres:2017uw}. Those data include sample annotation and raw gene expression and exon–exon junction read counts. After downloading, data is loaded into the psichomics workspace and dataset summaries are displayed per dataset (\shortref{fig:psichomics-gene-expr-summary}).
+
+\begin{figure}[!h]
+  \includegraphics[width=1\textwidth]{images/psichomics/0-gene-expr-summary}
+  \centering
+  \caption[Summary information on datasets]{\textbf{Summary information on datasets.} psichomics presents information on the loaded datasets in a dedicated tab. That information includes summary statistics, like the numbers of samples and genes profiled in each dataset, and plots, like the shown boxplot to visualise the distribution of normalised gene read counts per sample.}
+  \label{fig:psichomics-gene-expr-summary}
+\end{figure}
+
+\subsubsection{Gene expression filtering and normalisation}
+
+Gene expression filtering and normalisation are performed by running \texttt{edgeR} \cite{robinson:2010wx} and \texttt{limma} \cite{ritchie:2015tm} R packages on the loaded raw gene expression read counts. Genes with low numbers of read counts across samples (i.e., low expression) are discarded and gene expression data are normalised by scaling raw library sizes across samples. By default, gene expression is filtered based on genes with a minimum of 10 read counts for at least one sample and with a minimum total read counts of 15. Default gene expression normalisation scales for raw library sizes based on weighted trimmed mean of M-values (TMM) \cite{robinson:2010wx}, followed by computation of log2-transformed counts per million values.
+
+Note that the density plot of the samples’ library size (i.e. the total number of mapped reads) suggest relatively low read coverage for sample SRR2453313 (\shortref[a]{fig:psichomics-ge-norm}). This sample may be discarded later on if shown not to be comparable with others after gene expression normalisation.
+
+\begin{figure}[!h]
+  \includegraphics[width=1\textwidth]{images/psichomics/1-gene-expr-normalisation}
+  \centering
+  \caption[Gene expression normalisation]{\textbf{Gene expression normalisation.} (a) Density plot of the distribution of raw library sizes (i.e.. total number of mapped read counts) across samples. Highlighted with the blue label is the sample with the smallest library. (b–e) Boxplots of distribution of gene expression in log2-transformed counts per million (log2CPM per sample after low read count filtering and raw library scaling (b), this procedure followed by voom modeling (c), voom modeling using quantile normalisation instead of raw library scaling (d), and the latter after discarding the sample with the smallest library, highlighted in blue (e).}
+  \label{fig:psichomics-ge-norm}
+\end{figure}
+
+The default normalisation is not fully effective, as very different distributions between samples are observed (\shortref[b]{fig:psichomics-ge-norm}). We used voom instead, as it incorporates the mean-variance relationship of the data to normalise expression levels between samples \cite{ritchie:2015tm}. The distributions remain heterogeneous (\shortref[c]{fig:psichomics-ge-norm}) based on the default weighted trimmed mean of M-values (TMM) \cite{robinson:2010wx}, used to normalise for library sizes, so we replaced it by quantile normalisation \cite{ritchie:2015tm}.
+
+This more vigorous normalisation of gene read counts made their distributions comparable across samples, except for that already identified sample as having the lowest library size (\shortref[d]{fig:psichomics-ge-norm}), so we discarded sample SRR2453313. No obvious outlying gene expression distribution is apparent after discarding that sample and renormalising (\shortref[e]{fig:psichomics-ge-norm}). The filtered and normalised gene expression dataset should now be composed of 72 samples and 27,807 genes.
+
+\subsubsection{Alternative splicing quantification}
+
+The percent spliced-in (PSI) metric is commonly employed to measure the relative abundance of the inclusion isoform of an AS event \cite{wang:2008wa}. For each annotated event, psichomics was used to quantify alternative splicing in PSI based on the ratio of splice (exon–exon) junction read counts that support the inclusion of the alternative sequence. The selected alternative splicing annotation was \emph{Human hg38 (2018-04-30)}.
+
+The default event types were quantified: skipped exon (SE), mutually exclusive exon (MXE), alternative first and last exon (AFE and ALE, respectively), and alternative 3$'$ and 5$'$ splice site (A3SS and A5SS, respectively). By default, only AS events with a minimum of 10 junction read counts supporting either inclusion or exclusion of the alternative sequence are considered to avoid quantifying AS events with insufficient evidence. For consistency with gene expression analysis, we discarded sample SRR2453313 with the lowest library size.
+
+\begin{figure}[!b]
+  \includegraphics[width=.8\textwidth]{images/psichomics/4-psi-filtering}
+  \centering
+  \caption[Alternative splicing quantification filtering]{\textbf{Alternative splicing quantification filtering.} (a) Selection, for further analyses, of AS events with median PSI values between 0.05 and 0.95. (b) Further filtering those AS events with $\textrm{PSI range} > 0.15$ and $log_{10}(\textrm{variance}) > -3$. For illustration purposes, grey points represent the AS events discarded in panel a.}
+  \label{fig:psichomics-psi-filtering}
+\end{figure}
+
+In total, 135,717 AS events were quantified. This number is very high but only events exhibiting some variance across samples will be informative when analysing differential splicing. We therefore filtered out low-variance AS events with median PSI values between 0.05 and 0.95 (\shortref[a]{fig:psichomics-psi-filtering}), avoiding AS events whose median PSI is consistently near 0 and 1 (i.e. AS events that are mostly constitutive). This concomitantly filters out AS events of very low variance (\shortref[b]{fig:psichomics-psi-filtering}). To further select AS events that vary across samples based on a minimum PSI variance, we set $log_{10}(variance) > -3$ (\shortref[b]{fig:psichomics-psi-filtering}). AS events may be further filtered based on their PSI range (maximum — minimum PSI value across samples), as a surrogate for the minimum changes in AS that can be considered biologically meaningful. For instance, by setting the minimum PSI range to 0.15 (\shortref[b]{fig:psichomics-psi-filtering}). In the end, the number of potentially interesting AS events to analyse was reduced to 27,401.
+
+\subsubsection{Principal component analysis (PCA)}
+
+Data groups can be created in psichomics based either on sample and respective subject information (the so-called metadata) or on AS events and respective genes. We grouped ESC and iPSC samples together to compare them against Isogenic Stem Cells and Isogenic Fibroblasts.
+
+Later we performed PCA on normalised gene expression after centring and scaling the values. We allowed to impute at most 4 (i.e., around 5\% of the 72 samples) tolerated missing values per row\footnote{As PCA cannot be performed on data with missing values, these either have to be removed (thereby discarding genes or splicing events from the analysis) or imputed (i.e., replaced by estimated values). By default, if a gene (or AS event) has 5\% or less missing values in psichomics, the median expression (or PSI) of that gene (or AS event) across samples will be used to replace them. The remaining genes or (AS events), i.e. those with more than 5\% missing values by default, will be discarded from the PCA.}. For performance reasons, the 100 most contributing variables (i.e., genes or AS events) to the selected principal components are plotted by default. The first two principal components explain around 50\% of the observed variance in the data.
+
+The variance observed across principal component 1 seems to be related with the cell type (fibroblast versus stem cell) (\shortref[b]{fig:psichomics-pca}), whereas principal component 2 is associated with isogenicity (i.e., isogenic vs nonisogenic; respective column named dataset type in the SRA metadata) (\shortref[d]{fig:psichomics-pca}). From the 15 most variance-contributing genes, as displayed in the table below the loading plot, at least DNMT3B and RBPMS2 have been previously associated with pluripotency \cite{fagoonee:2013vx}. Specifically, RBPMS2 has been reported to play a role in self-renewal following the knockdown of ESRP1, reported to act as a regulator of pluripotency \cite{fagoonee:2013vx}.
+
+\begin{figure}[!p]
+  \includegraphics[width=.7\textwidth]{images/psichomics/5-pca-a}
+  \includegraphics[width=.9\textwidth]{images/psichomics/5-pca-b}
+  \centering
+  \caption[Principal component analysis]{\textbf{PCA of normalised gene expression (a–d) and alternative splicing quantification data (e–g).} (a) Plot displaying the cumulative percentage of total data variance explained by each principal component. (b, d) Scatter plots of scores of each sample on principal components 1 and 2, with samples coloured based on cell type (b) and isogenicity (d). (c) Scatter plot of loadings of each gene on principal components 1 and 2. Each gene’s bubble size is proportional to its relative contribution to principal components 1 and 2. (e, f) Scatter plots of scores of each sample on principal components 1 and 2, with samples coloured based on cell type (e) and isogenicity (f). (g) Table of loadings of the 5 alternative splicing events contributing the most to principal components 1 and 2.}
+  \label{fig:psichomics-pca}
+\end{figure}
+
+Similarly, we performed and plotted PCA on AS quantification data (with the exception that PSI values are not required to be scaled as they are dimensionless ratios in the same scale ranging from 0 to 1). Similar to the observations from PCA plots on normalised gene expression, principal components 1 and 2 appear to be associated with cell type and isogenicity, respectively \shortref[e-f]{fig:psichomics-pca}. The table below the loading plot allows you to assess which AS events contribute the most to those separations \shortref[g]{fig:psichomics-pca}. Some of them have their cognate genes already reported to be involved in conserved splicing programs in stem cell differentiation, including KIF13A and PALM \cite{venables:2013tz}.
+
+\subsubsection{Differential expression and splicing analysis}
+
+We performed differential gene expression and differential splicing analysis between isogenic stem cells and isogenic fibroblasts (\shortref{fig:psichomics-diff-analyses}).
+
+Normalised gene expression will be linearly modeled, with explanatory variables defined based on the selected groups. Moderated t-tests and log-odds of differential expression will then be computed by empirical Bayes moderation of the standard errors toward a common value \cite{ritchie:2015tm}.
+
+\begin{figure}[!h]
+  \includegraphics[width=.7\textwidth]{images/psichomics/6-diff-analyses}
+  \centering
+  \caption[Differential expression and splicing analyses]{\textbf{Differential expression (a) and splicing (b, c) analyses.} (a, b) Volcano plots where orange-highlighted genes/events correspond to $\textrm{adjusted p-value} < 0.01$ and either $|log_2(\textrm{Fold change})| > 1$ (a) or $|\Delta \textrm{ median PSI}| > 0.1$ (b). The CD46 penultimate exon inclusion is labeled in b with the cognate gene symbol. (c) Table showing a subset of the differential splicing results, sorted in ascending order by the adjusted p-value of Wilcoxon’s rank-sum test. PSI distributions are colored by groups: pink for isogenic stem cells and green for isogenic fibroblasts. The selected AS event (in blue) depicts the CD46 penultimate exon inclusion. Legend: isogenic fibroblasts (isoFib) and isogenic stem cells (isoSC).}
+  \label{fig:psichomics-diff-analyses}
+\end{figure}
+
+The volcano plot of differential splicing analysis between isogenic stem cells and fibroblasts (\shortref[b]{fig:psichomics-diff-analyses}) exhibits two strata, that is, two modes of Wilcoxon’s test significance. The top significance stratum is the result of using such nonparametric test (motivated by the non-normality of PSI distributions) when all values in one of the groups are higher than those in the other group; the number of tested groups also affects the significance of the difference. The lower significance stratum relates to a consistent number of repeated values between samples (usually occurring when one of the groups is closer to a PSI value of 0 or 1). As the Wilcoxon’s test is rank-based, some ranks are not unique if there are two identical values; this occurrence (called a tie) hampers the computation of exact p-values. Increasing the number of identical values when performing the Wilcoxon’s test decreases the significance of the comparison, which may bias the significance of differentially spliced events when one of the groups is characterised by PSI values close to 0 or 1 (constitutive splicing) and will therefore present many 0’s or many 1’s.
+
+\subsubsection{Skipping of CD46 penultimate exon}
+
+\begin{figure}[!b]
+  \includegraphics[width=.8\textwidth]{images/psichomics/7-cd46-as}
+  \centering
+  \caption[Alternative splicing of the CD46 penultimate exon]{\textbf{Alternative splicing of the CD46 penultimate exon.} (a) Density plots of distributions of CD46 penultimate exon PSI values across samples, colored by isogenic stem cells (pink) and isogenic fibroblasts (green). (b-c) Scatterplots of PSI values for CD46 penultimate exon inclusion versus normalised ESRP1 (b) and ESRP2 (c) expression across samples. The red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values are shown. (d) Genomic alignment of CD46 transcript isoforms with penultimate exon highlighted in an orange shade (the gray shade includes the neighboring constitutive exons to define the entire alternative splicing event).}
+  \label{fig:psichomics-cd46-as}
+\end{figure}
+
+The skipping of the penultimate exon of CD46 is one of the most significantly differentially spliced sequences between isogenic fibroblasts and isogenic stem cells in our analyses (\shortref[b-c]{fig:psichomics-diff-analyses}). Based on PSI distributions for the CD46 penultimate exon in the different cell types, higher inclusion of the CD46 penultimate exon is associated with fibroblasts, whereas lower inclusion is associated with stem cells, both ESC and iPSC (\shortref[a]{fig:psichomics-cd46-as}).
+
+We next tested the correlation between the gene expression of a list of RNA-binging proteins \cite{sebestyen:2016tr} against the quantification of the inclusion of the CD46 penultimate exon. The splicing regulators ESRP1 and ESRP2 are among the tested genes encoding RNA-binding proteins whose expression is most highly correlated with the PSI values of the penultimate exon of CD46 (\shortref[b-c]{fig:psichomics-cd46-as}).
+
+The inclusion of CD46 penultimate exon leads to a premature termination codon (PTC) that may cause the respective transcript to be targeted for nonsense-mediated decay (NMD) \cite{warzecha:2010wi}. This AS event is reported as being regulated by the RNA-binding epithelial splicing regulatory proteins 1 and 2 (ESRP1 and ESRP2) (cite{warzecha:2010wi}. ESRP1/2 are involved in the epithelial–mesenchymal transition and associated with the generation of cancer stem cells \cite{pradella:2017wp,warzecha:2010wi}. ESRP1 has been previously reported to be a regulator of differentiation-poising in ES cells \cite{fagoonee:2013vx}.
+
+\subsubsection{Extending the analyses to GTEx and TCGA}
+
+To analyse the correlation between ESRP1/2 normalised gene expression across GTEx tissues and TCGA tumour types against the AS quantification of the skipping of the penultimate exon of CD46, gene expression data was filtered and normalised gene expression using voom with quantile normalisation \cite{ritchie:2015tm} and alternative splicing was quantified based on the original human hg19 alternative splicing annotation combining events from multiple sources.
+
+In GTEx tissues where ESRP2 expression substantially varies across individuals (e.g., breast, testis, vagina, small intestine, stomach, and prostate), it is, as expected, negatively correlated with CD46 penultimate exon inclusion (\shortref{fig:psichomics-gtex-cor}). Correlation with ESRP1 expression cannot be performed, as the gene was filtered out for having low read counts across samples, suggesting its low expression in differentiated GTEx tissues. As for TCGA, the negative correlation between ESRP1/2 expression and CD46 penultimate exon inclusion is observed in most cancer types, including breast cancer (\shortref{fig:psichomics-tcga-esrp1} and \shortref{fig:psichomics-tcga-esrp2}).
+
+\begin{figure}[!p]
+  \includegraphics[width=1\textwidth]{images/psichomics/8-gtex-cor}
+  \centering
+  \caption[ESRP2 expression versus CD46 penultimate exon PSI across GTEx tissues]{\textbf{Scatterplots of normalised ESRP2 expression versus PSI values for CD46 penultimate exon inclusion across GTEx tissues, altogether (a) and by tissue (b).} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown.}
+  \label{fig:psichomics-gtex-cor}
+\end{figure}
+
+\begin{figure}[!p]
+  \includegraphics[width=1\textwidth]{images/psichomics/9-tcga-esrp1}
+  \centering
+  \caption[ESRP1 expression versus CD46 penultimate exon PSI across TCGA tumour types]{\textbf{Scatterplots of normalised ESRP1 expression versus PSI values for CD46 penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown.
+
+\hspace{\textwidth}
+
+\textsmaller{\textbf{Legend:} ACC adrenocortical carcinoma, BCLA urothelial bladder carcinoma, BRCA breast invasive carcinoma, CESC cervical squamous cell carcinoma and endocervical adenocarcinoma, CHOL cholangiocarcinoma, COAD colon adenocarcinoma, DLBC lymphoid neoplasm diffuse large B-cell lymphoma, ESCA esophageal carcinoma, GBM glioblastoma multiforme, HNSC head and neck squamous cell carcinoma, KICH kidney chromophobe, KIRC kidney renal clear cell carcinoma, KIRP kidney renal papillary cell carcinoma, LGG brain lower grade glioma, LIHC liver hepatocellular carcinoma, LUAD lung adenocarcinoma, LUSC lung squamous cell carcinoma, MESO mesothelioma, OV ovarian serous cystadenocarcinoma, PAAD pancreatic adenocarcinoma, PCPG pheochromocytoma and paraganglioma, PRAD prostate adenocarcinoma, READ rectum adenocarcinoma, SARC sarcoma, SKCM skin cutaneous melanoma, STAD stomach adenocarcinoma, TGCT testicular germ cell tumours, THCA thyroid carcinoma, THYM thymoma, UCEC uterine corpus endometrial carcinoma, UCS uterine carcinosarcoma, UVM uveal melanoma}
+}
+  \label{fig:psichomics-tcga-esrp1}
+\end{figure}
+
+\begin{figure}[!h]
+  \includegraphics[width=1\textwidth]{images/psichomics/10-tcga-esrp2}
+  \centering
+  \caption[ESRP2 expression versus CD46 penultimate exon PSI across TCGA tumour types]{\textbf{Scatterplots of normalised ESRP2 expression versus PSI values for CD46 penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown. See caption of \shortref{fig:psichomics-tcga-esrp1} for legend.}
+  \label{fig:psichomics-tcga-esrp2}
+\end{figure}
+
+\subsubsection{Pancancer prognostic value of AS of CD46 penultimate exon}
+
+The prognostic value of a given AS event (or gene) may be evaluated by separating subjects based on a PSI cutoff for a given AS event (or expression cutoff for a given gene). The survival differences between groups are then assessed based on Kaplan-Meier estimators using the log-rank test.
+
+In this context, we used clinical and transcriptomic data from TCGA to evaluate the prognostic value of the AS of CD46 penultimate exon based on overall survival curves across TCGA tumour types to compare tumour samples\footnote{When psichomics performs survival analysis, the PSI value of a given AS event in a sample is assigned to its respective subject. In cases where multiple samples originate from the same subject, this subject is assigned the average PSI value. However, when assigning the PSI value to a given subject, not all samples should be used; for instance, PSI values from normal tissue samples should be discarded when studying disease. Such is the case with TCGA data, where only tumour samples are used to assign PSI values per subject for survival analysis, by default.} with low and high inclusion of the CD46 penultimate exon (\shortref{fig:psichomics-cd46-as}).
+
+\begin{figure}[!h]
+  \includegraphics[width=.8\textwidth]{images/psichomics/11-cd46-as-prognosis}
+  \centering
+  \caption[Prognostic value of CD46 penultimate exon inclusion across select TCGA cancer types]{\textbf{Prognostic value of CD46 penultimate exon inclusion across select TCGA cancer types.} (a, b) Kaplan-Meier plots of overall survival for all patients stratified by the respective alternative splicing event’s PSI cutoff that maximised the significance of differences in survival between patient groups with a reasonable number of subjects within each group. Each patient was assigned the PSI value of their tumour sample(s). (c, d) Log-rank’s $-log_{10}(\textrm{p-value})$ plot by PSI cutoff. Note that in panel d, for PSI values around 0.8, there are high log-rank $-log_{10}(\textrm{p-value})$ although only one individual is being compared against 506 subjects. Legend: LGG brain lower grade glioma, LUAD lung adenocarcinoma.}
+  \label{fig:psichomics-cd46-as}
+\end{figure}
+
+% We selected right data censoring. psichomics supports left, right, and interval data censoring for survival analysis, the type of censoring depending on the times of occurrence of events of interest. Events may occur after the last observation (right censoring, such as in the case of subjects having no event reported during the study or dropping from it altogether), before an observation is performed (left censoring, for instance when events happened in an uncertain time before the start of the study) or in-between observations (interval censoring, such as when patients require periodic follow-ups and the time of an event occurrence falls between follow-ups but is not certain) \cite{zhang:2010wk}.
+
+We performed overall survival analysis by selecting the follow-up time as days to death and the event of interest as death. Analysing days to death as the follow-up time and death as the event of interest is known as an overall survival analysis, that is, the study of the time until the subject’s death following diagnosis. In cases where days to death is not available, the days to last follow-up are considered instead in psichomics. Of note, in some TCGA records, the days to last follow-up may be a lower number than days to death; as we are interested in prognostic, the usage of days to death is recommended over days to last follow-up.
+ 
+A $-log_{10}(\textrm{p-value})$ plot by cutoff (\shortref[c-d]{fig:psichomics-cd46-as}) displays the p-values of the log-rank test of survival across multiple PSI cutoffs for the selected AS event. The PSI cutoff maximising the significance of the survival difference is automatically selected\footnote{The survival differences are tested based on multiple PSI cutoffs for a given AS event. If the automatically selected PSI cutoff has a much lower number of subjects in one group compared to the other (e.g., in \shortref[d]{fig:psichomics-cd46-as} the lowest log-rank p-value corresponds to a comparison of 1 versus 506 subjects), try to find a cutoff with more reasonably balanced groups and for which the p-value is still significant. Sample size calculations can be performed based on test assumptions (e.g., probability of failure for each group during the study) using existing R packages, such as powerSurvEpi \cite{qiu:2021wd}.}. The splicing of CD46 penultimate exon seems to have prognostic value in select cancer types, such as brain lower-grade glioma and lung adenocarcinoma (\shortref{fig:psichomics-cd46-as}).
 
 \subsection{Time benchmarking}
 
@@ -278,28 +431,27 @@ To assess the influence of RNA-seq read coverage on psichomics PSI estimates, di
 
 Alternative splicing events annotated by TCGASpliceSeq \cite{ryan:2016tm}, an online tool that displays pre-computed PSI values across multiple TCGA tumour types, were matched to those from psichomics based on their genomic coordinates. In total, 321 183 of 757 749 (42\%) skipped exon, 70 837 of 126 725 (56\%) alternative 5$'$ splice site and 90 940 of 155 799 (58\%) alternative 3$'$ splice site events were successfully matched. When available from both programs, PSI estimates for each of the 482 960 alternative splicing events in each of the 9 913 matched samples were compared between TCGASpliceSeq and psichomics, being highly correlated (N = 92 444 302; Pearson's r = 0.97, p-value $< 10^{15}$; Spearman's rho = 0.94, p-value $< 10^{15}$; Supplementary Figure S9).
 
-\subsection{Impact}
-\label{sec:impact}
+%\subsection{Impact}
 
-There are multiple ways to measure the impact of psichomics. First, we can check the metrics surrounding the article itself. 
+%There are multiple ways to measure the impact of psichomics. First, we can check the metrics surrounding the article itself. 
 
 % importance of maintaining software and replying to user feedback
 
-- Invitation to write a book chapter
+%- Invitation to write a book chapter
 
-Although there is no direct way to measure user engagement with psichomics, we can track:
+%Although there is no direct way to measure user engagement with psichomics, we can track:
 
-- Bioconductor downloads
+%- Bioconductor downloads
 
-- Docker Hub image downloads 
+%- Docker Hub image downloads 
 
-- visitors to the official psichomics documentation
+%- visitors to the official psichomics documentation
 
-- visitors to the website
+%- visitors to the website
 
-- feedback via GitHub issues and emails
+%- feedback via GitHub issues and emails
 
-- citations
+%- citations
 
 %It is wonderful to see that the work I put into psichomics is appreciated based on feedback received via GitHub and email. psichomics is still used nowadays based on citations from recent published articles (Ling et al., 2020; Baeza-Centurion et al., 2020; Birladeanu et al., 2021). In the lab, we can also track visitors of psichomics’ documentation via Google Analytics to better understand our users (e.g., what pages they visit the most).
 
@@ -311,15 +463,16 @@ However, the most commonly used tools for alternative splicing analyses currentl
 
 Together with support for the integration of molecular and sample-associated clinical information, the group creation functionalities featured in psichomics ensure full customisability of data grouping for downstream analyses. Interesting groups to compare in TCGA, for instance, may range from the simple contrast between reformed and current smokers in lung cancer to complex combinations of gender, race, age, country and other subject attributes across multiple cancers. When survival data are available, survival analyses can be performed on samples by PSI or gene expression levels, thereby assessing the putative prognostic value of a respective molecular feature.
 
-The integrative analysis of publicly available TCGA data by psichomics allowed us to identify multiple exons differentially spliced between breast tumour stage I and normal samples, therefore deeming them potential diagnostic biomarkers, and to assess their putative prognostic value. The output of psichomics is validated by identified alternative splicing alterations that have been previously linked to the disease, including events in RPS24, NUMB, FBLN2 and AP2B1. Previously understudied, yet intriguing, events were also identified, such as the skipping of SLMAP exon 23 and UHRF2 exon 10. These may provide novel insights into the early stages of breast cancer development. Indeed, it is of utmost importance to foster alternative splicing analyses of clinical samples as a crucial complement to more conventional research focused on total gene expression.
+%\textcolor{red}{The integrative analysis of publicly available TCGA data by psichomics allowed us to identify multiple exons differentially spliced between breast tumour stage I and normal samples, therefore deeming them potential diagnostic biomarkers, and to assess their putative prognostic value. The output of psichomics is validated by identified alternative splicing alterations that have been previously linked to the disease, including events in RPS24, NUMB, FBLN2 and AP2B1. Previously understudied, yet intriguing, events were also identified, such as the skipping of SLMAP exon 23 and UHRF2 exon 10. These may provide novel insights into the early stages of breast cancer development.} Indeed, it is of utmost importance to foster alternative splicing analyses of clinical samples as a crucial complement to more conventional research focused on total gene expression.
 
-To ensure researchers with different skills can take the most out of psichomics, users lacking a computational background may feel more comfortable using the intuitive and more accessible graphical interface, whereas advanced users may opt for the command-line view. Should the demanding computational resources for hosting psichomics in a web server become available, we also envisage its web deployment, so that the program's latest version is publicly available on-demand with no installation required, levering the intuitive graphical interface to make alternative splicing analyses more enticing to less computationally-inclined biomedical researchers.
+To ensure researchers with different skills can take the most out of psichomics, we added an intuitive and more accessible graphical interface, while still supporting a command-line interface. psichomics has recently been deployed online at \alink{compbio.imm.medicina.ulisboa.pt/psichomics} in our app server\footnote{More information in \fullref{chap:app-server}.} to allow the use of the program's latest version on-demand with no installation required, levering the intuitive graphical interface to make alternative splicing analyses more enticing to less computationally-inclined biomedical researchers.
 
 Notwithstanding its merits, psichomics only quantifies alternative splicing events based on exon–exon junction read counts, limiting the types of alternative splicing events profiled. For instance, exon–intron junction, exon body and intron body quantifications are vital to confirm intron retention and alternative 5$'$ and 3$'$ UTR events over further transcriptional variations \cite{braunschweig:2014tr}.
 However, although GTEx (but neither TCGA nor recount2) readily provides intron and exon body read quantification for retrieval, none provides exon–intron junction quantification. To overcome this, psichomics allows to import alternative splicing events quantified from other programs, including VAST-TOOLS that quantifies intron retention events.
 
-Another limitation is psichomics reliance on existing alternative splicing event annotations and an on the pre-processing of RNA-seq data by third-party pipelines (as is the case for GTEx, TCGA and recount2), depriving the user of the flexibility to identify de novo alternative splicing events. However, as we detail in \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}, when FASTQ or BAM files are accessible, psichomics supports the loading of alternative splicing annotations generated by different programs that take those files as input, namely rMATS \cite{shen:2014tk}, which is able to generate de novo annotations.
+Another limitation is psichomics reliance on existing alternative splicing event annotations and an on the pre-processing of RNA-seq data by third-party pipelines (as is the case for GTEx, TCGA and recount2), depriving the user of the flexibility to identify de novo alternative splicing events. Even so, when FASTQ or BAM files are accessible, psichomics supports the loading of alternative splicing annotations generated by different programs that take those files as input, namely rMATS \cite{shen:2014tk}, which is able to generate de novo annotations\footnote{More information in \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}.}.
 
-Using psichomics, we are able not only to identify novel exons differentially spliced between tumour stage I and normal breast samples but also to pinpoint potentially clinically relevant splicing events by embracing clinical data and evaluating their prognostic value. We expect that fellow researchers and clinicians will be able to intuitively employ psichomics to assist them in uncovering novel splicing-associated prognostic factors and therapeutic targets, as well as in advancing our understanding of how alternative splicing is regulated in physiological and disease contexts.
+% \textcolor{red}{Using psichomics, we are able not only to identify novel exons differentially spliced between tumour stage I and normal breast samples but also to pinpoint potentially clinically relevant splicing events by embracing clinical data and evaluating their prognostic value.}
+% For future iterations of psichomics, potentially support recount3?
 
-% For future iterations of psichomics, Potentially useful recount3?
+Since its publication, psichomics has been used to analyse alternative splicing in multiple scientific articles, such as \cite{coomer:2019wz,baeza-centurion:2019tb,munkley:2019wr,baeza-centurion:2020vb}. Based on these citations and positive user feedback, we believe that fellow researchers and clinicians are able to intuitively employ psichomics to assist them in uncovering novel splicing-associated prognostic factors and therapeutic targets, as well as in advancing our understanding of how alternative splicing is regulated in physiological and disease contexts.
