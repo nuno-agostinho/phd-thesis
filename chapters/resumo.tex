@@ -1,0 +1,26 @@
+% !TEX root = ../PhD Thesis.tex
+\chapter*{Resumo}
+\addcontentsline{toc}{chapter}{Resumo}
+% 1200 a 1500 palavras
+
+Durante o meu doutoramento, desenvolvi aplicações \emph{web} em transcriptómica com interface gráficas, estabelecendo-as como recursos gratuitos para a comunidade científica, nomeadamente para investigadores com habilidades computacionais básicas.
+
+\section*{psichomics}
+
+% explain the tools
+Primeiro, baseado no trabalho que desenvolvi durante a minha tese de mestrado, continuei o meu trabalho no psichomics \cite{saraiva-agostinho:2018uq,saraiva-agostinho:2020wz}, uma ferramenta baseada na linguagem de programação R para a quantificação, análise e visualização de \emph{splicing} alternativo a partir de dados pré-processados provenientes do The Cancer Genome Atlas (TCGA) \cite{chang:2013ww}. Durante o meu doutoramento, o psichomics foi melhorado de forma a descarregar e analisar dados de mais fontes -- incluindo dados do Genotype Tissue-Expression project (GTEx) \cite{lonsdale:2013uo}, do recount2 \cite{collado-torres:2017uw} e provenientes do utilizador --, analisar expressão génica e quantificar \emph{splicing} alternativo para 14 espécies diferentes, entre outras novidades.
+
+\section*{cTRAP}
+
+Tendo por base o Connectivity Map (CMap), um base de dados pública com milhões de alterações de expressão génica (denominadas perturbações) \cite{subramanian:2017ul}, o nosso laboratório desenvolveu o cTRAP, um pacote de R para identificar potenciais perturbações causais a partir de dados de expressão génica diferencial, assim como prever compostos que as promovam ou revertam. O cTRAP também permite listar drogas específicas conforme dados públicos de sensibilidade às drogas e inclui uma análise similar à do Gene-Set Enrichment Analysis (GSEA) para identificar o enriquecimento de descriptores moleculares para compostos do NCI60 e do CMap.
+
+\section*{CompBio: servidor de aplicações \emph{web}}
+
+Ambos o psichomics e o cTRAP apresentam interfaces gráficas para auxiliar os utilizadores a realizar a maioria das suas funções de forma interactiva através de passos simples, devidamente explicados em tutoriais online que são constantemente actualizados conforme comentários e questões dos próprios utilizadores.
+
+Para distribuir as ferramentas de forma gratuita e mais acessível requerendo somente a utilização de navegadores da \emph{Internet} modernos, também criámos o servidor CompBio para disponibilizar o psichomics, o cTRAP e diversos outros pacotes de R como aplicações \emph{web} -- incluindo programas construídos pelos meus colegas de laboratório (Ageing Atlas, betAS e scStudio).
+
+Quero aproveitar este momento para realçar a importância de fazer uma pausa para sentar e relaxar, para deambular pelo nosso \emph{website} em \alink{compbio.imm.medicina.ulisboa.pt}, para acordar as aplicações \emph{web} que ali pernoitam e para desfrutar da viagem. A página principal é uma galeria de trabalho do nosso laboratório, trabalho o qual tenho um tremendo orgulho em apoiar.
+
+\textbf{Palavras-chave:} bioinformática, aplicações \emph{web}, \emph{splicing} alternativo, expressão génica, drogas específicas.
+

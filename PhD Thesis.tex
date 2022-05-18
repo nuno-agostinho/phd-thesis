@@ -28,6 +28,8 @@
 \usepackage{multirow}
 \usepackage{csquotes}
 
+\usepackage{multicol}
+
 %\usepackage{type1cm}
 %\usepackage{lettrine}
 
@@ -56,6 +58,8 @@
 \newcommand*{\fullref}[2][]{\shortref[#1: \textbf{\nameref*{#2}}]{#2}}
 
 \newcommand*{\shortref}[2][]{\hyperref[{#2}]{\autoref*{#2}#1}}
+
+\newcommand*{\shorterref}[2][]{\hyperref[{#2}]{\ref*{#2}#1}}
 
 % CODE STYLING -----------------------------------------------------
 
@@ -130,10 +134,7 @@
 \pagenumbering{roman}
 \tableofcontents
 
-\chapter*{Resumo}
-\addcontentsline{toc}{chapter}{Resumo}
-% 1200 a 1500 palavras
-% 5 palavras-chave
+\input{chapters/resumo}
 
 \chapter*{Summary}
 \addcontentsline{toc}{chapter}{Summary}
@@ -161,8 +162,10 @@ Abstract goes here
 
 % citations using BibTeX
 \bibliographystyle{plos2015}
+\twocolumn
 {\footnotesize
 \bibliography{refs}}
+\onecolumn
 
 %\appendix
 %\chapter{Appendix}
