@@ -6,21 +6,19 @@
 
 \begin{figure}[!b]
   \vspace*{-1cm}
-  \includegraphics[width=0.96\textwidth]{images/cTRAP/screenshot}
+  \includegraphics[width=.96\textwidth]{images/cTRAP/screenshot}
   \centering
   \vspace*{-.5cm}
   \caption[cTRAP screenshot]{\textbf{cTRAP screenshot} (21 Dec 2021).}
   \label{fig:cTRAP-screenshot}
 \end{figure}
 
-Our lab had a brainstorm session during a stormy day in our 2017 Madeira retreat, where we discussed the unique propositions that the lab could provide to the scientific community.
-
-One idea that emerged was to make it easier to identify putative causal perturbations by comparing a custom differential gene expression against the large-scale database of differential expression profiles from CMap \cite{subramanian:2017ul}, a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations in human cancer cell lines. This kind of analysis is available in CMap's web apps at \alink{clue.io} \cite{subramanian:2017ul}, but their results are difficult to integrate in downstream analyses, suffer from poor API documentation for programatic access and lack basic visualisation tools.
+During a stormy day in our 2017 Madeira Lab retreat, we had a brainstorm to discuss the unique propositions that the lab could provide to the scientific community. One idea that emerged was to make it easier to identify putative causal perturbations by comparing a custom differential gene expression against the large-scale database of differential expression profiles from CMap \cite{subramanian:2017ul}, a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations in human cancer cell lines. % This kind of analysis is available in CMap's web apps at \alink{clue.io} \cite{subramanian:2017ul}, but their results are difficult to integrate in downstream analyses, suffer from poor API documentation for programatic access and lack basic visualisation tools.
 
 % clue.io does indeed allow for batch query: https://clue.io/connectopedia/batch_query_tutorial
 % clue.io API's is not straightforward: https://clue.io/connectopedia/query_api_tutorial
 
-To overcome those limitations, we developed cTRAP, an R package to compare user-provided differential gene expression profiles with the perturbations available from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them.
+We thus developed cTRAP, an R package and web app to compare user-provided differential gene expression profiles with the perturbations available from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them (\shortref{fig:cTRAP-screenshot}).
 
 After releasing the first version in Bioconductor, multiple features were added (\shortref{tab:cTRAP}). Inspired by the method used to compare gene expression changes against the CMap database, we also added a way to predict targeting drugs by using drug sensitivity datasets that featured gene expression for multiple genes in many cell lines. Additionally, cTRAP also allows to analyse the enrichment of molecular descriptors for compounds from NCI60 and CMap. More recently, we developed a visual interface to host cTRAP online with support for user sessions and background tasks.
 
@@ -58,14 +56,14 @@ cTRAP is available online as a web app at \alink{compbio.imm.medicina.ulisboa.pt
 
 \section{Materials and methods}
 
-From a vector of user-provided differential expression results (e.g. t-statistic values) with respective gene symbols, cTRAP can return a ranked list of similar CMap perturbations or predict targeting drugs. Moreover, cTRAP can also analyse the enrichment of drug sets in an ordered vector of compounds to identify common compound characteristics (\shortref{fig:ctrap-workflow}).
-
-\begin{figure}[!ht]
-  \includegraphics[width=1\textwidth]{images/ctrap/workflow}
+\begin{figure}[!b]
+  \includegraphics[width=.8\textwidth]{images/ctrap/workflow}
   \centering
   \caption[cTRAP workflow]{\textbf{cTRAP workflow.} cTRAP allows to perform three analyses: \textbf{(1) rank similar CMap perturbations} by comparing user-provided differential gene expression values against CMap perturbation data, \textbf{(2) predict targeting drugs} by comparing user-provided differential gene expression values against correlation matrices of gene expression and drug sensitivity data and \textbf{(3) analyse drug (descriptor) set enrichment} using drug sets and the results from either the first or second analysis. CMap perturbation data, gene expression/drug sensitivity correlation matrices and drug molecular descriptors for drug sets can be automatically downloaded.}
   \label{fig:ctrap-workflow}
 \end{figure}
+
+From a vector of user-provided differential expression results (e.g. t-statistic values) with respective gene symbols, cTRAP can return a ranked list of similar CMap perturbations or predict targeting drugs. Moreover, cTRAP can also analyse the enrichment of drug sets in an ordered vector of compounds to identify common compound characteristics (Figures \shorterref{fig:ctrap-workflow} and \shorterref{fig:ctrap-file-structure}).
 
 \begin{figure}[!ht]
   \includegraphics[width=1\textwidth]{images/ctrap/file-structure}
@@ -106,14 +104,14 @@ names(diffExprStat) <- diffExpr$Gene_symbol
 
 \subsection{Ranking of similar CMap perturbations}
 
-CMap perturbations can be categorised into gene knockdown, gene over-expression and compounds. In cTRAP, available perturbation types and respective conditions can be enquired using the function \texttt{getCMapConditions()} that will download CMap perturbation metadata. Afterwards, the function \texttt{filterCMapMetadata()} allows to filter the metadata based on selected perturbations types, cell lines, dosages and time points, allowing to specifically load only the desired data in downstream analyses. This information is passed to \texttt{prepareCMapPerturbations()} to download (if file is not found) and process CMap differential expression profiles z-scores (GCTX file) and gene and compound information. Given that the GCTX file size is around 21GB, we recommend to download the file directly from GEO GSE92742’s Level 5 data link (\sloppy{\small{\url{ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz}}}).
-
-\begin{figure}[!ht]
+\begin{figure}[!b]
   \includegraphics[width=.8\textwidth]{images/ctrap/cmap-perturbations}
   \centering
   \caption[Loading data from CMap perturbations]{\textbf{Loading data from CMap perturbations.} Input arguments support either the data itself (as data frames) or their respective file path. If the file path directs to a non-existing file,  data is first downloaded and then saved to the given file path. To avoid high memory usage, CMap perturbations' z-scores of differential expression profiles (CMap zscores) are not loaded into memory when a file path is given. Instead, only metadata are loaded into a \emph{dummy} object that can be subset as a normal R object for downstream analyses.}
   \label{fig:ctrap-cmap-perturbations}
 \end{figure}
+
+CMap perturbations can be categorised into gene knockdown, gene over-expression and compounds. In cTRAP, available perturbation types and respective conditions can be enquired using the function \texttt{getCMapConditions()} that will download CMap perturbation metadata. Afterwards, the function \texttt{filterCMapMetadata()} allows to filter the metadata based on selected perturbations types, cell lines, dosages and time points, allowing to specifically load only the desired data in downstream analyses. This information is passed to \texttt{prepareCMapPerturbations()} to download (if file is not found) and process CMap differential expression profiles z-scores (GCTX file) and gene and compound information (\shortref{fig:ctrap-cmap-perturbations}). Given that the GCTX file size is around 21GB, we recommend to download the file directly from GEO GSE92742’s Level 5 data link (\sloppy{\small{\url{ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz}}}).
 
 After comparing differential expression z-scores from select CMap perturbations against user-provided differential expression results, \texttt{rankSimilarPerturbations()} returns a table with ranked CMap perturbations and their respective correlation coefficients and GSEA scores. Lower ranks indicate perturbations whose differential expression profiles are more similar to the user-provided data, i.e. CMap perturbations that potentially mimic the user-provided transcriptomic changes, whereas higher ranks define perturbations that may revert those changes.
 
@@ -129,14 +127,14 @@ The GSEA-based score is calculated via the following steps:
 
 As an example, for a CMap perturbation with a similar differential expression profile to user’s input, we expect to find higher enrichment of the top gene set in the most up-regulated genes and higher enrichment of the bottom gene set in the most down-regulated genes.
 
-\begin{figure}[!ht]
+To minimise peak RAM usage, \texttt{prepareCMapPerturbations()} downloads the GCTX file (a customised HDF5 file) for the CMap’s perturbation differential expression z-scores (if not previously downloaded) and returns its path without loading the file content itself, creating a \emph{dummy} object that only stores its file path, perturbation names, gene symbols and other associated metadata (\shortref{fig:ctrap-cmap-perturbations}). Based on the file path of this \emph{dummy} object (that can be subset like a normal R object), \texttt{rankSimilarPerturbations()} loads a $\le$ 1 GiB chunk\footnote{The default 1 GiB ($1024^3$ bytes) allows loading chunks of around 10000 columns and 14000 rows ($10000 \times 14000 \times 8 \textrm{ bytes} / 1024^3 = 1.04 \textrm{ GiB}$). CMap's GCTX file has around 14000 rows (genes).}, compares its differential expression z-score values against user-provided data and repeats the analysis for the next chunk (\shortref{fig:ctrap-analyses}). For each chunk, multithreaded support for Linux and macOS can be enabled per comparison method via \texttt{parallel::mclapply()}\footnote{\texttt{mclapply()} parallelises tasks via forking where multiple child processes are spawned and share their parent's memory. Forking is unavailable in Windows and its alternatives were deemed unsatisfactory, given that they copy 1GiB chunks per thread, significantly slowing down runtime.}, enabled by setting the number of threads to 2 or higher.
+
+\begin{figure}[!h]
   \includegraphics[width=.8\textwidth]{images/ctrap/analysis}
   \centering
   \caption[cTRAP similarity analysis]{\textbf{cTRAP similarity analysis.} User-provided differential gene expression is compared against a reference (e.g. differential expression z-scores of CMap perturbations) and ranked by similarity. If the reference of comparison is a HDF5 file path, the file is processed in 1GiB chunks to minimise peak memory usage. These analyses support multiple threads in Linux and macOS.}
   \label{fig:ctrap-analyses}
 \end{figure}
-
-To minimise peak RAM usage, \texttt{prepareCMapPerturbations()} downloads the GCTX file (a customised HDF5 file) for the CMap’s perturbation differential expression z-scores (if not previously downloaded) and returns its path without loading the file content itself, creating a \emph{dummy} object that only stores its file path, perturbation names, gene symbols and other associated metadata (\shortref{fig:ctrap-cmap-perturbations}). Based on the file path of this \emph{dummy} object (that can be subset like a normal R object), \texttt{rankSimilarPerturbations()} loads a $\le$ 1 GiB chunk\footnote{The default 1 GiB ($1024^3$ bytes) allows loading chunks of around 10000 columns and 14000 rows ($10000 \times 14000 \times 8 \textrm{ bytes} / 1024^3 = 1.04 \textrm{ GiB}$). CMap's GCTX file has around 14000 rows (genes).}, compares its differential expression z-score values against user-provided data and repeats the analysis for the next chunk (\shortref{fig:ctrap-analyses}). For each chunk, multithreaded support for Linux and macOS can be enabled per comparison method via \texttt{parallel::mclapply()}\footnote{\texttt{mclapply()} parallelises tasks via forking where multiple child processes are spawned and share their parent's memory. Forking is unavailable in Windows and its alternatives were deemed unsatisfactory, given that they copy 1GiB chunks per thread, significantly slowing down runtime.}, enabled by setting the number of threads to 2 or higher.
 
 The ranked list from \texttt{rankSimilarPerturbations()} can be plotted using \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot for a predicted targeting drug.
 
@@ -357,6 +355,7 @@ When restoring a session via a token, cTRAP loads the contents of the folder nam
 \end{figure}
 
 \subsubsection{Background tasks}
+\label{subsec:background-tasks}
 
 When running a Shiny app, the user has to wait for the long-running tasks to finish before the app starts responding to user's commands again. Critically, if cTRAP is shut down, all running processes will stop.
 
@@ -366,10 +365,10 @@ What are the best options to run large tasks in the background? In Lobo, iMM's c
 
 \begin{itemize}
 	\item \textbf{Celery}, a task queue manager written in Python; and
-	\item \textbf{Flower}, a monitoring app that provides an HTTP API for Celery.
+	\item \textbf{Flower}, a monitoring app that provides an HTTP API and graphical interface to manage Celery jobs.
 \end{itemize}
 
-Celery requires a \texttt{tasks.py} file with the code of the jobs to run. Given that Celery will run cTRAP functions, cTRAP must be installed in the same system as Celery. Moreover, as we require to run R code, one of the Celery tasks will be precisely to run R commands via Python's \texttt{subprocess} module to spawn new processes with \texttt{Rscript} command (\shortref{lst:tasks.py}).
+Celery requires a \texttt{tasks.py} file with the code of the jobs to run. Given that Celery will run cTRAP functions, cTRAP must be installed alongside Celery. Moreover, as we intend to run R code, one of the Celery tasks is to run R via Python's module \texttt{subprocess} to spawn new processes with the \texttt{Rscript} command (\shortref{lst:tasks.py}).
 
 \begin{lstlisting}[language=python,caption=An example \texttt{tasks.py} file to run R commands or Rscript files via Celery.,label={lst:tasks.py},morekeywords={import},keywordstyle=\bfseries]{tasks.py}
 import os, time
@@ -429,18 +428,24 @@ taskList()
 \end{lstlisting}
 \end{minipage}
 
-cTRAP currently supports ranking similar CMap perturbation and predicting targeting drugs as background processes by submitting jobs to Celery with the exact R commands to run via the \texttt{Rscript} command \cite{r-core-team:2021wf}. The status of background tasks can be monitored by users in the respective cTRAP's user session\footnote{Flower can also be used to directly monitor the progress of all Celery tasks, but is only accessible at iMM via ethernet cable or using the VPN from Universidade de Lisboa.}.
+cTRAP currently supports ranking similar CMap perturbation and predicting targeting drugs as background processes by submitting jobs to Celery with the exact R commands to run via the \texttt{Rscript} command \cite{r-core-team:2021wf}. The status of background tasks can be monitored by users in the respective cTRAP's user session (\shortref{fig:job-progress})\footnote{Flower also allows to monitor and manage Celery jobs, but its web interface is only accessible in the iMM network (via ethernet cable or VPN). More information in \fullref{sec:background-tasks}.}.
 
-% add screenshot of status for background tasks
+\begin{figure}[!h]
+  \includegraphics[width=.5\textwidth]{images/ctrap/job-progress}
+  \centering
+  \caption[Progress of Celery jobs in cTRAP]{\textbf{Progress of Celery jobs in cTRAP.} The job status are updated every 5 seconds. Their status can be: \textcolor{gray}{Waiting} in job queue to start, \textcolor{orange}{Running}, \textcolor{teal}{Loaded}, \textcolor{red}{Error} for unknown failures, and \textcolor{red}{Not Found} if the job results cannot be found (e.g. when re-uploading the same RDS file, the job results were already cleaned-up in the first upload). When a job finishes, a blue link is added to the job name in order to directly access its results in cTRAP.}
+  \label{fig:job-progress}
+\end{figure}
 
-\begin{figure}[!b]
+All Celery jobs are saved as \emph{dummy} objects in cTRAP's user session data, containing the job identifier and metadata from expected results. When the background processes finish, their output is saved into the session folder. If the user is actively using that session in the cTRAP website, the data is automatically loaded -- replacing the previous \emph{dummy} objects -- and the user is informed of such via a notification in cTRAP (\shortref{fig:ctrap-celery}). Otherwise, next time that session is loaded by the user (either via its token or an RDS file), the job for every \emph{dummy} object in the session data is returned if finished.
+
+% TODO: file is removed after its object is loaded: confirm
+\begin{figure}[!htb]
   \includegraphics[width=\textwidth]{images/ctrap/celery-job}
   \centering
   \caption[cTRAP process running in Celery]{\textbf{cTRAP process running in Celery.} Time-demanding cTRAP processes can be run in the background using Celery/Flower. While running in Celery, the output of the cTRAP process is saved to the folder associated with the token of the user's session. When that specific session is active, all finished files are automatically loaded as part of the data session and the user is notified.}
   \label{fig:ctrap-celery}
 \end{figure}
-
-All Celery jobs are saved as \emph{dummy} objects in cTRAP's user session data, containing the job identifier and metadata from expected results. When the background processes finish, their output is saved into the session folder. If the user is actively using that session in the cTRAP website, the data is automatically loaded -- replacing the previous \emph{dummy} objects -- and the user is informed of such via a notification in cTRAP (\shortref{fig:ctrap-celery}). Otherwise, this process occurs next time the session is loaded by the user via its token \textcolor{red}{or file}.
 
 \section{Conclusion}
 
@@ -458,11 +463,11 @@ CMap is a repository of gene expression signatures for thousands of genetic and 
 
 To overcome such issues, we present cTRAP, an open-source R package to identify causal perturbations from differential expression data. Moreover, cTRAP also allows to do other two things.
 
-More recently, cTRAP was updated to perform these actions using a graphical user interface (also available as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}), besides its traditional command-line interface.
+More recently, cTRAP was updated to perform these actions using a graphical user interface (also available as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}), besides its traditional command-line interface. From our previous experience with psichomics, we presume that the graphical interface will be popular among users that are not comfortable with coding in R or simply want to quickly check stuff.
 
 cTRAP's drug set enrichment analysis is currently limited to molecular descriptors for the compounds from CMap and NCI-60.
 
-For future cTRAP iterations, it would interesting to support CMap LINCS 2020, an expansion of the current CMap dataset that is described as a \emph{3-fold expansion on the previous resource, and notable new subsets of data include CRISPSR knockout of \textgreater 5k genes and hematopoietic and non-cancer cell models} (\alink{clue.io/data/CMap2020\#LINCS2020}). However, this feature is still considered beta by CMap and requires updating the infrastructure of cTRAP given they now provide different perturbations types in separate files.
+For future cTRAP iterations, it would interesting to support CMap LINCS 2020, an expansion of the current CMap dataset that is described as a \emph{3-fold expansion on the previous resource, and notable new subsets of data include CRISPSR knockout of \textgreater 5k genes and hematopoietic and non-cancer cell models} (\alink{clue.io/data/CMap2020\#LINCS2020}). However, this dataset is still considered beta and would require to update the infrastructure of cTRAP given they now provide different perturbations types in separate files.
 
 Moreover, the web app could be more useful if able to send automatic emails to users when a job finishes or raises an error, requiring to set up an email address to which to send emails from.
 
