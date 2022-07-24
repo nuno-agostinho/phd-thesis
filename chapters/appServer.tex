@@ -315,13 +315,18 @@ Nginx is a reverse proxy, i.e. an intermediary that controls what is shown to th
 \subsection{Background tasks}
 \label{sec:background-tasks}
 
-In our app server, we use Celery to run background tasks, alongside Flower to manage Celery jobs via its graphical interface and HTTP API\footnote{More information in \fullref{subsec:background-tasks}.}. We also need to use Redis as a database broker to communicate between the two Docker containers. To run Celery in Docker images, the Celery Python package should be installed with the programs that will be run in Celery jobs.
+In our app server, we use Celery to run background tasks, alongside Flower to manage Celery jobs via its graphical interface and HTTP API\footnote{More information in \fullref{subsec:background-tasks}.}. We also use the Redis broker to communicate between the two Docker containers.
 
-Currently, cTRAP is the only web app in our app server to use background tasks. As Celery is easy to install, the Docker image of Celery is custom-built based on the official cTRAP Docker image from Docker Hub (\dockerlink{nunoagostinho/ctrap}) with the Celery app installed on top.
+Currently, cTRAP is the only web app in our server that exploits background tasks. We built a Docker image based on the official cTRAP Docker image (\dockerlink{nunoagostinho/ctrap}) with the Celery app installed on top.
 
-To add a new Celery worker, a Dockerfile needs to be created based on a Docker image for the new app to run in the background. A separate service needs to be included in the Nginx configuration, similar to the code snippet shown in \shortref{lst:celery-worker}.
+% --max-memory-per-child
+% --time-limit and --soft-time-limit
+% --autoscale=10,3
+Celery was configured to use 3 to 10 processes based on demand, as well as CPU and memory usage via an independent plugin (\alink{github.com/jcushman/celery-resource-autoscaler}). For instance, each process in Celery can use up to 10GiB of RAM and run up to 12 hours, thus avoiding rogue tasks.
 
-\begin{lstlisting}[caption=Template for a new Celery worker service in \texttt{docker-compose.yml}.,language=XML,label={lst:celery-worker}]{celery-worker}
+To run other programs in Celery, we need to create a custom Dockerfile containing those programs (e.g. based on their Docker images) with Python and Celery installed. The Nginx configuration needs to include the new Celery service (\shortref{lst:celery-worker}).
+
+\begin{lstlisting}[caption=Configuration of the Celery service for cTRAP in \texttt{docker-compose.yml}.,language=XML,label={lst:celery-worker}]{celery-worker}
   celery-ctrap:
     container_name: celery-ctrap
     build: ./celery
@@ -333,27 +338,13 @@ To add a new Celery worker, a Dockerfile needs to be created based on a Docker i
       - redis
 \end{lstlisting}
 
-\subsection{Website analytics}
-
-Plausible is an open-source, privacy-focused web analytics tool that collects traffic metrics for multiple websites and provides them via an interactive dashboard (\shortref{fig:plausible}). CompBio runs the self-hosted version of Plausible. All of Plausible metrics (e.g., visitor numbers, total page views and session duration) are anonymously aggregated without cookies, thus avoiding individual tracing of users.
-
-\begin{wrapfigure}{r}{.42\textwidth}
-  \vspace{-0.5\intextsep}
-  \includegraphics[width=\linewidth]{images/app-server/plausible}
-  \caption[Plausible dashboard]{\textbf{Plausible dashboard} showing CompBio website analytics for the last year (as of 31 May 2021).}
-  \label{fig:plausible}
-  \vspace{-1\intextsep}
-\end{wrapfigure}
-
-Plausible uses the database management systems ClickHouse and PostgreSQL to store tracking data. PostreSQL can also be used in the future as the SQL database of the server if desired, although currently no web apps in the server use this database.
-
-Using the self-hosted version of Plausible guarantees that the tracking of user data is performed locally in the server. Plausible also protects user privacy by making their data hard to individually trace and by complying with current privacy laws (GDPR, CCPA and PECR).
-
 \subsection{Resource monitoring}
 
-\begin{figure}[!b]
+Prometheus monitors the server resources and the collected data can be visualised using Grafana (\shortref{fig:grafana}). The tracked resources include Celery job usage, ShinyProxy metrics (app usage time, app failures, users per app, etc.), Nginx status and Linux system resources (e.g. RAM usage, available disk space and CPU stress).
+
+\begin{figure}[!h]
 	\centering
-	\begin{subfigure}[h]{0.45\textwidth}
+	\begin{subfigure}[h]{0.45\textwidth} 
 		\includegraphics[width=\textwidth]{images/app-server/grafana-system}
 		\caption{Linux system metrics.}
 	\end{subfigure}
@@ -373,7 +364,21 @@ Using the self-hosted version of Plausible guarantees that the tracking of user 
 \label{fig:grafana}
 \end{figure}
 
-Prometheus monitors the server resources and the collected data can be visualised using Grafana (\shortref{fig:grafana}). The tracked resources include Celery job usage, ShinyProxy metrics (app usage time, app failures, users per app, etc.), Nginx status and Linux system resources (e.g. RAM usage, available disk space and CPU stress).
+\begin{wrapfigure}{r}{.4\textwidth}
+  \vspace{-4\intextsep}
+  \includegraphics[width=\linewidth]{images/app-server/plausible}
+  \caption[Plausible dashboard]{\textbf{Plausible dashboard} showing CompBio website analytics for the last year (as of 31 May 2021).}
+  \label{fig:plausible}
+  \vspace{-1\intextsep}
+\end{wrapfigure}
+
+\subsection{Website analytics}
+
+Plausible is an open-source, privacy-focused web analytics tool that collects traffic metrics for multiple websites and provides them via an interactive dashboard (\shortref{fig:plausible}). CompBio runs the self-hosted version of Plausible. All of Plausible metrics (e.g., visitor numbers, total page views and session duration) are anonymously aggregated without cookies, thus avoiding individual tracing of users.
+
+Plausible uses the database management systems ClickHouse and PostgreSQL to store tracking data. PostreSQL can also be used in the future as the SQL database of the server if desired, although currently no web apps in the server use this database.
+
+Using the self-hosted version of Plausible guarantees that the tracking of user data is performed locally in the server. Plausible also protects user privacy by making their data hard to individually trace and by complying with current privacy laws. %(GDPR, CCPA and PECR).
 
 \subsection{Server maintenance}
 
