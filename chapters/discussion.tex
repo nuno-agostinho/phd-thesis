@@ -1,14 +1,38 @@
 % !TEX root = ../PhD Thesis.tex
 \chapter{Discussion}
 
-One thing I struggled during my path since starting building psichomics was the lack of guidelines on how to properly design and test interactive bioinformatic web apps. The resources are there, but too scattered.
+Continuing the path I started walking during my MSc, my PhD gave me the opportunity to further develop web apps to be used by the scientific community and to enrich my knowledge about app development and explore multiple new technologies.
 
-Also, the lack of a systematic approach to app design is notable in multiple programs in the wild. My Master's was 
+\section{psichomics}
+
+Since starting to work in psichomics, I struggled with the lack of guidelines on how to properly design and test interactive bioinformatic web apps. Although there are resources to build generic web apps, the field of bioinformatics could be richer if we better understood how researchers and clinicians explore data to help them find what they are looking for. Also, the lack of a systematic approach to app design is notable in multiple bioinformatics programs in the wild, reflected by popular apps lacking in efficiency and usability, as well as abandoned programs due to completed and/or unrenewed grants.
+
+Ultimately, I think that bioinformaticians that want to create apps to be adopted by the scientific community should be aware of software design to properly write apps following requirement analysis and that are designed for the long-term; data visualisation to design interactive plots that intuitively convey the desired information and allow to conveniently explore the data; and user interface design to improve the user experience and unleash the full potential of the software functionality.
+
+psichomics was the most challenging program I ever created and the project of my lifetime. It allowed me to develop an app based on multiple topics of my interest, including transcriptomics, data visualisation, web technologies and user interface design. The positive user interaction I received, some of which have led to citations in scientific articles, and the invitation to write the methods book chapter following the publication of psichomics were uplifting and made me feel that psichomics is a good contribution to the field and I can only hope that it stays relevant and useful in the near future.
+
+\section{cTRAP}
+
+Thanks to working on psichomics, my knowledge of R was more mature while developing cTRAP, which allowed me to flourish my creativity. In the optimisation department, it was challenging to monitor memory usage and to improve cTRAP's runtime, reduce peak memory usage and add multicore support in order to properly perform cTRAP functions as efficiently as possible. This lead to rewriting a lot of the core code in cTRAP 1.4 (\fullref{subsec:ctrap-optim}).
+
+Regarding its user interface, we created graphical interface functions that can be intertwined with R code, which I found a fun experiment. Although their practical usefulness may be limited, their modular design made it relatively easy to create an intuitive global interface that brought life to the cTRAP web app.
+
+Creating the web app itself with support for background tasks via Celery and user sessions was also demanding and required a lot of experimentation to design the current implementation, including the creation of the floweRy R package to interact with Flower/Celery, testing the whole integration in the web server and to make all the code and documentation available in cTRAP so users can host their own servers with background task and user session support. Nevertheless, the web app could benefit from email support to improve the user experience, but it is not a trivial functionality as Celery does not have built-in support for sending emails.
+
+\section{CompBio}
+
+Creating the app server to host web apps was an enormous challenge that I am completely proud of. With the exception of R/RStudio and Docker, I had to learn about all of the software stack that I used (Docker Compose, ShinyProxy, Nginx, Celery\footnote{I started developing the app server at the same time I was researching how to run background tasks for cTRAP. I decided on Celery only after confirming it worked with the app server.}, Plausible, Prometheus, Grafana, etc.) and how these pieces interact amongst each other to properly fine-tune the server to our needs.
 
 \section{PanAShé}
 
-In a collaborative lab effort, we are also developing a Nextflow pipeline to process raw RNA sequencing data from TCGA (Cancer Genome Atlas Research Network et al., 2013) and GTEx (The GTEx Consortium, 2013) in order to provide processed gene expression and alternative splicing data from samples from multiple normal and diseased tissues. The aims of this project extend those of recount2 (Collado-Torres, 2017) and include alternative splicing analysis, as well as a complementary dashboard to help users explore the data in these data sources. We are also considering integrating the data from this project in psichomics in lieu of the limited processed data from the public sources for TCGA and GTEx.
+There are many other projects that I have been part of during my PhD but ultimately did not lead to much. However, there is still one that I was a part of and I hope my colleagues will be able to complete: PanAShé.
 
-The Nextflow pipeline we are working on is based on Docker images for portability and reproducibility. This means that only Docker and Nextflow are required to be installed in the computer running the pipeline. We intend to write a peer-reviewed article regarding this project, as well as share our scripts and processed data with the scientific community as soon as possible.
+In a collaborative lab effort, we are developing a Nextflow pipeline to process raw RNA sequencing data from TCGA \cite{chang:2013ww} and GTEx \cite{lonsdale:2013uo} in order to provide processed gene expression and alternative splicing data from samples from multiple normal and diseased tissues. The aims of this project extend those of recount2 \cite{collado-torres:2017uw} and include alternative splicing analysis, as well as a complementary dashboard to help users explore the data in these data sources. We are also considering integrating the data from this project in psichomics in lieu of the limited processed data from the public sources for TCGA and GTEx.
+
+All the software stack in PanAShé is based on Docker images for portability and reproducibility. This means that only Docker and Nextflow are required to run the pipeline. We intend to write a peer-reviewed article regarding this project, as well as share our scripts and processed data with the scientific community as soon as possible.
 
 \section{Conclusion}
+
+With the work I hereby present, I hope to provide researchers and clinicians with useful tools to analyse gene expression and alternative splicing, predict therapeutic drugs and deploy web apps. Amongst my personal objectives to do a PhD, I have successfully completed one thanks to psichomics: to create something useful to someone's research. I can only hope that the rest of my work is as successful as psichomics has been in contributing to science.
+
+As small as all my contributions may have been, these last 4 years were worthy for the prospect of having a (tiny little bit) part in helping unraveling the biological mysteries of this world, along with everything I learned and all the friends I made and danced with along the way.
