@@ -103,7 +103,7 @@ psichomics can load splice junction read count data provided by the user or from
 
 Exon-exon junction and gene expression quantifications (obtained from pre-processed RNA-seq data), clinical data and sample metadata are accessible through FireBrowse's web application program interface (API) for TCGA data retrieval (\alink{firebrowse.org/api-docs}). The FireBrowse API is used in psichomics to automatically download TCGA data according to the user-selected tumour type(s) as tab-delimited files within compressed folders, whose contents are subsequently loaded with minimal user interaction. GTEx data are automatically downloaded via the GTEx data portal (\alink{gtexportal.org}) and select SRA project data via recount2 \cite{collado-torres:2017uw}. Other SRA projects and user-provided files may also be loaded in appropriate formats (\shortref{tab:psichomics-file-formats}), allowing for subsequent alternative splicing analysis\footnote{More information in the tutorial at \alink{nuno-agostinho.github.io/psichomics/articles/custom_data}.}.
 
-\begin{table}[!ht]
+\begin{table}[!b]
 \parnotereset
 \small
 \caption[Supported file formats in psichomics based on data source]{\textbf{Supported file formats in psichomics based on data source.}}
@@ -136,7 +136,7 @@ Gene expression quantifications can be filtered based on user-provided parameter
 
 \subsection{Alternative splicing annotation}
 
-Annotations of alternative splicing events are available on-demand in psichomics for 14 species (\shortref{tab:as-annot}). To support multiple species, annotations were created based on VAST-TOOLS 23.06.20 using a function from psichomics (including for human, thus the redundancy with previous human annotations that were originated based on multiple sources). Custom annotation files are also supported\footnote{More information in the appropriate tutorial at \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}.}.
+Annotations of alternative splicing events are available on-demand in psichomics for 14 species (\shortref{tab:as-annot}). To support multiple species, annotations were created based on VAST-TOOLS 23.06.20 using a function from psichomics (including for human, thus the redundancy with previous human annotations that were originated based on multiple sources). Custom annotation files are also supported\footnote{Read tutorial at \alink{nuno-agostinho.github.io/psichomics/articles/AS_events_preparation}.}.
 
 \begin{table}[!ht]
 \centering
@@ -333,6 +333,8 @@ Similarly, we performed and plotted PCA on alternative splicing data\footnote{PS
 
 We performed differential gene expression and differential splicing analysis between isogenic stem cells and isogenic fibroblasts (\shortref{fig:psichomics-diff-analyses}). First, normalised gene expression was linearly modelled, with explanatory variables defined based on the selected groups. Moderated t-tests and log-odds of differential expression were then computed by empirical Bayes moderation of the standard errors towards a common value \cite{ritchie:2015tm}.
 
+The volcano plot of differential splicing analysis between isogenic stem cells and fibroblasts (\shortref[b]{fig:psichomics-diff-analyses}) exhibits two strata, that is, two modes of Wilcoxon’s test significance. The top significance stratum is the result of using such nonparametric test (motivated by the non-normality of PSI distributions) when all values in one of the groups are higher than those in the other group; the number of tested groups also affects the significance of the difference. The lower significance stratum relates to a consistent number of repeated values between samples (usually occurring when one of the groups is closer to a PSI value of 0 or 1). As the Wilcoxon’s test is rank-based, some ranks are not unique if there are two identical values; this occurrence (called a tie) hampers the computation of exact p-values. Increasing the number of identical values when performing the Wilcoxon’s test decreases the significance of the comparison, which may bias the significance of differentially spliced events when one of the groups is characterised by PSI values close to 0 or 1 (constitutive splicing) and will therefore present many 0's or many 1's.
+
 \begin{figure}[!h]
   \includegraphics[width=.7\textwidth]{images/psichomics/6-diff-analyses}
   \centering
@@ -340,18 +342,16 @@ We performed differential gene expression and differential splicing analysis bet
   \label{fig:psichomics-diff-analyses}
 \end{figure}
 
-The volcano plot of differential splicing analysis between isogenic stem cells and fibroblasts (\shortref[b]{fig:psichomics-diff-analyses}) exhibits two strata, that is, two modes of Wilcoxon’s test significance. The top significance stratum is the result of using such nonparametric test (motivated by the non-normality of PSI distributions) when all values in one of the groups are higher than those in the other group; the number of tested groups also affects the significance of the difference. The lower significance stratum relates to a consistent number of repeated values between samples (usually occurring when one of the groups is closer to a PSI value of 0 or 1). As the Wilcoxon’s test is rank-based, some ranks are not unique if there are two identical values; this occurrence (called a tie) hampers the computation of exact p-values. Increasing the number of identical values when performing the Wilcoxon’s test decreases the significance of the comparison, which may bias the significance of differentially spliced events when one of the groups is characterised by PSI values close to 0 or 1 (constitutive splicing) and will therefore present many 0's or many 1's.
-
 \subsubsection{Skipping of \emph{CD46} penultimate exon}
 
-\begin{figure}[!b]
-  \includegraphics[width=.8\textwidth]{images/psichomics/7-cd46-as}
+The skipping of the penultimate exon of \emph{CD46} is one of the most significantly differentially spliced sequences between isogenic fibroblasts and isogenic stem cells in our analyses (\shortref[b-c]{fig:psichomics-diff-analyses}). Based on PSI distributions for the \emph{CD46} penultimate exon in the different cell types, higher inclusion of the \emph{CD46} penultimate exon is associated with fibroblasts, whereas lower inclusion is associated with stem cells, both ESC and iPSC (\shortref[a]{fig:psichomics-cd46-as}). The inclusion of \emph{CD46} penultimate exon leads to a premature termination codon that may cause the respective transcript to be targeted for nonsense-mediated decay \cite{warzecha:2010wi}.
+
+\begin{figure}[!p]
+  \includegraphics[width=.85\textwidth]{images/psichomics/7-cd46-as}
   \centering
   \caption[Alternative splicing of the \emph{CD46} penultimate exon]{\textbf{Alternative splicing of the \emph{CD46} penultimate exon.} (a) Density plots of distributions of \emph{CD46} penultimate exon PSI values across samples, colored by isogenic stem cells (pink) and isogenic fibroblasts (green). (b-c) Scatterplots of PSI values for \emph{CD46} penultimate exon inclusion versus normalised \emph{ESRP1} (b) and \emph{ESRP2} (c) expression across samples. The red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values are shown. (d) Genomic alignment of \emph{CD46} transcript isoforms with penultimate exon highlighted in an orange shade (the gray shade includes the neighboring constitutive exons to define the entire alternative splicing event).}
   \label{fig:psichomics-cd46-as}
 \end{figure}
-
-The skipping of the penultimate exon of \emph{CD46} is one of the most significantly differentially spliced sequences between isogenic fibroblasts and isogenic stem cells in our analyses (\shortref[b-c]{fig:psichomics-diff-analyses}). Based on PSI distributions for the \emph{CD46} penultimate exon in the different cell types, higher inclusion of the \emph{CD46} penultimate exon is associated with fibroblasts, whereas lower inclusion is associated with stem cells, both ESC and iPSC (\shortref[a]{fig:psichomics-cd46-as}). The inclusion of \emph{CD46} penultimate exon leads to a premature termination codon (PTC) that may cause the respective transcript to be targeted for nonsense-mediated decay (NMD) \cite{warzecha:2010wi}.
 
 We also tested the correlation between the gene expression of a list of RNA-binging proteins \cite{sebestyen:2016tr} against the quantification of the \emph{CD46} penultimate exon inclusion, thus identifying a potential regulatory role from the RNA-binding epithelial splicing regulatory proteins 1 and 2 (ESRP1 and ESRP2; \shortref[b-c]{fig:psichomics-cd46-as}). The skipping of \emph{CD46} penultimate exon has been previously reported as being regulated by the ESRP1/2 proteins that are involved in the epithelial–mesenchymal transition and associated with the generation of cancer stem cells \cite{pradella:2017wp,warzecha:2010wi}. ESRP1 has also been reported to regulate ES cell differentiation \cite{fagoonee:2013vx}.
 
@@ -408,14 +408,14 @@ A $-log_{10}(\textrm{p-value})$ plot by cutoff displays the p-values of the log-
 
 The runtime required to load, quantify and analyse data from different TCGA (data version \texttt{2016\_01\_28} from FireBrowse) and GTEx v7 cohorts were benchmarked. The breast cancer cohort contains the highest number of RNA-seq samples in TCGA, thus being the cohort taking more time to load, quantify and analyse alternative splicing and gene expression data. Contrastingly, processed data from GTEx come bundled in files containing all tissues. Although only data from specified tissues are loaded, scanning though the large GTEx file still delays data loading. Tissues from GTEx were loaded in pairs for subsequent differential splicing analyses (\shortref[A]{fig:psichomics-performance}).
 
-\begin{figure}[!ht]
+Synthetic datasets for gene expression and exon-exon junction quantification of multiple sample sizes were generated, based on TCGA data distributions, to determine the time complexity of each step in psichomics as a function of the number of input samples $s$ (\shortref[B]{fig:psichomics-performance}). Assuming a constant number of genes (20 000 in the benchmark) or exon-exon junctions (200 000), the time taken to load data grows quadratically with $s$. Gene expression normalisation and differential expression are based on commonly-used, time-efficient bioinformatics tools and the times taken for each also grow quadratically with $s$. Alternative splicing quantification is associated with element-wise operations on matrices of dimensions $s$ by the number of alternative splicing events and takes a runtime approximately proportional to the square of $s$, for a given number of alternative splicing events (around 9000 for each benchmarked run). Finally, differential splicing is based on multiple, distinct statistical analyses of alternative splicing quantification data and grows linearly with $s$.
+
+\begin{figure}[!h]
   \includegraphics[width=1\textwidth]{images/psichomics/performance-benchmark}
   \centering
   \caption[Performance benchmark for alternative splicing analysis]{\textbf{Performance benchmark for alternative splicing analysis using RNA-seq data from multiple TCGA and GTEx sample types.} (A) Median times of 10 runs of data loading, gene expression (GE) normalisation, skipped exon (SE) event quantification and differential expression and splicing analysis (normal versus tumour for TCGA data or pairwise tissue comparison for GTEx data) using psichomics. The default settings were used during the runs. (B) Estimation of the time complexity of each of the aforementioned steps in psichomics. Randomly generated synthetic datasets of different sample size s were used as input. Equations and coefficient of determination ($R^2$) for the best fits are displayed.}
   \label{fig:psichomics-performance}
 \end{figure}
-
-Synthetic datasets for gene expression and exon-exon junction quantification of multiple sample sizes were generated, based on TCGA data distributions, to determine the time complexity of each step in psichomics as a function of the number of input samples $s$ (\shortref[B]{fig:psichomics-performance}). Assuming a constant number of genes (20 000 in the benchmark) or exon-exon junctions (200 000), the time taken to load data grows quadratically with $s$. Gene expression normalisation and differential expression are based on commonly-used, time-efficient bioinformatics tools and the times taken for each also grow quadratically with $s$. Alternative splicing quantification is associated with element-wise operations on matrices of dimensions $s$ by the number of alternative splicing events and takes a runtime approximately proportional to the square of $s$, for a given number of alternative splicing events (around 9000 for each benchmarked run). Finally, differential splicing is based on multiple, distinct statistical analyses of alternative splicing quantification data and grows linearly with $s$.
 
 \subsection{Alternative splicing quantification benchmarking}
 
