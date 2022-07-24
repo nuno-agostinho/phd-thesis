@@ -9,11 +9,11 @@
   \includegraphics[width=.96\textwidth]{images/cTRAP/screenshot}
   \centering
   \vspace*{-.5cm}
-  \caption[cTRAP screenshot]{\textbf{cTRAP screenshot} (21 Dec 2021).}
+  \caption[cTRAP global interface screenshot]{\textbf{cTRAP global interface screenshot} (21 Dec 2021).}
   \label{fig:cTRAP-screenshot}
 \end{figure}
 
-During a stormy day in our 2017 Madeira Lab retreat, we had a brainstorm to discuss the unique propositions that the lab could provide to the scientific community. One idea that emerged was to make it easier to identify putative causal perturbations by comparing a custom differential gene expression against the large-scale database of differential expression profiles from CMap \cite{subramanian:2017ul}, a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations in human cancer cell lines. % This kind of analysis is available in CMap's web apps at \alink{clue.io} \cite{subramanian:2017ul}, but their results are difficult to integrate in downstream analyses, suffer from poor API documentation for programatic access and lack basic visualisation tools.
+During a stormy day in our 2017 Madeira Lab retreat, we brainstormed the unique propositions of the lab that could most benefit the scientific community. One idea that emerged was to make it easier to identify putative causal perturbations by comparing a custom differential gene expression against the large-scale database of differential expression profiles from CMap \cite{subramanian:2017ul}, a repository of transcriptomic signatures for thousands of genetic (gene overexpression or knockout) and pharmacological perturbations in human cancer cell lines. % This kind of analysis is available in CMap's web apps at \alink{clue.io} \cite{subramanian:2017ul}, but their results are difficult to integrate in downstream analyses, suffer from poor API documentation for programatic access and lack basic visualisation tools.
 
 % clue.io does indeed allow for batch query: https://clue.io/connectopedia/batch_query_tutorial
 % clue.io API's is not straightforward: https://clue.io/connectopedia/query_api_tutorial
@@ -31,12 +31,18 @@ After releasing the first version in Bioconductor, multiple features were added 
 \toprule
 \textbf{Version} & \textbf{Release date} & \textbf{Main features} \\
 \midrule
-1.0.0  &  2 Nov 2018 & Compare differential expression profiles against CMap data\parnote{First Bioconductor release.} \\
-\multirow{2}*{1.4.0}  & \multirow{2}*{12 Nov 2019} & Predict targeting drugs using NCI60, CTRP and GDSC data \\
+1.0  &  2 Nov 2018 & Compare differential expression profiles against CMap data\parnote{First Bioconductor release.} \\
+\midrule
+\multirow{3}*{1.4}  & \multirow{3}*{12 Nov 2019} & Predict targeting drugs using NCI60, CTRP and GDSC data \\
        &             & Analyse drug set enrichment using molecular descriptors \\
-1.8.0  & 30 Oct 2020 & Include graphical functions to load data and analyse results \\
-1.10.0 & 20 May 2021 & Improve speed and memory usage when comparing data \\
-1.12.0 & 28 Oct 2021 & Add web server support (optimised to run in ShinyProxy)\parnote{First version available online.} \\
+       &             & Load and process 21GB CMap z-scores file by chunks \\
+\midrule
+1.8  & 30 Oct 2020 & Include graphical functions to load data and analyse results \\
+\midrule
+\multirow{2}*{1.10} & \multirow{2}*{20 May 2021} & Improve speed and memory usage when comparing data \\
+       &             & Set custom size for data chunks (1 GiB by default)  \\
+\midrule
+1.12 & 28 Oct 2021 & Add web server support (optimised to run in ShinyProxy)\parnote{First version available online.} \\
 \bottomrule
 \end{tabularx}
 \parnotes
@@ -48,7 +54,7 @@ The associated cTRAP manuscript (of which I am a co-first and co-corresponding a
 
 The Connectivity Map (CMap) is a repository of transcriptomic signatures of thousands of genetic and pharmacological perturbations in human cancer cell lines \cite{subramanian:2017ul}. Comparing differential gene expression profiles with those from CMap allows to infer putative molecular causes for the observed differences, as well as compounds that may promote or revert those changes.
 
-The CMap and LINCS Unified Environment (\alink{clue.io}) was developed as a collection of user-friendly tools for the manipulation of CMap data and their integration with user-provided data \cite{subramanian:2017ul}. However, \alink{clue.io} limits the maximum number of input genes for CMap queries, expresses results' significance in a non-standard significance score, is difficult to automate for downstream analyses and does not support using local computing resources. Furthermore, \alink{clue.io} does not currently integrate with drug sensitivity datasets, which could further assist in pinpointing compounds that selectively target cells.
+The CMap and LINCS Unified Environment (\alink{clue.io}) was developed as a collection of user-friendly tools for the manipulation of CMap data and their integration with user-provided data \cite{subramanian:2017ul}. However, \alink{clue.io} limits the maximum number of input genes for CMap queries (150 up-regulated and 150 down-regulated genes), expresses results' significance in a non-standard significance score, is difficult to automate for downstream analyses and does not support using local computing resources. Furthermore, \alink{clue.io} does not currently integrate with drug sensitivity datasets, which could further assist in pinpointing compounds that selectively target cells.
 
 We thus developed cTRAP, an R package and web app that identifies potentially causal molecular perturbations by seamlessly comparing full user-provided differential gene expression results with those available from CMap. cTRAP also supports comparisons with gene expression/drug sensitivity associations derived from the NCI-60 \cite{shoemaker:2006wi}, the Cancer Therapeutics Response Portal (CTRP) \cite{seashore-ludlow:2015ws} and the Genomics of Drug Sensitivity in Cancer (GDSC) \cite{yang:2012vk}, to identify compounds that could target the phenotypes associated with the user-provided differential expression profiles. In cTRAP, similarity between differential gene expression results is measured by gene set enrichment \cite{subramanian:2017ul,subramanian:2005wu} and correlation scores.
 
@@ -153,9 +159,7 @@ A higher correlation coefficient for a given gene and drug suggests a gene whose
 
 To identify compounds that could target the phenotype associated with specific differential expression profiles, we use \texttt{predictTargetingDrugs()} with those profiles and a correlation matrix of gene expression and drug sensitivity as input. The correlation coefficients between gene expression and drug sensitivity for each drug are compared against user-provided differential expression results by Spearman’s and Pearson’s correlation and GSEA-based scores (as performed when ranking CMap perturbations, results from comparison methods are ranked and then those rankings are finally used to calculate the rank product’s rank). \texttt{predictTargetingDrugs()} returns a table with ranked predicted targeting drugs and their respective correlation coefficients and GSEA scores (\shortref{fig:ctrap-analyses}). A lower rank comprise drugs that may target phenotypes similar to the user-provided differential expression profile.
 
-The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot for a predicted targeting drug.
-
-The function \texttt{plotTargetingDrugsVSsimilarPerturbations()} compares the results from predicted targeting drugs and CMap perturbations that may mimic or revert the observed phenotype. For the available compound identifiers in the metadata pertaining from the different datasets (e.g. compound name, Broad ID, PubChem CID and SMILES), the function will automatically select the identifiers with higher number of matching values between the two datasets, unless the identifiers are explicitly defined by the user. A scatterplot is then returned using, by default, the rank product’s rank of targeting drugs in one axis and the rank product’s rank of similar perturbations in the other.
+The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot for a predicted targeting drug. The function \texttt{plotTargetingDrugsVSsimilarPerturbations()} compares the results from predicted targeting drugs and CMap perturbations that may mimic or revert the observed phenotype. For the available compound identifiers in the metadata pertaining from the different datasets (e.g. compound name, Broad ID, PubChem CID and SMILES), the function will automatically select the identifiers with higher number of matching values between the two datasets, unless the identifiers are explicitly defined by the user. A scatterplot is then returned using, by default, the rank product’s rank of targeting drugs against the rank product’s rank of similar perturbations.
 
 \subsection{Drug descriptor set enrichment analysis}
 
@@ -163,27 +167,25 @@ Juan Carlos, a former member of the lab, computed drug descriptors (e.g. molecul
 
 \texttt{prepareDrugSets()} allows to create sets of descriptors. By default, the function creates a maximum of 15 sets per drug descriptor. For each alphanumeric descriptor, one set is created per unique value of that descriptor. Alphanumeric descriptors containing more than 15 unique values (by default) will be discarded. For numerical descriptors, \texttt{prepareDrugSets()} internally uses the \texttt{binr::bins()} function to create evenly-distributed bins of drug descriptors, where each set contains a minimum number of points equal to the number of non-missing values divided by the number of maximum sets (15 by default) divided by a constant (5 by default).
 
-The function \texttt{analyseDrugSetEnrichment()} analyses the enrichment of the created drug descriptor sets in a named numeric vector or an object returned from \texttt{rankSimilarPerturbations()} – only if run against CMap compound perturbations – or \texttt{predictTargetingDrugs()}. The GSEA-based enrichment analysis is internally performed using \texttt{fgsea::fgsea()}.
-
-The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot for a predicted targeting drug.
+The \texttt{analyseDrugSetEnrichment()} function analyses the enrichment of the created drug descriptor sets in a named numeric vector or an object returned from \texttt{rankSimilarPerturbations()} – only if run against CMap compound perturbations – or \texttt{predictTargetingDrugs()}. The GSEA-based enrichment analysis is internally performed using \texttt{fgsea::fgsea()}. The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot for a predicted targeting drug.
 
 \subsection{Time and memory benchmarking}
 
-We measured elapsed time using R’s \texttt{Sys.time()} immediately before and after ranking similar CMap perturbations, predicting targeting drugs (using NCI60 expression and drug sensitivity association, the most time-consuming option) and performing drug set enrichment analysis using cTRAP 1.8.1 (296f9b21). As input, we used the t-statistics for the differential expression between EIF4G1 knockdown versus control based on ENCODE gene expression data from cell line HepG2 (the \texttt{diffExprStat} object in the cTRAP package).
+We measured elapsed time using R’s \texttt{Sys.time()} immediately before and after ranking similar CMap perturbations, predicting targeting drugs (using NCI60 expression and drug sensitivity association, the most time-consuming option) and performing drug set enrichment analysis using a development version of cTRAP 1.10 (commit \link{https://github.com/nuno-agostinho/cTRAP/commit/296f9b2}{296f9b2} from January 2022). As input, we used the t-statistics for the differential expression between EIF4G1 knockdown versus control based on ENCODE gene expression data from cell line HepG2 (\texttt{cTRAP::diffExprStat} object).
 
-We measured the heap memory usage of cTRAP 1.8.1 (296f9b21) across time by running R 4.0.3 in debug mode with the heaptrack 1.0.0 profiler. heaptrack tracks and logs all calls to the core memory allocation functions via \verb|LD_PRELOAD| and respective backtraces. For R to work properly with heaptrack, the file \path{/usr/bin/R} was edited -- all lines of the last \emph{if} statement were commented out, except for:
+Using the same input, we measured heap memory usage of cTRAP 1.10 dev (\link{https://github.com/nuno-agostinho/cTRAP/commit/296f9b2}{296f9b2}) while ranking CMap perturbations when running R 4.0.3 in debug mode with heaptrack 1.0.0\footnote{heaptrack is an open-source memory allocation profiler available at \alink{github.com/KDE/heaptrack}}. For R to work properly with heaptrack, the \path{/usr/bin/R} file was edited -- all lines of the last \emph{if} statement were commented out, except for:
 
 \begin{lstlisting}[language=bash,numbers=none]
 exec ${debugger} ${debugger_args} "${R_binary}" ${args} "${@}"
 \end{lstlisting}
 
-Afterwards, we benchmarked R scripts running cTRAP with:
+Afterwards, we benchmarked the memory usage while running cTRAP with:
 
 \begin{lstlisting}[language=bash,numbers=none]
 R -d heaptrack -f ${cTRAP_Rscript} --args ${cTRAP_Rscript_args}
 \end{lstlisting}
 
-All benchmarks were run in a workstation running Ubuntu 18.04.5 LTS with 768 GB of RAM memory and 72 cores (Intel Xeon Gold 6254 CPU @ 3.10GHz). The benchmarked cTRAP scripts are publicly available in cTRAP's GitHub repository: \alink{github.com/nuno-agostinho/cTRAP/tree/master/dev/benchmark}
+All benchmarks were run in a workstation with Ubuntu 18.04.5 LTS, 768 GB of RAM memory and 72 cores (Intel Xeon Gold 6254 CPU @ 3.10GHz). The benchmark scripts are open-source and describe how to profile time and memory in cTRAP and plot subsequent results: \alink{github.com/nuno-agostinho/cTRAP/tree/master/dev/benchmark}.
 
 \subsection{Continuous integration}
 
@@ -231,23 +233,23 @@ For instance, let’s plot the relationship between EIF4G1 shRNA knockdown from 
 
 Compounds that target the phenotypes associated with the user-provided differential expression profile can be inferred by comparing against gene expression and drug sensitivity associations. The gene expression and drug sensitivity datasets derived from the following sources were correlated using Spearman’s correlation across the available cell lines.
 
-\begin{table}[!ht]
+\begin{wraptable}{r}{7cm}
 \centering
 \parnotereset
 \small
-\caption[Drug sensitivity datasets statistics]{\textbf{Drug sensitivity datasets statistics.} Number of screened compounds and human cancer cell lines per source.}
+\caption[Drug sensitivity datasets statistics]{\textbf{Drug sensitivity datasets statistics.} Number of screened compounds and human cancer cell lines.}
 \label{tab:drug-sensitivity-datasets}
 \begin{tabularx}{.47\textwidth}{ l r r }
 \toprule
 \textbf{Source}   & \textbf{Compounds} & \textbf{Cell lines} \\
 \midrule
-NCI60             &                   Over 100 000 & 60 \\
-GDSC 7            &                            481 & 860 \\
-CTRP 2.1          &                            138 & Around 700 \\
+NCI60             &                   $>$ 100 000 & 60 \\
+GDSC 7            &                           481 & 860 \\
+CTRP 2.1          &                           138 & $\sim$ 700 \\
 \bottomrule
 \end{tabularx}
 \parnotes
-\end{table}
+\end{wraptable}
 
 To use an expression and drug sensitivity association based on CTRP 2.1 (GDSC 7 and NCI60 could be used instead) to infer targeting drugs for the user’s differential expression profile.
 
@@ -260,12 +262,47 @@ Candidate targeting drugs were plotted against the similarity ranking of their p
 Using our candidate targeting drugs, we analysed the enrichment of 2D and 3D molecular descriptors based on CMap and NCI60 compounds. Our list of targeting drugs is particularly enriched in specific drug descriptors that allows us think about the relevance of these descriptors for targeting a phenotype of interest.
 
 \subsection{Time and memory optimisation}
+\label{subsec:ctrap-optim}
 
-Show benchmarks.
+cTRAP allows comparing user-provided differential expression results against those from CMap perturbations that is loaded based on their public data, including a 21GB GCTx file containing the CMap perturbation z-scores. The GCTX format stores annotated, high-dimensional data matrices and is based on the HDF5 format for efficient indexing and loading of subsets of the whole data \cite{enache:2018wq}. Instead of loading the whole GCTx file into memory, cTRAP 1.4 and newer minimises peak RAM usage by loading and processing subsets of perturbation z-scores in one of two ways:
+
+\begin{itemize}
+	\item Load and process selected perturbations only (e.g. compound perturbations), avoiding loading perturbations that will not be compared.
+	\item Load and process selected perturbations by 1 GiB chunks (default).
+\end{itemize}
+
+Although the concept of processing by chunks helped reducing the memory footprint of cTRAP, we later refactored the code of the comparisons in cTRAP 1.10, a milestone that included multiple improvements to speed and memory:
+
+\begin{itemize}
+	\item Faster GSEA-based score calculation by improving code efficiency.
+	\item Slightly improved runtime by avoiding redundant loading of data chunks. This change was also required to enable multi-thread support in systems that support process forking (e.g. Linux and macOS, but not Windows).
+	\item Optional argument to set a custom size for data chunks (1 GiB by default).
+	\item As the NCI60 gene expression and drug sensitivity correlation matrix is also big (3.3GB), we saved that matrix as a HDF5 file that is then loaded and processed by cTRAP in chunks of 1 GiB (by default), minimising peak RAM usage when predicting targeting drugs based on the NCI60 data.
+\end{itemize}
+
+We benchmarked time and memory when ranking CMap perturbations based on Spearman's correlation, Pearson's correlation and GSEA-based score using a development version of cTRAP 1.10 (commit \link{https://github.com/nuno-agostinho/cTRAP/commit/296f9b2}{296f9b2}) and using the t-statistics for differential expression between EIF4G1 knockdown versus control based on ENCODE gene expression data from HepG2 cell line as input. The number of CMap compound perturbations (241 258) is much higher than the knockdown (48 862) and over-expression (24 627) perturbations and this is expected to reflect on time and memory for data processing.
+
+\begin{figure}[!b]
+  \includegraphics[width=\textwidth]{images/ctrap/ranking-time}
+  \centering
+  \caption[Time benchmark of CMap perturbation ranking]{\textbf{Time benchmark of CMap perturbation ranking.} Times were measured for cTRAP 1.8 (1 thread only) and 1.10 (1, 4 and 8 threads) for over-expression, knockdown and compound perturbations whose data was loaded by 1 GiB chunks or as whole.}
+  \label{fig:cmap-ranking-time}
+\end{figure}
+
+When ranking CMap compound perturbations in cTRAP 1.8 and 1.10, the runtime was decreased from 95 to 53 minutes when loading the whole data and from 77 to 28 minutes when loading by chunks (\autoref{fig:cmap-ranking-time}). For each chunk, we parallelised the calculations performed per perturbation and it can help to speed up runtime comparing against CMap compound perturbations with 4 threads from 28 to 12 minutes. However, the usage of 8 threads is not recommended as the runtime is similar to using 4 threads while consuming the double number of threads.
+
+Benchmarked memory was annotated based on the different internal steps performed by cTRAP (\autoref{fig:cmap-ranking-memory}). When ranking against the CMap compound perturbations, loading and processing their z-scores at once requires 59.7 GiB, compared to 5.4 GiB when loading and processing 1 GiB chunks. The differences were not as stark when using the knockdown and over-expression perturbations, but were still crucial to allow the possibility of running cTRAP in a common laptop with 8 GiB of RAM. % Although memory profiling expectedly slows down runtime, we can also see in the memory benchmark that loading data by chunks can have a big impact on elapsed time of a run when comparing compound perturbations.
+
+\begin{figure}[!ht]
+  \includegraphics[width=\textwidth]{images/ctrap/ranking-memory}
+  \centering
+  \caption[Memory benchmark of CMap perturbation ranking]{\textbf{Memory benchmark of CMap perturbation ranking,} annotated using the different steps performed by cTRAP. Memory was benchmarked when ranking compound, knockdown and overexpression perturbations against differential expression results. The maximum memory for each condition is labelled.}
+  \label{fig:cmap-ranking-memory}
+\end{figure}
 
 \subsection{Graphical interface}
 
-Recently, cTRAP was updated to include a visual interface to assist users interactively perform most cTRAP features via the web browser. The graphical interface was modularly built and exposed via 5 functions that work harmoniously with R code:
+To assist users that may prefer graphical interfaces, most cTRAP functionality is exposed via 5 modular and independent functions that launch web apps:
 
 \begin{itemize}
 	\item \texttt{launchDiffExprLoader()} to load differential expression data. Returns a differential expression object that can be used in cTRAP analyses.
@@ -275,7 +312,33 @@ Recently, cTRAP was updated to include a visual interface to assist users intera
 	\item \texttt{launchDrugSetEnrichmentAnalyser()} to analyse drug set enrichment and visualize respective results.
 \end{itemize}
 
-Like usual R functions, these graphical interfaces functions accept input arguments and may return output, thus allowing to intertwine them with R code and to easily reproduce cTRAP analyses (\shortref{lst:cTRAP-graphical}).
+\begin{figure}[!h]
+	\centering
+	\begin{subfigure}[h]{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/app-server/grafana-system}
+		\caption{\footnotesize{\texttt{launchDiffExprLoader}}}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/app-server/grafana-shinyproxy}
+		\caption{\footnotesize{\texttt{launchCMapDataLoader}}}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.3\textwidth}
+		\includegraphics[width=\textwidth]{images/app-server/grafana-celery}
+		\caption{\footnotesize{\texttt{launchMetadataViewer}}}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/app-server/grafana-nginx}
+		\caption{\footnotesize{\texttt{launchResultPlotter}}}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.45\textwidth}
+		\includegraphics[width=\textwidth]{images/app-server/grafana-nginx}
+		\caption{\footnotesize{\texttt{launchDrugSetEnrichmentAnalyser}}}
+	\end{subfigure}
+	\caption[cTRAP graphical interface functions]{\textbf{cTRAP graphical interface functions}.}
+\label{fig:grafana}
+\end{figure}
+
+Like usual R functions, these graphical interfaces functions accept input arguments and may return output, allowing to intertwine them with R code (\shortref{lst:cTRAP-graphical}). Therefore, users can interactively prepare and explore data before running long-running tasks in the command-line, avoiding the need to have Shiny working while the tasks run (which may also slow down those tasks) and allowing to parallelise them.
 
 \begin{lstlisting}[caption=Calling cTRAP's graphical interface functions in an R script.,label={lst:cTRAP-graphical},language=R,morekeywords={include, launchDiffExprLoader},keywordstyle=\bfseries]
 # Launch differential expression loading interface to select knockdown
@@ -325,7 +388,7 @@ launchDrugSetEnrichmentAnalyser(drugSets, compareCompounds)
 launchDrugSetEnrichmentAnalyser(drugSets, predicted)
 \end{lstlisting}
 
-cTRAP is also available online\footnote{More information in \fullref{chap:app-server}.} with a comprehensive interface that provides most aforementioned features in a single app via a sixth function: \texttt{cTRAP()}. Such a strategy lead to this question: how to deal with long-running tasks? The way R/Shiny is built, an entire cTRAP session would be consuming useful resources during the cTRAP analyses, but this would not properly scale for multiple users using heavy memory resources simultaneously. To avoid this, long-running tasks are managed via job queues depending on available resources and run in the background. But this also means that the system must allow users to get their results back once they finish calculating. And thus the idea of user sessions was born.
+cTRAP also provides a global visual interface that encompasses all graphical interface modules into one web app by running function \texttt{cTRAP()}, the basis for its online version\footnote{More information in \fullref{chap:app-server}.}. However, by having a single interface, an entire cTRAP session needs to be live and consuming useful resources during the long-running cTRAP analyses, which does not properly scale in a web server with multiple users using heavy memory resources simultaneously. To avoid this, long-running tasks can be optionally managed via job queues running in the background. But this also means that the system must allow for users to get their results back once they finish calculating. And thus the idea of user sessions was born.
 
 \subsubsection{User sessions}
 \label{sec:ctrap-web}
@@ -428,12 +491,12 @@ taskList()
 \end{lstlisting}
 \end{minipage}
 
-cTRAP currently supports ranking similar CMap perturbation and predicting targeting drugs as background processes by submitting jobs to Celery with the exact R commands to run via the \texttt{Rscript} command \cite{r-core-team:2021wf}. The status of background tasks can be monitored by users in the respective cTRAP's user session (\shortref{fig:job-progress})\footnote{Flower also allows to monitor and manage Celery jobs, but its web interface is only accessible in the iMM network (via ethernet cable or VPN). More information in \fullref{sec:background-tasks}.}.
+cTRAP currently supports ranking similar CMap perturbation and predicting targeting drugs as background processes by submitting jobs to Celery with the exact R commands to run via the \texttt{Rscript} command \cite{r-core-team:2021wf}. The status of background tasks can be monitored by users in the respective cTRAP's user session (\shortref{fig:job-progress})\footnote{Flower allows to monitor and manage Celery jobs, but its web interface is only accessible in the iMM network (via ethernet cable or VPN). More information in \fullref{sec:background-tasks}.}.
 
 \begin{figure}[!h]
   \includegraphics[width=.5\textwidth]{images/ctrap/job-progress}
   \centering
-  \caption[Progress of Celery jobs in cTRAP]{\textbf{Progress of Celery jobs in cTRAP.} The job status are updated every 5 seconds. Their status can be: \textcolor{gray}{Waiting} in job queue to start, \textcolor{orange}{Running}, \textcolor{teal}{Loaded}, \textcolor{red}{Error} for unknown failures, and \textcolor{red}{Not Found} if the job results cannot be found (e.g. when re-uploading the same RDS file, the job results were already cleaned-up in the first upload). When a job finishes, a blue link is added to the job name in order to directly access its results in cTRAP.}
+  \caption[Progress of Celery jobs in cTRAP]{\textbf{Progress of Celery jobs in cTRAP.} The job status are updated every 5 seconds. Their status can be: \textcolor{gray}{Waiting} in job queue to start, \textcolor{orange}{Running}, \textcolor{teal}{Loaded}, \textcolor{red}{Error} for unknown failures, and \textcolor{red}{Not Found} if the job results cannot be found (e.g. when re-uploading the same RDS file, the job results were already cleaned-up in the first upload). When jobs are loaded, the dataset name is updated with a link to directly access their results (blue colour).}
   \label{fig:job-progress}
 \end{figure}
 
@@ -459,16 +522,16 @@ All Celery jobs are saved as \emph{dummy} objects in cTRAP's user session data, 
 % what are the limitations (LIMITATIONS)
 % what are the next steps (ENDING/FUTURE WORK)
 
-CMap is a repository of gene expression signatures for thousands of genetic and pharmacological perturbations. Although \alink{clue.io} already exists a collection of web apps to explore CMap data and to compare user-provided results against CMap database, their tools lack X, Y and Z.
+CMap is a repository of gene expression signatures for thousands of genetic and pharmacological perturbations that can be explored via a collection of web apps available at \alink{clue.io}, which allows to upload user-provided results to compare against the CMap database. However, their queries are limited to a maximum of 150 up-regulated and 150 down-regulated genes, their results use a non-standard significance score and their apps do not run locally. Also, \alink{clue.io} does not make use of publicly available drug sensitivity data that could help narrow down compounds that selectively target cells.
 
-To overcome such issues, we present cTRAP, an open-source R package to identify causal perturbations from differential expression data. Moreover, cTRAP also allows to do other two things.
+To overcome such issues, we developed cTRAP to identify causal perturbations from differential expression data, as well as pinpoint compounds that may promote or revert observed differences in gene expression. cTRAP allows to analyse the ordered list of resulting compounds to predict targeting drugs based on publicly available drug sensitivity data from NCI60, GDSC and CTRP. Moreover, cTRAP allows to perform enrichment analysis of molecular descriptors based on NCI60 and CMap compounds to potentially identify common characteristics in ordered lists of compounds.
 
-More recently, cTRAP was updated to perform these actions using a graphical user interface (also available as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}), besides its traditional command-line interface. From our previous experience with psichomics, we presume that the graphical interface will be popular among users that are not comfortable with coding in R or simply want to quickly check stuff.
+Besides its command-line interface, most of cTRAP's functionality can be accessed via multiple graphical user interface functions that can be intertwined with R code. cTRAP also features a global user interface that combines all other visual interfaces and that is available as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}. From our experience with psichomics, we expect the graphical interface to be popular among users that are less comfortable with coding in R.
 
-cTRAP's drug set enrichment analysis is currently limited to molecular descriptors for the compounds from CMap and NCI-60.
+Given the large input data from CMap, we optimised cTRAP for speed and memory usage. When comparing user-provided data against the 241 258 CMap compound perturbations in our benchmarks, cTRAP took 28 minutes to run in a single thread with a peak memory consumption of 5.4 GiB. This reduced memory consumption is the result of loading and processing CMap data in 1 GiB chunks that can be customised by users.
 
-For future cTRAP iterations, it would interesting to support CMap LINCS 2020, an expansion of the current CMap dataset that is described as a \emph{3-fold expansion on the previous resource, and notable new subsets of data include CRISPSR knockout of \textgreater 5k genes and hematopoietic and non-cancer cell models} (\alink{clue.io/data/CMap2020\#LINCS2020}). However, this dataset is still considered beta and would require to update the infrastructure of cTRAP given they now provide different perturbations types in separate files.
+Regarding future cTRAP iterations, we aim to add support for CMap LINCS 2020, a CMap data expansion described as a \emph{3-fold expansion on the previous resource, and [whose] notable new subsets of data include CRISPSR knockout of \textgreater 5k genes and hematopoietic and non-cancer cell models} (\alink{clue.io/data/CMap2020\#LINCS2020}). However, this dataset is still in beta and requires some adjustments to cTRAP given the files are now provided individually per perturbation type.
 
-Moreover, the web app could be more useful if able to send automatic emails to users when a job finishes or raises an error, requiring to set up an email address to which to send emails from.
+Regarding the background task system, the web app could benefit from automatically emailing users when jobs finish (successfully or not). This would require to set up an email address to which to send emails from, preferentially from an official institutional account.
 
-With the work described here, we hope that users can unravel the potential of cTRAP to identify candidate causal perturbations and compounds to better understand biological mechanisms, as well as prioritise therapeutic agents.
+We hope that users will be able to successfully employ cTRAP in order to identify candidate causal perturbations and compounds to better understand the biological mechanisms underlying differences in gene expression alterations, as well as prioritise targeted therapeutic agents for disease-associated queries.
