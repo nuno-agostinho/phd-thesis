@@ -221,7 +221,7 @@ Although the aforementioned statistical tests are also available to analyse the 
 
 Statistical results can be subsequently explored through density and volcano plots with customisable axes to assist in the identification of the most significant changes when analysing distributions across single or multiple events, respectively. A corresponding table with the results of all statistical analyses is also available and can be retrieved as a tab-delimited plain text file.
 
-\subsection{Correlation between gene expression and alternative splicing quantifications}
+\subsection{Correlation between gene expression and PSI values}
 
 The Pearson product-moment correlation coefficient, Spearman's rho (default) and Kendall's tau, all available with \texttt{stats::cor.test()}, can be used to correlate gene expression levels with alternative splicing quantifications. Such analyses allow, for instance, to test the association between the expression levels of RNA-binding proteins (RBPs) and PSI levels of interesting splicing events to identify which of these may undergo RBP-mediated regulation. As such, a list of RBPs is provided in-app \cite{sebestyen:2016tr}, but the user can also define their own group of genes of interest for the test.
 
@@ -364,14 +364,14 @@ In GTEx tissues where \emph{ESRP2} expression substantially varies across indivi
 \begin{figure}[!p]
   \includegraphics[width=1\textwidth]{images/psichomics/8-gtex-cor}
   \centering
-  \caption[\emph{ESRP2} expression versus \emph{CD46} penultimate exon PSI across GTEx tissues]{\textbf{Scatterplots of normalised \emph{ESRP2} expression versus PSI values for \emph{CD46} penultimate exon inclusion across GTEx tissues, altogether (a) and by tissue (b).} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown.}
+  \caption[\emph{ESRP2} expression versus \emph{CD46} penultimate exon PSI in GTEx]{\textbf{Scatterplots of normalised \emph{ESRP2} expression versus PSI values for \emph{CD46} penultimate exon inclusion across GTEx tissues, altogether (a) and by tissue (b).} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown.}
   \label{fig:psichomics-gtex-cor}
 \end{figure}
 
 \begin{figure}[!p]
   \includegraphics[width=1\textwidth]{images/psichomics/9-tcga-esrp1}
   \centering
-  \caption[\emph{ESRP1} expression versus \emph{CD46} penultimate exon PSI across TCGA tumour types]{\textbf{Scatterplots of normalised \emph{ESRP1} expression versus PSI values for \emph{CD46} penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown.
+  \caption[\emph{ESRP1} expression versus \emph{CD46} penultimate exon PSI in TCGA]{\textbf{Scatterplots of normalised \emph{ESRP1} expression versus PSI values for \emph{CD46} penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown.
 
 \hspace{\textwidth}
 
@@ -383,7 +383,7 @@ In GTEx tissues where \emph{ESRP2} expression substantially varies across indivi
 \begin{figure}[!h]
   \includegraphics[width=1\textwidth]{images/psichomics/10-tcga-esrp2}
   \centering
-  \caption[\emph{ESRP2} expression versus \emph{CD46} penultimate exon PSI across TCGA tumour types]{\textbf{Scatterplots of normalised \emph{ESRP2} expression versus PSI values for \emph{CD46} penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown. See caption of \shortref{fig:psichomics-tcga-esrp1} for legend.}
+  \caption[\emph{ESRP2} expression versus \emph{CD46} penultimate exon PSI in TCGA]{\textbf{Scatterplots of normalised \emph{ESRP2} expression versus PSI values for \emph{CD46} penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (r) and associated p-values (P) are shown. See caption of \shortref{fig:psichomics-tcga-esrp1} for legend.}
   \label{fig:psichomics-tcga-esrp2}
 \end{figure}
 
@@ -394,7 +394,7 @@ The prognostic value of a given alternative splicing event (or gene) may be eval
 \begin{figure}[!h]
   \includegraphics[width=.8\textwidth]{images/psichomics/11-cd46-as-prognosis}
   \centering
-  \caption[Prognostic value of \emph{CD46} penultimate exon inclusion across select TCGA cancer types]{\textbf{Prognostic value of \emph{CD46} penultimate exon inclusion across select TCGA cancer types.} (a, b) Kaplan-Meier plots of overall survival for all patients stratified by the respective alternative splicing event’s PSI cutoff that maximised the significance of differences in survival between patient groups with a reasonable number of subjects within each group. Each patient was assigned the PSI value of their tumour sample(s). (c, d) Log-rank’s $-log_{10}(\textrm{p-value})$ plot by PSI cutoff. Note that in panel d, for PSI values around 0.8, there are high log-rank $-log_{10}(\textrm{p-value})$ although only one individual is being compared against 506 subjects. Legend: LGG brain lower grade glioma, LUAD lung adenocarcinoma.}
+  \caption[Prognostic value of \emph{CD46} penultimate exon inclusion]{\textbf{Prognostic value of \emph{CD46} penultimate exon inclusion across select TCGA cancer types.} (a, b) Kaplan-Meier plots of overall survival for all patients stratified by the respective alternative splicing event’s PSI cutoff that maximised the significance of differences in survival between patient groups with a reasonable number of subjects within each group. Each patient was assigned the PSI value of their tumour sample(s). (c, d) Log-rank’s $-log_{10}(\textrm{p-value})$ plot by PSI cutoff. Note that in panel d, for PSI values around 0.8, there are high log-rank $-log_{10}(\textrm{p-value})$ although only one individual is being compared against 506 subjects. Legend: LGG brain lower grade glioma, LUAD lung adenocarcinoma.}
   \label{fig:psichomics-cd46-as-prognosis}
 \end{figure}
 

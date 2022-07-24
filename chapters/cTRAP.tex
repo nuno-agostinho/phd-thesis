@@ -302,7 +302,7 @@ Benchmarked memory was annotated based on the different internal steps performed
 
 \subsection{Graphical interface}
 
-To assist users that may prefer graphical interfaces, most cTRAP functionality is exposed via 5 modular and independent functions that launch web apps:
+To assist users that may prefer graphical interfaces, most cTRAP functionality is exposed via 5 modular and independent functions that launch web apps (\autoref{fig:ctrap-ui-functions}):
 
 \begin{itemize}
 	\item \texttt{launchDiffExprLoader()} to load differential expression data. Returns a differential expression object that can be used in cTRAP analyses.
@@ -335,7 +335,7 @@ To assist users that may prefer graphical interfaces, most cTRAP functionality i
 		\caption{\footnotesize{\texttt{launchDrugSetEnrichmentAnalyser}}}
 	\end{subfigure}
 	\caption[cTRAP graphical interface functions]{\textbf{cTRAP graphical interface functions}.}
-\label{fig:grafana}
+	\label{fig:ctrap-ui-functions}
 \end{figure}
 
 Like usual R functions, these graphical interfaces functions accept input arguments and may return output, allowing to intertwine them with R code (\shortref{lst:cTRAP-graphical}). Therefore, users can interactively prepare and explore data before running long-running tasks in the command-line, avoiding the need to have Shiny working while the tasks run (which may also slow down those tasks) and allowing to parallelise them.
