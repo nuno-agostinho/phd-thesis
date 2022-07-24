@@ -1,0 +1,22 @@
+% !TEX root = ../PhD Thesis.tex
+\chapter*{Summary}
+\addcontentsline{toc}{chapter}{Summary}
+% min. 300 words
+% 5 keywords
+
+During my PhD at Instituto de Medicina Molecular João Lobo Antunes (iMM), I developed transcriptomic web apps as free, open-source resources and an app server to deploy those apps.
+
+\section*{psichomics}
+
+Transcriptome-wide studies of alternative splicing have demonstrated its involvement in multiple cellular processes and linked its dysregulation to diverse pathologies. To exploit such publicly available data, we developed psichomics with an intuitive graphical interface to quantify, analyse and visualise alternative splicing using pre-processed data from The Cancer Genome Atlas, the Genotype-Tissue Expression project and the recount2 project, as well as user-provided data. psichomics assists the user integrating molecular and clinical sample-associated features to perform survival, dimensionality reduction, and differential alternative splicing and gene expression analyses. Since its publication in 2018, psichomics has been used to discover splicing-associated prognostic factors and therapeutic targets, along with studying alternative splicing regulation in physiological and disease contexts.
+
+\section*{cTRAP}
+
+The Connectivity Map (CMap) hosts thousands of genetic and pharmacological perturbations. We developed cTRAP to tap into CMap and identify potentially causal molecular perturbations by comparing user-provided differential gene expression results with those from CMap, using correlation and gene set enrichment scores. cTRAP can also compare against gene expression/drug sensitivity associations derived from the NCI-60 cancer cell line panel, the Cancer Therapeutics Response Portal and the Genomics of Drug Sensitivity in Cancer project, to pinpoint compounds that may target the phenotypes associated with the user-provided differential expression profiles. We hope that cTRAP allows users to identify putative causal perturbations to better understand biological mechanisms, as well as to predict therapeutic targets.
+
+\section*{CompBio app server}
+
+Both psichomics and cTRAP feature graphical interfaces to assist users explore most of their functionality. We set up the CompBio app server that uses Docker Compose, ShinyProxy, Nginx and other web services to deploy our lab's Shiny web apps, publicly available at \alink{compbio.imm.medicina.ulisboa.pt}.\\
+
+\textbf{Keywords:} bioinformatics, web apps, alternative splicing, gene expression, selective drugs.
+
