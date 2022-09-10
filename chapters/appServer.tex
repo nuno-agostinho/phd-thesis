@@ -2,24 +2,26 @@
 \chapter{CompBio app server}
 \label{chap:app-server}
 
-Since I started building psichomics, I wanted my work to be publicly available as an online web app, providing users the most up-to-date version at their fingerprints, without having to install, update and manage different versions of R, Bioconductor, psichomics and all their dependencies.
+Since I started building psichomics, I wanted my work to be publicly available as an online web app, providing users the most up-to-date version at their fingertips, without having to install, update and manage different versions of R, Bioconductor, psichomics and all their dependencies.
 %It can take an hour to install psichomics from scratch and the command line may scare the end-users for whom psichomics was created. 
 Five years after the first Bioconductor release of psichomics in 2016, that vision finally came true.
 
 \begin{figure}[!b]
-  \includegraphics[width=.89\textwidth]{images/app-server/homepage}
+  \vspace*{-.5cm}
+  \includegraphics[width=.89\textwidth]{images/app-server/homepage-2022-09-01}
   \centering
-  \caption[Screenshot of CompBio's homepage]{\textbf{CompBio's homepage screenshot.} List of hosted web apps (11 Nov 2021).}
+  \vspace*{-.5cm}
+  \caption[Screenshot of CompBio's homepage]{\textbf{CompBio's homepage screenshot.} List of hosted web apps (1 Sep 2022).}
   \label{fig:homepage}
 \end{figure}
 
-One of our lab's ambitious goals is to develop interactive visual tools to assist in exploring biological data, either provided by users or available from big datasets. We want our tools to be used by anyone, no matter their computational background. To turn that dream into reality, I set up the CompBio app server, a Linux virtual machine running in the iMM computing cluster that hosts psichomics, cTRAP and other Shiny apps from my lab colleagues. The server is accessible at \alink{compbio.imm.medicina.ulisboa.pt} (\autoref{fig:homepage}) and its code at \alink{github.com/nuno-agostinho/compbio-app-server}.
+One of our lab's ambitious goals is to develop interactive visual tools to assist in exploring biological data, either provided by users or from big datasets. We want our tools to be intelligibly used by anyone, no matter their computational background. To turn that dream into reality, I set up the CompBio app server, a Linux virtual machine running in the iMM computing cluster that hosts psichomics, cTRAP and other Shiny apps from my lab colleagues. The server is accessible at \alink{compbio.imm.medicina.ulisboa.pt} (\autoref{fig:homepage}) and its code at \alink{github.com/nuno-agostinho/compbio-app-server}.
 
 % TODO: write specs of the app server? 200GB SSD, 64GB RAM, 16 CPU threads
 
 \section{Background}
 
-Our lab uses the R statistical language to analyse clinical and molecular data from public sources and collaborators. In order to share data insights with our collaborators or even the whole scientific community, we have been increasingly creating exploratory dashboards using the Shiny R package \cite{chang:2021ul}. While developing interactive Shiny web apps, it is natural to wonder: what is the best way to share them?
+Our lab uses the R statistical language to analyse clinical and molecular data from public sources and collaborators. In order to share data insights with our collaborators or even the whole scientific community, we have been creating exploratory dashboards using the Shiny R package \cite{chang:2021ul}. While developing interactive Shiny web apps, it is natural to wonder: what is the best way to share them?
 
 \subsection{Desktop apps}
 
@@ -29,13 +31,13 @@ Shiny apps are written in R, an interpreted programming language whose source co
 
 One way to reduce the number of dependencies installed is by using Docker (\alink{docker.com}), allowing to run isolated Linux virtual environments (containers) that already contain programs and all their dependencies set up. This approach simply requires end-users to install Docker and to download the desired Docker images online. Still, Docker is a program that needs administrator privileges for installation that (1) not all users may have and (2) may not feel comfortable to give to a software they would not otherwise install.
 
-An alternative is Electron (\alink{electronjs.org}), a software framework that allows to develop cross-platform graphical user interface apps using web technologies by combining a web browser rendering engine (Chromium, used in Chrome and other web browsers to convert HTML and CSS code into an interactive web page) and a JavaScript environment. The app itself runs the web app as if it were a usual desktop app. Some open-source projects like electricShine (\alink{github.com/chasemc/electricShine}) and photon (\alink{github.com/COVAIL/photon}) allow to convert Shiny apps to Electron apps, but they are still not fully developed and lack important features (like support for some operative systems). Regardless, compared to native apps, Electron apps are slower, have a significant overhead, take more space and consume more RAM, making Electron less attractive for intensive data-processing apps.
+An alternative is Electron (\alink{electronjs.org}), a software framework that allows to develop cross-platform graphical user interface apps using web technologies by combining a web browser rendering engine (Chromium, used in Chrome and other web browsers to convert HTML and CSS code into an interactive web page) and a JavaScript environment. The app itself runs the underlying web app as a usual desktop app. Some open-source projects like electricShine (\alink{github.com/chasemc/electricShine}) and photon (\alink{github.com/COVAIL/photon}) allow to convert Shiny apps to Electron apps, but they are still not fully developed and lack important features (like support for some operative systems). Regardless, compared to native apps, Electron apps are slower, have a significant overhead, take more space and consume more RAM, making Electron less attractive for intensive data-processing apps.
 
 \subsection{Web apps}
 
-Web apps are cross-platform, always up-to-date and can be accessed by any (modern) web browser, making access to such apps easier for end-users \cite{silva:2017wl}. However, a constantly online web server needs to be running and share its computing resources (e.g. amount of RAM, storage and CPU threads) across multiple users. The resources allocated to a web server depend on the resources consumed per app, the number of simultaneous users and the data stored per user. The price of components and their maintenance is specially relevant if anticipating a large number of end-users.
+Web apps are cross-platform, always up-to-date and can be accessed by any (modern) web browser, making access to such apps easier for end-users \cite{silva:2017wl}. However, a constantly online web server needs to be running and share its computing resources (e.g., amount of RAM, storage and CPU threads) across multiple users. The resources allocated to a web server depend on the resources consumed per app, the number of simultaneous users and the data stored per user. The price of components and their maintenance is specially relevant if anticipating a large number of end-users.
 
-Multiple web app hosting services support Shiny apps or Docker containers of Shiny apps, including Heroku (\alink{heroku.com}) and \alink{shinyapps.io}. Both of these app hosting services offer subscription plans depending on allocated system resources, including a free plan useful to run basic apps: Heroku's free plan offers 2 threads, 512 MB of RAM and 500 MB of storage per app\footnote{According to Heroku (\alink{heroku.com/pricing} and \alink{devcenter.heroku.com/articles/limits}) as of 24 November 2021. Unverified accounts (i.e. not associated with a valid credit card) are limited to 5 apps.}, whereas \alink{shinyapps.io}'s free plan allows for 5 apps with 25 computing hours per month using 1024 MB of RAM and 1 GB of storage per app\footnote{According to official \alink{shinyapps.io} documentation (\alink{docs.rstudio.com/shinyapps.io/applications.html} and \alink{shinyapps.io\#pricing}) as of 24 November 2021.}. Such services take care of deploying the web apps and we can select a different plan to scale up the required resources to run the apps, depending on their usage. They also allow to monitor app resource usage and understand how the apps are being used and if the resources employed are sufficient or not without much effort to the developer.
+Multiple web app hosting services support Shiny apps or Docker containers of Shiny apps, including Heroku (\alink{heroku.com}) and \alink{shinyapps.io}. Both of these app hosting services offer subscription plans depending on allocated system resources, including a free plan useful to run basic apps: Heroku's free plan offers 2 threads, 512 MB of RAM and 500 MB of storage per app\footnote{According to Heroku (\alink{heroku.com/pricing} and \alink{devcenter.heroku.com/articles/limits}) as of 24 November 2021. Unverified accounts (i.e., not associated with a valid credit card) are limited to 5 apps.}, whereas \alink{shinyapps.io}'s free plan allows for 5 apps with 25 computing hours per month using 1024 MB of RAM and 1 GB of storage per app\footnote{According to official \alink{shinyapps.io} documentation (\alink{docs.rstudio.com/shinyapps.io/applications.html} and \alink{shinyapps.io\#pricing}) as of 24 November 2021.}. Such services take care of deploying the web apps and we can select a different plan to scale up the required resources to run the apps, depending on their usage. They also allow to monitor app resource usage and understand how the apps are being used and if the resources employed are sufficient or not without much effort to the developer.
 
 Besides third-party server hosting, Shiny apps can also be deployed in local web servers. This requires server maintenance and may be harder to scale resources because of higher up-front costs. The following programs allow to locally host Shiny apps:
 
@@ -72,7 +74,7 @@ Reverse proxy                         & Nginx          &  443 & \dockerlink[_]{n
                                       & Redis          &      & \dockerlink[_]{redis}     \\
                                       & Flower         & 5555 & \dockerlink{mher/flower}     \\ \midrule
 \multirow{3}{4cm}{Website analytics
-\par(i.e. track visitor metrics)}     & Plausible      & 8000 & \dockerlink{plausible/analytics}     \\
+\par(i.e., track visitor metrics)}    & Plausible      & 8000 & \dockerlink{plausible/analytics}     \\
                                       & PostgreSQL     & 5432 & \dockerlink[_]{postgres}     \\
                                       & ClickHouse     &      & \dockerlink{yandex/clickhouse-server}     \\ \midrule
 \multirow{4}{4cm}{Resource monitoring} & Prometheus     & 9090 & \dockerlink{prom/prometheus}     \\
@@ -88,7 +90,7 @@ RStudio (testing) & RStudio Web\parnote{Only available in the development profil
 \begin{figure}[!h]
   \includegraphics[width=.9\textwidth]{images/app-server/architecture}
   \centering
-  \caption[App server architecture]{\textbf{App server architecture is based on Docker Compose.} All services are provided via Docker images and communicate with each other via a Docker-created network using the name of the service and a specific port (e.g. Nginx communicates with ShinyProxy via \texttt{shinyproxy:8080}). The groups  (analytics, system monitoring and background tasks) are strictly conceptual.}
+  \caption[App server architecture]{\textbf{App server architecture is based on Docker Compose.} All services are provided via Docker images and communicate with each other via a Docker-created network using the name of the service and a specific port (e.g., Nginx communicates with ShinyProxy via \texttt{shinyproxy:8080}). The groups  (analytics, system monitoring and background tasks) are strictly conceptual.}
   \label{fig:architecture}
 \end{figure}
 
@@ -96,11 +98,11 @@ Services whose ports are listed in \shortref{tab:compbio-services} may be access
 
 \section{Results}
 
-The CompBio app server was developed to be easily maintained and extended, allowing to add new and update existing Shiny apps and other modules. The server also supports running background processes\footnote{More information in \fullref{sec:background-tasks}.}, tracking simple visitor metrics (e.g. Shiny app usage time, number of visitors and user countries) and monitoring system usage. This project is open-source and free (\alink{github.com/nuno-agostinho/compbio-app-server}) and the app server can be publicly accessed at \alink{compbio.imm.medicina.ulisboa.pt}.
+The CompBio app server was developed to be easily maintained and extended, allowing to add new and update existing Shiny apps and other modules. The server also supports running background processes\footnote{More information in \fullref{sec:background-tasks}.}, tracking simple visitor metrics (e.g., Shiny app usage time, number of visitors and user countries) and monitoring system usage. This project is open-source and free (\alink{github.com/nuno-agostinho/compbio-app-server}) and the app server can be publicly accessed at \alink{compbio.imm.medicina.ulisboa.pt}.
 
 The app server makes use of a two-tiered architecture as the user interface is displayed using the user's web browser to render the HTML, CSS and JavaScript code, whereas the application and database layers are all run in the same server. The server itself is a virtual machine running in Lobo (iMM computing cluster) with 16 CPU threads, 64GB RAM and 200GB SSD. By exploiting a powerful infrastructure, the virtual machine can be manually modified to increase or decrease associated computing resources depending on system usage.
 
-The code can be run on Linux\footnote{Although not the scope of this project, CompBio may be compatible with other operating systems.} machines with Docker Compose installed, thus making the setup easily portable and requiring minimal user setup. Docker Compose also confers modularity and maintainability to the project, given that system components are easy to update and replace without affecting other components.
+The code can be run in Linux and macOS\footnote{CompBio was not tested in Windows.} machines with Docker Compose installed, thus making the setup easily portable and requiring minimal user setup. Docker Compose also confers modularity and maintainability to the project, given that system components are easy to update and replace without affecting other components.
 
 \subsection{Docker Compose}
 
@@ -109,13 +111,13 @@ There are a lot of programs that can go into a web server. Experimenting differe
 \begin{figure}[!b]
   \includegraphics[width=1\textwidth]{images/app-server/file-structure}
   \centering
-  \caption[App server's file structure]{\textbf{Visual representation of the file structure of the CompBio app server.} Each folder contains files associated with a specific service. Folders \texttt{rstudio-server} and \texttt{celery} contain Dockerfiles for building custom Docker images of the respective services. Multiple \texttt{README.md} document the usage of the services. The file \texttt{docker-compose.yml} in the root of the project contains the main configuration of each service.}
+  \caption[App server's file structure]{\textbf{Visual representation of the file structure of the CompBio app server.} Each folder contains files associated with a specific service: \texttt{rstudio-server} and \texttt{celery} contain Dockerfiles for building custom Docker images of the respective services; multiple \texttt{README.md} document the usage of the services; and file \texttt{docker-compose.yml} in the root of the project contains the main configuration of each service.}
   \label{fig:file-structure}
 \end{figure}
 
-With the modularity from Docker Compose, multiple applications are run isolated in their own Docker containers, allowing to easily update or replace them without affecting other system components, as well as make the code of this project publicly available and portable. All services spawned in Docker Compose are based on Docker images that are either pre-created (e.g. downloaded from Docker Hub) or built on-demand -- some services of this project have their own Dockerfiles, a recipe file to create custom Docker images.
+With the modularity from Docker Compose, multiple applications are run isolated in their own Docker containers, allowing to easily update or replace them without affecting other system components, as well as make the code of this project publicly available and portable. All services spawned in Docker Compose are based on Docker images that are either pre-created (e.g., downloaded from Docker Hub) or built on-demand -- some services of this project have their own Dockerfiles, a recipe file to create custom Docker images.
 
-For organisation purposes, the project is structured by folders named after each service, where each folder stores files associated with the respective application (e.g. Dockerfile, configuration and data; \autoref{fig:file-structure}). A single file named \texttt{docker-compose.yml} (\shortref{lst:docker-compose.yml}) contains the main configuration of each application in the server and extra configuration files are available in the local directory.
+For organisation purposes, the project is structured by folders named after each service, where each folder stores files associated with the respective application (e.g., Dockerfile, configuration and data; \autoref{fig:file-structure}). A single file named \texttt{docker-compose.yml} (\shortref{lst:docker-compose.yml}) contains the main configuration of each application in the server and extra configuration files are available in the local directory.
 
 \begin{lstlisting}[caption=Shortened version of the \texttt{docker-compose.yml} file used for the project. This version only contains the configuration for Nginx and ShinyProxy.,language=bash,label={lst:docker-compose.yml}]{docker-compose.yml}
 version: "3.9"
@@ -161,7 +163,7 @@ docker compose up -d --build
 \end{lstlisting}
 downloads Docker images in \texttt{docker-compose.yml}, builds Docker images from Dockerfiles and starts the services in detached mode.
 
-Although data from Docker containers is temporarily stored while the container is running, specific files and directories can be preserved in Docker volumes to avoid data loss. When starting the \texttt{docker-compose.yml} project, Docker volumes are mounted for specific directories labelled volumes in \shortref{lst:docker-compose.yml}.
+Although data from Docker containers are temporarily stored while the container is running, specific files and directories can be preserved in Docker volumes to avoid data loss. When starting the \texttt{docker-compose.yml} project, Docker volumes are mounted for specific directories labelled volumes in \shortref{lst:docker-compose.yml}.
 
 Docker Compose has multiple commands to manage the associated services. For instance, to apply new configurations, it is useful to restart a single service:
 \begin{lstlisting}[language=bash,numbers=none]
@@ -178,7 +180,7 @@ docker compose restart
 
 \subsubsection{Secrets}
 
-Most configuration files of the server are public, including default passwords that should only be used for testing purposes. To define sensitive information (i.e. secrets), all we need is to set custom information in a \texttt{.env} file at the root of the project directory (\autoref{lst:secrets-env}). When starting the services, Docker Compose will replace the default environment variables from \texttt{docker-compose.yml} with those from \texttt{.env}.
+Most configuration files of the server are public, including default passwords that should only be used for testing purposes. To define sensitive information (i.e., secrets), all we need is to set custom information in a \texttt{.env} file at the root of the project directory (\autoref{lst:secrets-env}). When starting the services, Docker Compose will replace the default environment variables from \texttt{docker-compose.yml} with those from \texttt{.env}.
 
 \begin{lstlisting}[caption=Template of a \texttt{.env} file that defines sensitive data.,language=bash,label={lst:secrets-env}]{secrets-env}
 RSTUDIO_PASSWORD=rstudio_pass
@@ -212,7 +214,7 @@ The services in the app server (\textbf{production environment}) are live for th
 docker compose --profile dev up -d
 \end{lstlisting}
 
-The services should be fully operational in about 30 seconds after running these commands and accessible via \alink{http://localhost} of the machine\footnote{When using a remote machine, it is necessary to set up port forwarding via \texttt{SSH} to access the remote machine's localhost.}. Some services are only available via their specific ports (\shortref{tab:compbio-services}), e.g. \alink{http://localhost:8000} for Plausible and \alink{http://localhost:8787} for RStudio.
+The services should be fully operational in about 30 seconds after running these commands and accessible via \alink{http://localhost} of the machine\footnote{When using a remote machine, it is necessary to set up port forwarding via \texttt{SSH} to access the remote machine's localhost.}. Some services are only available via their specific ports (\shortref{tab:compbio-services}), e.g., \alink{http://localhost:8000} for Plausible and \alink{http://localhost:8787} for RStudio.
 
 \subsubsection{Automated Testing}
 
@@ -264,7 +266,7 @@ After defining this script, we only need to restart the ShinyProxy with \texttt{
 
 Custom HTML pages are located in folder \texttt{shinyproxy/templates}. ShinyProxy uses custom files located there if available, falling back to its own default files otherwise. In other words, to get the original ShinyProxy behaviour for the default HTML pages, we only need to remove the files from that folder and restart ShinyProxy.
 
-The HTML pages provided by ShinyProxy are based on the Thymeleaf template engine that uses HTML-like code scripting. Directly editing HTML pages provided by ShinyProxy allows to add the custom features described in the following subsections, as well as custom error pages (e.g. 404 page not found or issues when starting containers).
+The HTML pages provided by ShinyProxy are based on the Thymeleaf template engine that uses HTML-like code scripting. Directly editing HTML pages provided by ShinyProxy allows to add the custom features described in the following subsections, as well as custom error pages (e.g., "404 page not found" or issues when starting containers).
 
 \subsubsection{Progress bar when loading ShinyProxy apps}
 
@@ -282,12 +284,12 @@ The HTML pages provided by ShinyProxy are based on the Thymeleaf template engine
 % https://www.researchgate.net/publication/234791131_The_importance_of_percent-done_progress_indicators_for_computer-human_interfaces
 % https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6263888&tag=1
 
-When ShinyProxy is loading an app, a spinning wheel is shown as a loading indicator. For apps that take more than 10 seconds to load (e.g. psichomics and cTRAP), the user may think the website is not working and close the window before the app is loaded. To avoid that, the spinning wheel was replaced with a progress bar to provide a time estimate for app loading (\autoref{fig:progress-bar}), making wait times more tolerable \cite{myers:1985aa,yablonski:2020ts}.
+When ShinyProxy is loading an app, a spinning wheel is shown as a loading indicator. For apps that take more than 10 seconds to load (e.g., psichomics and cTRAP), the user may think the website is not working and close the window before the app is loaded. To avoid that, the spinning wheel was replaced with a progress bar to provide a time estimate for app loading (\autoref{fig:progress-bar}), making wait times more tolerable \cite{myers:1985aa,yablonski:2020ts}.
 
 \bigskip
 \bigskip
 
-By default, the progress bar takes 5 seconds to fill (as sample Shiny apps take that much to launch in ShinyProxy), but the time is customisable for specific apps by editing the ShinyProxy configuration file (\texttt{shinyproxy/application.yml}) and adding a \texttt{template-properties.start-up} parameter to a specific app. For instance, psichomics takes 20 seconds to fully load the progress bar (i.e. \texttt{template-properties.start-up: 20s}), whereas cTRAP takes 15 seconds. When the app finishes loading, the progress bar is replaced by the app regardless of the progress displayed to the user. The accuracy of the progress bar does not need to be perfect to serve its purpose \cite{myers:1985aa,yablonski:2020ts}.
+By default, the progress bar takes 5 seconds to fill (as sample Shiny apps take that much to launch in ShinyProxy), but the time is customisable for specific apps by editing the ShinyProxy configuration file (\texttt{shinyproxy/application.yml}) and adding a \texttt{template-properties.start-up} parameter to a specific app. For instance, psichomics takes 20 seconds to fully load the progress bar (i.e., \texttt{template-properties.start-up: 20s}), whereas cTRAP takes 15 seconds. When the app finishes loading, the progress bar is replaced by the app regardless of the progress displayed to the user. The accuracy of the progress bar does not need to be perfect to serve its purpose \cite{myers:1985aa,yablonski:2020ts}.
 
 To create this progress bar, \verb|shinyproxy/templates/app.html| was edited to remove the spinning wheel and to include an empty progress bar. The progress bar's width is changed from 0\% to 100\% using JavaScript. By default, the CSS width transition applied to the progress bar is \texttt{transition: width 5s ease-in-out;} (animating a change of width that last for 5 seconds in an ease-in animation) where \texttt{5s} is replaced by the \texttt{template-properties.startup-time} parameter if set.
 
@@ -297,18 +299,18 @@ To create this progress bar, \verb|shinyproxy/templates/app.html| was edited to 
 
 \subsubsection{Private web apps}
 
-In the website's landing page (\autoref{fig:homepage}), ShinyProxy lists all apps described in the configuration file by default (\texttt{shinyproxy/application.yml}). This may not be desired when hosting apps with confidential results to be shared with specific collaborators. For this reason, we added the key \texttt{template-properties.listed} that can either be \texttt{false} (default) or \texttt{true}. The file \texttt{shinyproxy/templates/index.html} was edited to show only apps whose \texttt{template-properties.listed} key is set to \texttt{true}. Thus, non-listed web apps are not displayed in the landing page, but are still directly accessible via URL based on their app ID, e.g. \alink{compbio.imm.medicina.ulisboa.pt/app/psichomics}.
+In the website's landing page (\autoref{fig:homepage}), ShinyProxy lists all apps described in the configuration file by default (\texttt{shinyproxy/application.yml}). This may not be desired when hosting apps with confidential results to be shared with specific collaborators. For this reason, we added the key \texttt{template-properties.listed} that can either be \texttt{false} (default) or \texttt{true}. The file \texttt{shinyproxy/templates/index.html} was edited to show only apps whose \texttt{template-properties.listed} key is set to \texttt{true}. Thus, non-listed web apps are not displayed in the landing page, but are still directly accessible via URL based on their app ID, e.g., \alink{compbio.imm.medicina.ulisboa.pt/app/psichomics}.
 
-However, if the information contained in the web app should not be accessible to strangers at all, apps can also implement a password input form (e.g. \texttt{shiny::passwordInput()}) in the code itself before loading any data and/or information. That password should be securely shared with the intended audience only.
+However, if the information contained in the web app should not be accessible to strangers at all, apps can also implement a password input form (e.g., \texttt{shiny::passwordInput()}) in the code itself before loading any data and/or information. That password should be securely shared with the intended audience only.
 
 \subsection{Nginx}
 
-Nginx is a reverse proxy, i.e. an intermediary that controls what is shown to the user depending on the URL visited -- akin to those switchboard operators seen in old movies. In CompBio, Nginx fulfills user requests and performs many other functions:
+Nginx is a reverse proxy, i.e., an intermediary that controls what is shown to the user depending on the URL visited -- akin to those switchboard operators seen in old movies. In CompBio, Nginx fulfills user requests and performs many other functions:
 
 \begin{itemize}
 	\item \textbf{Ensure HTTPS traffic is encrypted via SSL certificates} from the IT team at iMM. We simply point to the correct location of those certificates.%As standard practice, the certificates are composed by three parts: the site certificate, intermediate certificates, and the private key.
 	\item \textbf{Serve publicly available files} in the \texttt{nginx/public} folder, whose directory structure is accessible at \alink{https://compbio.imm.medicina.ulisboa.pt/public/}.
-	\item \textbf{Show a custom error page if ShinyProxy is not responding} (e.g. temporarily down or overloaded). When ShinyProxy is down, Nginx informs end-users to retry refreshing the page and that ShinyProxy is probably down, informing end-users to retry refreshing the page. ShinyProxy can be down for multiple reasons, such as during a restart or due to resource overloading. % custom HTML error page screenshot?
+	\item \textbf{Show a custom error page if ShinyProxy is not responding} (e.g., temporarily down or overloaded). When ShinyProxy is down, Nginx informs end-users to retry refreshing the page and that ShinyProxy is probably down, informing end-users to retry refreshing the page. ShinyProxy can be down for multiple reasons, such as during a restart or due to resource overloading. % custom HTML error page screenshot?
 	\item \textbf{Display the website favicons} stored in folder \texttt{nginx/favicon}.
 \end{itemize}
 
@@ -324,7 +326,7 @@ Currently, cTRAP is the only web app in our server that exploits background task
 % --autoscale=10,3
 Celery was configured to use 3 to 10 processes based on demand, as well as CPU and memory usage via an independent plugin (\alink{github.com/jcushman/celery-resource-autoscaler}). For instance, each process in Celery can use up to 10GiB of RAM and run up to 12 hours, thus avoiding rogue tasks.
 
-To run other programs in Celery, we need to create a custom Dockerfile containing those programs (e.g. based on their Docker images) with Python and Celery installed. The Nginx configuration needs to include the new Celery service (\shortref{lst:celery-worker}).
+To run other programs in Celery, we need to create a custom Dockerfile containing those programs (e.g., based on their Docker images) with Python and Celery installed. The Nginx configuration needs to include the new Celery service (\shortref{lst:celery-worker}).
 
 \begin{lstlisting}[caption=Configuration of the Celery service for cTRAP in \texttt{docker-compose.yml}.,language=XML,label={lst:celery-worker}]{celery-worker}
   celery-ctrap:
@@ -340,7 +342,7 @@ To run other programs in Celery, we need to create a custom Dockerfile containin
 
 \subsection{Resource monitoring}
 
-Prometheus monitors the server resources and the collected data can be visualised using Grafana (\shortref{fig:grafana}). The tracked resources include Celery job usage, ShinyProxy metrics (app usage time, app failures, users per app, etc.), Nginx status and Linux system resources (e.g. RAM usage, available disk space and CPU stress).
+Prometheus monitors the server resources and the collected data can be visualised using Grafana (\shortref{fig:grafana}). The tracked resources include Celery job usage, ShinyProxy metrics (app usage time, app failures, users per app, etc.), Nginx status and Linux system resources (e.g., RAM usage, available disk space and CPU stress).
 
 \begin{figure}[!h]
 	\centering
@@ -374,7 +376,7 @@ Prometheus monitors the server resources and the collected data can be visualise
 
 Plausible is an open-source, privacy-focused web analytics tool that collects traffic metrics for multiple websites and provides them via an interactive dashboard (\shortref{fig:plausible}). CompBio runs the self-hosted version of Plausible. All of Plausible metrics (e.g., visitor numbers, total page views and session duration) are anonymously aggregated without cookies, thus avoiding individual tracing of users.
 
-Plausible uses the database management systems ClickHouse and PostgreSQL to store tracking data. PostreSQL can also be used in the future as the SQL database of the server if desired, although currently no web apps in the server use this database.
+Plausible uses the database management systems ClickHouse and PostgreSQL to store tracking data. PostreSQL can also be used as the server's SQL database system, although currently no Shiny web apps in the server use it.
 
 Using the self-hosted version of Plausible guarantees that the tracking of user data is performed locally in the server. Plausible also protects user privacy by making their data hard to individually trace and by complying with current privacy laws. %(GDPR, CCPA and PECR).
 
