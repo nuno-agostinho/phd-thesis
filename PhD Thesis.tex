@@ -2,10 +2,12 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
+\usepackage[portuguese,british]{babel}
 
 %\usepackage[parfill]{parskip}    % Begin paragraphs with empty line instead of indent
 \usepackage{graphicx}             % Use pdf, png, jpg or eps with pdflatex (eps in DVI mode)
                                   % TeX automatically converts eps --> pdf in pdflatex
+\usepackage{overpic}
 \usepackage{wrapfig}
 \usepackage{subcaption}
 
@@ -14,9 +16,78 @@
 
 \usepackage[onehalfspacing]{setspace}
 \setlength{\parskip}{0cm}
-
 \usepackage{nameref}
-\usepackage{hyperref} % set link colour to magenta?
+
+% hyphenation for custom words
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\hyphenation{al-ter-na-tive
+al-ter-na-tive
+al-ter-na-tive-ly
+an-alyse
+an-alyses
+an-alysis
+an-no-tate
+ar-ti-cle
+ar-ti-cles
+au-to-mati-cal-ly
+available
+cate-gori-cal
+charac-te-ris-tics
+clini-cal
+col-labo-rating
+com-bi-na-tions
+com-para-tive
+con-sis-tent
+cor-re-la-tion
+cor-re-la-tions
+de-veloping
+de-velop-ment
+dif-ferent
+dif-feren-tial
+Dockerfile
+Dockerfiles
+evalu-ate
+evalu-ated
+ex-panding
+ex-peri-men-tal
+ex-peri-ment
+ex-peri-ments
+flexi-bili-ty
+ge-nome
+image
+in-cluding
+in-forming
+in-ter-pre-ta-tion
+in-va-sive
+in-ves-ti-ga-tion
+lym-pho-ma
+making
+mini-mise
+mini-mised
+mini-mises
+mo-lecu-lar
+mole-cule
+nema-tode
+op-por-tu-ni-ty
+or-ganism
+paral-lel
+per-taining
+per-tur-ba-tion
+per-tur-ba-tions
+pheo-chromo-cyto-ma
+quan-ti-fi-ca-tion
+sen-si-tivi-ty
+se-quencing
+squa-mous
+splicing
+sta-tis-tics
+stra-tum
+transcrip-tomic
+transcrip-tomics
+TCGASpliceSeq
+visu-alisation
+}
+
 
 \usepackage[font=small,labelfont=bf]{caption}
 
@@ -137,7 +208,10 @@
 \pagenumbering{roman}
 \tableofcontents
 
+\selectlanguage{portuguese}
 \input{chapters/resumo}
+
+\selectlanguage{british}
 \input{chapters/summary}
 
 \input{chapters/acknowledgements}
