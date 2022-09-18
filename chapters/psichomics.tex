@@ -88,7 +88,7 @@ psichomics allows to automatically process data (provided by the user or automat
 \end{figure}
 
 % TODO: add new symbol for a group of files to make it more intuitive to understand why there are multiple R files for the same data source
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=\textwidth]{images/psichomics/file-structure}
   \centering
   \caption[psichomics file structure]{\textbf{Visual representation of psichomics' file structure.} psichomics is a modular program where, for instance, functions specific for different data sources and analyses can be found in different files. As usual for R packages, the \texttt{R} folder is the heart of the code and contains the main R scripts that define the logic and interface of the app. \texttt{dev} is a non-standard folder in R packages used to store supporting scripts (e.g., test workflows); its contents are not included when building the R package.}
@@ -103,7 +103,7 @@ psichomics can load splice junction read count data provided by the user or from
 
 Exon-exon junction and gene expression quantifications (obtained from pre-processed RNA-seq data), clinical data and sample metadata are accessible through FireBrowse's web application program interface (API) for TCGA data retrieval (\alink{firebrowse.org/api-docs}). The FireBrowse API is used in psichomics to automatically download TCGA data according to the user-selected tumour type(s) as tab-delimited files within compressed folders, whose contents are subsequently loaded with minimal user interaction. GTEx data are automatically downloaded via the GTEx data portal (\alink{gtexportal.org}) and select SRA project data via recount2 \cite{collado-torres:2017uw}. Other SRA projects and user-provided files may also be loaded in appropriate formats (\shortref{tab:psichomics-file-formats}), allowing for subsequent alternative splicing analysis\footnote{Refer to tutorial at \alink{nuno-agostinho.github.io/psichomics/articles/custom_data}.}.
 
-\begin{table}[!b]
+\begin{table}[!ht]
 \parnotereset
 \small
 \caption[Supported file formats in psichomics based on data source]{\textbf{Supported file formats in psichomics based on data source.}}
@@ -275,7 +275,7 @@ Using the graphical interface of psichomics, we analysed SRA project SRP063867 \
 
 We used psichomics to download preprocessed RNA-seq data for SRP063867 via recount2 \cite{collado-torres:2017uw}, including sample annotation, raw gene expression and exon–exon junction read counts. psichomics automatically downloads the data, loads the workspace and displays information per dataset (\shortref{fig:psichomics-gene-expr-summary}).
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=\textwidth]{images/psichomics/0-gene-expr-summary}
   \centering
   \caption[Summary information on datasets]{\textbf{Summary information on datasets.} psichomics presents information on the loaded datasets in a dedicated tab. That information includes summary statistics, like the numbers of samples and genes profiled in each dataset, and plots, like the shown boxplot to visualise the distribution of normalised gene read counts per sample.}
@@ -288,7 +288,7 @@ Next, we performed gene expression filtering and normalisation on the loaded raw
 
 Afterwards, we normalised gene expression values by scaling raw library sizes across samples. Default gene expression normalisation scales for raw library sizes based on weighted trimmed mean of M-values (TMM) \cite{robinson:2010wx}, followed by computation of log2-transformed counts per million values. The default normalisation is not fully effective, as very different distributions between samples are observed (\shortref[b]{fig:psichomics-ge-norm}).
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=1\textwidth]{images/psichomics/1-gene-expr-normalisation}
   \centering
   \caption[Gene expression normalisation]{\textbf{Gene expression normalisation.} (a) Density plot of the distribution of raw library sizes (i.e., total number of mapped read counts) across samples. Highlighted with the blue label is the sample with the smallest library. (b–e) Boxplots of distribution of gene expression in log2-transformed counts per million (log2CPM per sample after low read count filtering and raw library scaling (b), this procedure followed by voom modeling (c), voom modeling using quantile normalisation instead of raw library scaling (d), and the latter after discarding the sample with the smallest library, highlighted in blue (e).}
@@ -311,7 +311,7 @@ The default event types were quantified: skipped exon (SE), mutually exclusive e
 
 In total, a high number of 135 717 alternative splicing events were quantified. However, only events exhibiting some variance across samples are informative when analysing differential splicing. We therefore filtered out low-variance events with median PSI values between 0.05 and 0.95 (\shortref[a]{fig:psichomics-psi-filtering}), avoiding those whose median PSI is consistently near 0 and 1 (i.e., splicing events that are mostly constitutive). This concomitantly filters out events of very low variance (\shortref[b]{fig:psichomics-psi-filtering}). To further select events that vary across samples based on a minimum PSI variance, we set $log_{10}(variance) > -3$ (\shortref[b]{fig:psichomics-psi-filtering}). Alternative splicing events were further filtered based on their PSI range (maximum — minimum PSI value across samples), as a surrogate for the minimum changes in alternative splicing that can be considered biologically meaningful, by setting the minimum PSI range to 0.15 (\shortref[b]{fig:psichomics-psi-filtering}). The number of potentially interesting events was reduced from 135 717 to 27 401.
 
-%\begin{figure}[!h]
+%\begin{figure}[!ht]
 %  \includegraphics[width=.7\textwidth]{images/psichomics/4-psi-filtering}
 %  \centering
 %  \caption[Alternative splicing quantification filtering]{\textbf{Alternative splicing quantification filtering.} (a) Selection, for further analyses, of alternative splicing events with median PSI values between 0.05 and 0.95. (b) Further filtering those events with $\textrm{PSI range} > 0.15$ and $log_{10}(\textrm{variance}) > -3$. For illustration purposes, grey points represent the events discarded in panel a.}
@@ -331,7 +331,7 @@ Data groups can be created in psichomics based on sample/subject matched metadat
 %      \caption{Two animals}\label{animals}
 %\end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[h]{0.32\textwidth}
 		\begin{overpic}[abs,width=\textwidth]{images/psichomics/5-pca/a}
@@ -388,14 +388,14 @@ Similarly, we performed and plotted PCA on alternative splicing data\footnote{PS
 
 We performed differential gene expression and differential splicing analysis between isogenic stem cells and isogenic fibroblasts (\shortref{fig:psichomics-diff-analyses}). First, normalised gene expression was linearly modelled, with explanatory variables defined based on the selected groups. Moderated t-tests and log-odds of differential expression were then computed by empirical Bayes moderation of the standard errors towards a common value \cite{ritchie:2015tm}.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=.7\textwidth]{images/psichomics/6-diff-analyses}
   \centering
   \caption[Differential expression and splicing analyses]{\textbf{Differential expression (a) and splicing (b, c) analyses.} (a, b) Volcano plots where orange-highlighted genes/events correspond to $\textrm{adjusted p-value} < 0.01$ and either $|log_2(\textrm{Fold change})| > 1$ (a) or $|\Delta \textrm{ median PSI}| > 0.1$ (b). The \emph{CD46} penultimate exon inclusion is labeled in b with the cognate gene symbol. (c) Table showing a subset of the differential splicing results, sorted in ascending order by the adjusted p-value of Wilcoxon’s rank-sum test. PSI distributions are colored by groups: pink for isogenic stem cells (isoSC) and green for isogenic fibroblasts (isoFib). The selected alternative splicing event (in blue) depicts the \emph{CD46} penultimate exon inclusion.}
   \label{fig:psichomics-diff-analyses}
 \end{figure}
 
-%\begin{figure}[!h]
+%\begin{figure}[!ht]
 %  \includegraphics[width=.7\textwidth]{images/psichomics/6-diff-analyses}
 %  \centering
 %  \caption[Differential expression and splicing analyses]{\textbf{Differential expression (a) and splicing (b, c) analyses.} (a, b) Volcano plots where orange-highlighted genes/events correspond to $\textrm{adjusted p-value} < 0.01$ and either $|log_2(\textrm{Fold change})| > 1$ (a) or $|\Delta \textrm{ median PSI}| > 0.1$ (b). The \emph{CD46} penultimate exon inclusion is labeled in b with the cognate gene symbol. (c) Table showing a subset of the differential splicing results, sorted in ascending order by the adjusted p-value of Wilcoxon’s rank-sum test. PSI distributions are colored by groups: pink for isogenic stem cells (isoSC) and green for isogenic fibroblasts (isoFib). The selected alternative splicing event (in blue) depicts the \emph{CD46} penultimate exon inclusion.}
@@ -458,7 +458,7 @@ In GTEx tissues where \emph{ESRP2} expression substantially varies across indivi
   \label{fig:psichomics-tcga-esrp1}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=1\textwidth]{images/psichomics/10-tcga-esrp2}
   \centering
   \caption[\emph{ESRP2} expression versus \emph{CD46} penultimate exon PSI in TCGA]{\textbf{Scatterplots of normalised \emph{ESRP2} expression versus PSI values for \emph{CD46} penultimate exon inclusion across TCGA tumour types.} For each plot, the red line illustrates the fitted Loess regression curve. The Pearson’s correlation coefficients (\emph{r}) and associated p-values (P) are shown. See caption of \shortref{fig:psichomics-tcga-esrp1} for legend.}
@@ -469,13 +469,13 @@ In GTEx tissues where \emph{ESRP2} expression substantially varies across indivi
 
 The prognostic value of a given alternative splicing event (or gene) may be evaluated by separating subjects based on a PSI cutoff for a given alternative splicing event (or expression cutoff for a given gene). The survival differences are then log-rank tested based on Kaplan-Meier estimators.
 
-We performed overall survival analysis by selecting right data censoring\footnote{psichomics supports left, right, and interval data censoring for survival analysis. Events may occur after the last observation (right censoring, such as in the case of subjects having no event reported during the study or dropping from it altogether), before an observation is performed (left censoring, for instance when events happened in an uncertain time before the start of the study) or in-between observations (interval censoring, such as when patients require periodic follow-ups and the time of an event occurrence falls between follow-ups but is not certain) \cite{zhang:2010wk}.}, follow-up time as days to death and the event of interest as death. Analysing days to death as the follow-up time and death as the event of interest is known as an overall survival analysis, that is, the study of the time until the subject’s death following diagnosis. In cases where days to death is not available, the days to last follow-up are considered instead in psichomics. In some TCGA records, the days to last follow-up may be lower than days to death; as we are interested in prognosis, we used days to death instead.
+We performed overall survival analysis by selecting right data censoring\footnote{psichomics supports left, right, and interval data censoring for survival analysis. Events may occur after the last observation (right censoring, such as in the case of subjects having no event reported during the study or dropping from it altogether), before an observation is performed (left censoring, for instance when events happened in an uncertain time before the start of the study) or in-between observations (interval censoring, such as when patients require periodic follow-ups and the time of an event occurrence falls between follow-ups but is not certain) \cite{zhang:2010wk}.}, follow-up time as days to death and the event of interest as death. Analysing days to death as the follow-up time and death as the event of interest is known as an overall survival analysis, that is, the study of the time until the subject’s death following diagnosis. For patients whose days to death are not available, the follow-up time is based on days to last follow-up (otherwise, these subjects would be discarded from the analyses)\footnote{We recommend using days to death (complemented with days to last follow-up for missing values) as follow-up time when using TCGA data. Days to last follow-up are sometimes lower than days to death or completely missing, which would result in discarding individuals for which we do have information on days to death if we only used follow-up time.}.
  
 In this context, we used clinical and transcriptomic data from TCGA to evaluate the prognostic value of the skipping of \emph{CD46} penultimate exon based on overall survival curves across TCGA tumour types to compare tumour samples with low and high inclusion of the \emph{CD46} penultimate exon. A $-log_{10}(\textrm{p-value})$ plot by cutoff displays the p-values of the log-rank test of survival across multiple PSI cutoffs for the selected alternative splicing event. The PSI cutoff maximising the significance of the survival difference is automatically selected. The splicing of \emph{CD46} penultimate exon seems to have prognostic value in select cancer types, such as brain lower-grade glioma and lung adenocarcinoma (\shortref{fig:psichomics-cd46-as-prognosis}).
 
 % \footnote{If the PSI cutoff suggested by psichomics has unbalanced number of subjects between groups (e.g., in \shortref[d]{fig:psichomics-cd46-as}, the lowest log-rank p-value corresponds to a comparison of 1 versus 506 subjects), we should use another cutoff with more reasonably balanced groups and for which the p-value is still significant. Sample size calculations can be performed based on test assumptions (e.g., probability of failure for each group during the study) using existing R packages, such as \emph{powerSurvEpi} \cite{qiu:2021wd}.}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \begin{overpic}[abs,width=.8\textwidth]{images/psichomics/11-cd46-as-prognosis}
     	\put(5,175){\colorbox{white}{\textsf{\textbf{a}}}}
 		\put(185,175){\colorbox{white}{\textsf{\textbf{b}}}}
@@ -491,7 +491,7 @@ In this context, we used clinical and transcriptomic data from TCGA to evaluate 
 
 The runtimes required to load, quantify and analyse data from different TCGA (data version \texttt{2016\_01\_28} from FireBrowse) and GTEx v7 cohorts were benchmarked. The breast cancer cohort contains the highest number of RNA-seq samples in TCGA, thus being the cohort for which takes more time to load, quantify and analyse alternative splicing and gene expression data. Contrastingly, processed data from GTEx come bundled in files containing all tissues. Although only data from specified tissues are loaded, scanning though the large GTEx file still delays data loading. Tissues from GTEx were loaded in pairs for subsequent differential splicing analyses (\shortref[A]{fig:psichomics-performance}).
 
-\begin{figure}[!t]
+\begin{figure}[!ht]
   \begin{overpic}[abs,width=\textwidth]{images/psichomics/performance-benchmark}
   	\put(0,148){\colorbox{white}{\textsf{\textbf{a}}}}
   	\put(220,148){\colorbox{white}{\textsf{\textbf{b}}}}
@@ -507,7 +507,7 @@ Synthetic datasets for gene expression and exon-exon junction quantification of 
 
 Although jSplice's \cite{christinat:2016ui} and DIEGO’s \cite{doose:2018uv} splicing quantifications rely on junction read counts, their alternative splicing module expression and junction usage metrics, respectively, are not directly comparable with psichomics’ PSI values. To evaluate their accuracy in the absence of any known tool with the same input (junction read counts) and output metric (PSI) as psichomics, psichomics-estimated PSI values were compared to those estimated by RT-PCR and using VAST-TOOLS \cite{irimia:2014wt} across multiple tissue and cell line samples from human, mouse and chicken \cite{tapial:2017ui}. VAST-TOOLS follows an analogous, and therefore more directly comparable, procedure for computing PSI values and there is a substantial overlap between the alternative splicing event annotations used by the two tools. psichomics estimates highly correlate with both others, particularly for mouse and human (\shortref{fig:psi-comparison}), suggesting robustness and reproducibility in alternative splicing quantification by psichomics. Of note, the lower correlation for chicken samples is attributable to a single outlier, as its removal increases the correlation coefficients between psichomics and RT-PCR estimates (Pearson's \emph{r} = 0.87, p-value $< 0.01$; Spearman's \emph{rho} = 0.87, p-value $< 0.01$) and psichomics and VAST-TOOLS estimates (Pearson's \emph{r} = 0.93, p-value $< 0.01$; Spearman's \emph{rho} = 0.94, p-value $< 0.01$).
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \begin{overpic}[abs,width=\textwidth]{images/psichomics/psi-comparison}
   	\put(0,157){\colorbox{white}{ }}
   	\put(146,157){\colorbox{white}{ }}
@@ -520,7 +520,7 @@ Although jSplice's \cite{christinat:2016ui} and DIEGO’s \cite{doose:2018uv} sp
 
 To assess the influence of RNA-seq read coverage on psichomics PSI estimates, different numbers of junction reads per event were simulated for different given PSI values (10 000 times for each combination). \shortref{fig:psichomics-accuracy} shows that the accuracy of PSI estimation by psichomics is expectedly sensitive to junction read coverage, particularly for intermediate PSI values, with 90\% prediction intervals $<0.1$ for coverage higher than a few hundred reads.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \begin{overpic}[abs,width=\textwidth]{images/psichomics/psichomics-accuracy}
       	\put(-5,237){\colorbox{white}{\textsf{\textbf{a}}}}
 	  	\put(219,237){\colorbox{white}{\textsf{\textbf{b}}}}

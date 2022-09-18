@@ -59,7 +59,7 @@ In this chapter, I describe CompBio, our app server built with Docker Compose, a
 CompBio is built using Docker Compose to manage the Docker images of multiple services: ShinyProxy, Nginx, Celery, Redis, Flower, Plausible, PostgreSQL, ClickHouse, Prometheus, Grafana and RStudio Web (\autoref{tab:compbio-services}). 
 RStudio Web is only available in the development profile. The services communicate between each other via a single network created by Docker (\autoref{fig:architecture}).
 
-\begin{table}[!h]
+\begin{table}[!ht]
 \small
 \caption[CompBio web services]{\textbf{CompBio services.}}
 \label{tab:compbio-services}
@@ -87,7 +87,7 @@ RStudio (testing) & RStudio Web\parnote{Only available in the development profil
 \parnotes
 \end{table}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=.9\textwidth]{images/app-server/architecture}
   \centering
   \caption[App server architecture]{\textbf{App server architecture is based on Docker Compose.} All services are provided via Docker images and communicate with each other via a Docker-created network using the name of the service and a specific port (e.g., Nginx communicates with ShinyProxy via \texttt{shinyproxy:8080}). The groups  (analytics, system monitoring and background tasks) are strictly conceptual.}
@@ -147,11 +147,9 @@ services:
       - ./shinyproxy/templates:/opt/shinyproxy/templates:ro
       - shinyproxy-server:/log
       - shinyproxy-containers:/container-logs
-      
   networks:
     default:
       name: shiny-net
-      
   volumes:
     shinyproxy-server:
     shinyproxy-containers:
@@ -271,7 +269,6 @@ The HTML pages provided by ShinyProxy are based on the Thymeleaf template engine
 \subsubsection{Progress bar when loading ShinyProxy apps}
 
 \begin{wrapfigure}{r}{.5\textwidth}
-  \vspace{-\intextsep}
   \includegraphics[width=\linewidth]{images/app-server/progress-bar}
   \caption[Screenshot of app loading]{\textbf{Progress bar displayed while psichomics loads} (11 Nov 2021).}
   \label{fig:progress-bar}
@@ -344,7 +341,7 @@ To run other programs in Celery, we need to create a custom Dockerfile containin
 
 Prometheus monitors the server resources and the collected data can be visualised using Grafana (\shortref{fig:grafana}). The tracked resources include Celery job usage, ShinyProxy metrics (app usage time, app failures, users per app, etc.), Nginx status and Linux system resources (e.g., RAM usage, available disk space and CPU stress).
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[h]{0.45\textwidth} 
 		\includegraphics[width=\textwidth]{images/app-server/grafana-system}
@@ -390,7 +387,7 @@ CompBio is a web server that hosts Shiny applications and is publicly accessible
 % https://doi.org/10.1145/3038923
 % https://www.tandfonline.com/doi/full/10.1080/19393555.2020.1853855?casa_token=EpT3lJflBXAAAAAA%3AaS5ePDNIcAPfL6MsMoKrI0s4sDtjyGNvGICZiz2Ywvnf7E2vtokORb073GUi9eilZiUCFOAqhIY
 
-Updates to Docker and Docker Compose need to be performed by an administrator using Linux's \texttt{apt-get} command\footnote{sudo apt-get update \&\& sudo apt-get upgrade}. On the other hand, Docker images of the server (including Nginx and ShinyProxy) require a user in the \texttt{docker} group to edit the versions of the Docker images used in \texttt{docker-compose.yml} and restart the Docker Compose project\footnote{While inside the project folder: \texttt{docker compose down \&\& docker compose up -d --build}}. The advantage of using Docker Compose is that if something goes wrong with the updated Docker images, we simply need to revert \texttt{docker-compose.yml} to a previous working state and restart all services.
+Updates to Docker and Docker Compose need to be performed by an administrator using Linux's \texttt{apt-get} command\footnote{\texttt{sudo apt-get update \&\& sudo apt-get upgrade}}. On the other hand, Docker images of the server (including Nginx and ShinyProxy) require a user in the \texttt{docker} group to edit the versions of the Docker images used in \texttt{docker-compose.yml} and restart the Docker Compose project\footnote{While inside the project folder: \texttt{docker compose down \&\& docker compose up -d --build}}. The advantage of using Docker Compose is that if something goes wrong with the updated Docker images, we simply need to revert \texttt{docker-compose.yml} to a previous working state and restart all services.
 
 \section{Conclusion}
 
