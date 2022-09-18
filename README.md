@@ -2,7 +2,7 @@
 
 Nuno Agostinho's PhD Thesis, September 2022
 
-Supervision by Nuno Barbosa-Morais
+Supervised by Nuno Barbosa-Morais
 
 Instituto de Medicina Molecular João Lobo Antunes
 
