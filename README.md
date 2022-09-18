@@ -1,8 +1,8 @@
-# Transcriptomic Web Apps
+# Developing Web Apps for Analyses of Transcriptomes
 
-Nuno Agostinho's PhD Thesis
+Nuno Agostinho's PhD Thesis, September 2022
 
-Supervision: Nuno Barbosa-Morais
+Supervision by Nuno Barbosa-Morais
 
 Instituto de Medicina Molecular João Lobo Antunes
 
