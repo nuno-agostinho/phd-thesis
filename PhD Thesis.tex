@@ -3,6 +3,7 @@
 
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2.5cm]{geometry}
 \usepackage[portuguese,british]{babel}
+\usepackage{CJKutf8}
 
 %\usepackage[parfill]{parskip}    % Begin paragraphs with empty line instead of indent
 \usepackage{graphicx}             % Use pdf, png, jpg or eps with pdflatex (eps in DVI mode)
@@ -10,6 +11,8 @@
 \usepackage{overpic}
 \usepackage{wrapfig}
 \usepackage{subcaption}
+
+\usepackage{epigraph}
 
 \usepackage{amssymb}
 %\usepackage{ebgaramond}
@@ -19,7 +22,7 @@
 \usepackage{nameref}
 
 % hyphenation for custom words
-\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage[hidelinks]{hyperref}
 \hyphenation{al-ter-na-tive
 al-ter-na-tive
 al-ter-na-tive-ly
@@ -34,9 +37,11 @@ available
 cate-gori-cal
 charac-te-ris-tics
 clini-cal
+cen-tro-some
 col-labo-rating
 com-bi-na-tions
 com-para-tive
+com-pari-son
 con-sis-tent
 cor-re-la-tion
 cor-re-la-tions
@@ -44,19 +49,24 @@ de-veloping
 de-velop-ment
 dif-ferent
 dif-feren-tial
+di-rec-to-ry
 Dockerfile
 Dockerfiles
+epi-the-li-al-mesen-chy-mal
 evalu-ate
 evalu-ated
 ex-panding
 ex-peri-men-tal
 ex-peri-ment
 ex-peri-ments
+figure
 flexi-bili-ty
 ge-nome
 image
 in-cluding
 in-forming
+medi-cal
+in-terac-tive
 in-ter-pre-ta-tion
 in-va-sive
 in-ves-ti-ga-tion
@@ -68,6 +78,7 @@ mini-mises
 mo-lecu-lar
 mole-cule
 nema-tode
+nor-mali-sa-tion
 op-por-tu-ni-ty
 or-ganism
 paral-lel
@@ -75,6 +86,7 @@ per-taining
 per-tur-ba-tion
 per-tur-ba-tions
 pheo-chromo-cyto-ma
+pro-gramme
 quan-ti-fi-ca-tion
 sen-si-tivi-ty
 se-quencing
@@ -82,10 +94,12 @@ squa-mous
 splicing
 sta-tis-tics
 stra-tum
+tracking
 transcrip-tomic
 transcrip-tomics
 TCGASpliceSeq
 visu-alisation
+working
 }
 
 
@@ -179,7 +193,7 @@ visu-alisation
         \includegraphics[width=0.6\textwidth]{images/logo/ulisboa}
         
         \vspace{1.8cm}
-        Developing Transcriptomic Web Apps
+        Developing Web Apps for Analyses of Transcriptomes
 
         \vspace{1.1cm}        
 %        \vspace{0.5cm}
@@ -190,7 +204,11 @@ visu-alisation
     \end{center}
 
     \vspace{0.9cm}
-    Orientador: Prof. Doutor Nuno Luís Barbosa Morais
+    Orientadores:
+
+      Prof. Doutor Nuno Luís Barbosa Morais
+
+      Prof. Sérgio Alexandre Fernandes de Almeida
     
     \vspace{2.2cm}
     \begin{center}
@@ -215,6 +233,13 @@ visu-alisation
 \input{chapters/summary}
 
 \input{chapters/acknowledgements}
+
+%\setlength\epigraphwidth{5cm}
+%\setlength\epigraphrule{0pt}
+%\epigraph{\begin{CJK}{UTF8}{min}未練なく散も桜はさくら哉\end{CJK}
+%I write, erase, rewrite
+%Erase again, and then
+%A poppy blooms.}{--- \textup{Hokushi Tachibana}}
 
 \listoffigures
 \addcontentsline{toc}{chapter}{List of Figures}

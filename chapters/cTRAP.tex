@@ -20,21 +20,21 @@ During a stormy day in our 2017 Madeira Lab retreat, we brainstormed the unique 
 
 We thus developed cTRAP, an R package and web app to compare user-provided differential gene expression profiles with the perturbations available from CMap, allowing to infer putative candidate molecular causes for the observed differences, as well as compounds that may promote or revert them (\shortref{fig:cTRAP-screenshot}).
 
-After releasing the first version in Bioconductor, multiple features were added (\shortref{tab:cTRAP}). Inspired by the method used to compare gene expression changes against the CMap database, we also added a way to predict drugs targeting altered genes by using datasets that featured both drug sensitivity and gene expression data for many cell lines. Additionally, cTRAP also allows to analyse the enrichment of molecular descriptors for compounds from NCI-60 and CMap. More recently, we developed a Shiny-based visual interface to host cTRAP online with support for user sessions and background tasks.
+After releasing the first version in Bioconductor, multiple features were added (\shortref{tab:cTRAP}). Inspired by the method used to compare gene expression changes against the CMap database, we also added a way to predict drugs targeting altered genes by using datasets that featured both drug sensitivity and gene expression data for many cell lines. Additionally, cTRAP also allows to analyse the enrichment of molecular descriptor sets for compounds from NCI-60 and CMap. More recently, we developed a Shiny-based visual interface to host cTRAP online with support for user sessions and background tasks.
 
 \begin{table}[!ht]
 \parnotereset
 \small
 \caption[Major cTRAP milestones]{\textbf{Major cTRAP milestones.}}
 \label{tab:cTRAP}
-\begin{tabularx}{\textwidth}{ r r l }
+\begin{tabularx}{\textwidth}{ l r l }
 \toprule
 \textbf{Version} & \textbf{Release date} & \textbf{Main features} \\
 \midrule
 1.0  &  2 Nov 2018 & Compare differential expression profiles against CMap data\parnote{First Bioconductor release.} \\
 \midrule
 \multirow{3}*{1.4}  & \multirow{3}*{12 Nov 2019} & Predict targeting drugs using NCI-60, CTRP and GDSC data \\
-       &             & Analyse enrichment for compounds' molecular descriptors \\
+       &             & Analyse enrichment for molecular descriptors of compounds \\
        &             & Load and process 21GB CMap z-scores file by chunks \\
 \midrule
 1.8  & 30 Oct 2020 & Include graphical functions to load data and analyse results \\
@@ -52,24 +52,35 @@ The associated cTRAP manuscript (of which I am a co-first and co-corresponding a
 
 \section{Background}
 
-The Connectivity Map (CMap) is a repository of transcriptomic signatures of thousands of genetic and pharmacological perturbations in human cancer cell lines \cite{subramanian:2017ul}. Comparing differential gene expression profiles with those from CMap allows to infer putative molecular causes for the observed differences, as well as compounds that may promote or revert those changes.
+Understanding the biological mechanisms underlying uncharacterised phenotypes is crucial to unravel the physiological role of genes and the mechanism of action of compounds, alongside their therapeutic potential \cite{subramanian:2017ul,malta:2018uj,mendez-lucio:2020th,le:2021uq,hughes:2000ww,almeida:2019wh}. Comprehending novel genetic and pharmacological perturbations -- including the modulation of the expression of a gene or induction of an unknown compound in a cellular system -- can be achieved by profiling genome-wide gene expression, allowing to analyse the whole cellular transcriptional response \cite{hughes:2000ww}.
+% based on the assumption that cellular transcriptional response to pathway disruption is similar across cells, and that there are sufficiently unique transcriptional responses to the perturbation of most cellular pathways, systematic characterization of novel mutants could be carried out with a single genome-wide expression measurement
 
-The CMap and LINCS Unified Environment (\alink{clue.io}) was developed as a collection of user-friendly tools for the manipulation of CMap data and their integration with user-provided data \cite{subramanian:2017ul}. However, \alink{clue.io} limits the maximum number of input genes for CMap queries (150 up-regulated and 150 down-regulated genes), expresses results' significance in a non-standard significance score, is difficult to automate for downstream analyses and does not support using local computing resources. Furthermore, \alink{clue.io} does not currently integrate with drug sensitivity datasets, which could further assist in pinpointing compounds that selectively target cells.
+The gene expression profile of experimental phenotypic changes can be compared with a database of characterised transcriptomic signatures of known perturbagens, in order to infer putative molecular causes of the observed phenotype \cite{subramanian:2017ul,hughes:2000ww}. This approach requires a large, heterogeneous and representative dataset containing gene expression profiles associated with known perturbagens across multiple cell lines \cite{hughes:2000ww}. Such is the case of the Connectivity Map (CMap), a repository of transcriptomic signatures of thousands of genetic and pharmacological perturbations of human cancer cell lines \cite{subramanian:2017ul}. %Comparing differential gene expression profiles with those from CMap allows to infer putative molecular causes for the observed differences, as well as compounds that may promote or revert those changes.
 
-We thus developed cTRAP, an R package and web app that identifies potentially causal molecular perturbations by seamlessly comparing user-provided differential gene expression results with those available from CMap. cTRAP also supports comparisons with gene expression/drug sensitivity associations derived from the NCI-60 \cite{shoemaker:2006wi}, the Cancer Therapeutics Response Portal (CTRP) \cite{seashore-ludlow:2015ws} and the Genomics of Drug Sensitivity in Cancer (GDSC) \cite{yang:2012vk}, to identify compounds that could target the phenotypes associated with the user-provided differential expression profiles. In cTRAP, similarity between differential gene expression results is measured by gene set enrichment \cite{subramanian:2017ul,subramanian:2005wu} and correlation scores.
+CMap data can be explored and compared with user-provided data via a collection of user-friendly web apps from the CMap and LINCS Unified Environment (\alink{clue.io}) \cite{subramanian:2017ul}. However, \alink{clue.io} limits the maximum number of input genes for CMap queries (150 up-regulated and 150 down-regulated genes), %expresses results' significance in a non-standard significance score,
+is difficult to automate for downstream analyses and cannot be run using local computing resources. Furthermore, \alink{clue.io} does not currently integrate with drug sensitivity datasets to further assist in pinpointing compounds that selectively target cells \cite{almeida:2019wh}.
+
+\begin{figure}[!b]
+  \includegraphics[width=\textwidth]{images/ctrap/ctrap}
+  \centering
+  \caption[cTRAP analyses]{\textbf{cTRAP analyses.} cTRAP allows to perform three types of analyses: \textbf{(1) rank CMap perturbations} based on the similarity between their associated gene expression alterations and user-provided differential gene expression values, \textbf{(2) predict targeting drugs} by comparing user-provided differential gene expression values with matrices of correlation between gene expression and drug sensitivity data across human cell lines and \textbf{(3) analyse drug descriptor set enrichment} (v. main text) using the compound list from either the first or second analysis.}
+  \label{fig:ctrap}
+\end{figure}
+
+We thus developed cTRAP (\shortref{fig:ctrap}), an R package and web app that identifies potentially causal molecular perturbations by seamlessly comparing user-provided differential gene expression results with those available from CMap. cTRAP also supports comparisons with gene expression/drug sensitivity associations derived from the NCI-60 \cite{shoemaker:2006wi}, the Cancer Therapeutics Response Portal (CTRP) \cite{seashore-ludlow:2015ws} and the Genomics of Drug Sensitivity in Cancer (GDSC) \cite{yang:2012vk}, to identify compounds that could target the phenotypes associated with the user-provided differential expression profiles \cite{almeida:2019wh}. In cTRAP, similarity between differential gene expression results is measured by gene set enrichment \cite{subramanian:2017ul,subramanian:2005wu} and correlation scores. Finally, cTRAP can also analyse a list of compounds resulting from previous analyses for the enrichment in sets of computed molecular descriptors (e.g., number of oxygen atoms or aromatic rings) from CMap and NCI-60 compounds, allowing to identify common chemical properties of compounds of interest.
 
 cTRAP is available online as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}, but can be locally installed using Bioconductor (\alink{bioconductor.org/packages/cTRAP}) or Docker (\dockerlink{nunoagostinho/ctrap}). The source code of cTRAP is available at \alink{github.com/nuno-agostinho/cTRAP}.
 
 \section{Materials and methods}
 
-\begin{figure}[!b]
+From a vector of user-provided differential expression results (e.g., t-statistic values) with respective gene symbols, cTRAP can return a list of CMap perturbations ranked by similarity or predict candidate drugs for targeting the associated phenotype. Moreover, cTRAP can also analyse the enrichment of drug sets in an ordered vector of compounds to identify common chemical characteristics (Figures \shorterref{fig:ctrap-workflow} and \shorterref{fig:ctrap-file-structure}).
+
+\begin{figure}[!ht]
   \includegraphics[width=.8\textwidth]{images/ctrap/workflow}
   \centering
-  \caption[cTRAP workflow]{\textbf{cTRAP workflow.} cTRAP allows to perform three analyses: \textbf{(1) rank CMap perturbations} based on the similarity between their associated gene expression alterations and user-provided differential gene expression values, \textbf{(2) predict targeting drugs} by comparing user-provided differential gene expression values with matrices of correlation between gene expression and drug sensitivity data and \textbf{(3) analyse drug (descriptor) set enrichment} using drug sets and the results from either the first or second analysis. CMap perturbation data, gene expression/drug sensitivity correlation matrices and drug molecular descriptors for drug sets can be automatically downloaded.}
+  \caption[cTRAP workflow]{\textbf{cTRAP workflow.} A vector of differential gene expression values containing gene names is required to rank similar perturbations and to predict targeting drugs. Drug descriptor set enrichment analysis can then be performed based on those results. CMap perturbagen data, gene expression/drug sensitivity correlation matrices and molecular descriptors for drug sets can be automatically downloaded by cTRAP.}
   \label{fig:ctrap-workflow}
 \end{figure}
-
-From a vector of user-provided differential expression results (e.g., t-statistic values) with respective gene symbols, cTRAP can return a list of CMap perturbations ranked by similarity or predict candidate drugs for targeting the associated phenotype. Moreover, cTRAP can also analyse the enrichment of drug sets in an ordered vector of compounds to identify common chemical characteristics (Figures \shorterref{fig:ctrap-workflow} and \shorterref{fig:ctrap-file-structure}).
 
 \begin{figure}[!ht]
   \includegraphics[width=1\textwidth]{images/ctrap/file-structure}
@@ -110,41 +121,41 @@ names(diffExprStat) <- diffExpr$Gene_symbol
 
 \subsection{Ranking of similar CMap perturbations}
 
-CMap perturbations can be categorised into gene knockdown, gene over-expression and compounds. In cTRAP, available perturbation types and respective conditions can be enquired using the function \texttt{getCMapConditions()} that will download CMap perturbation metadata. Afterwards, the function \texttt{filterCMapMetadata()} allows to filter the metadata based on selected perturbations types, cell lines, dosages and time points, allowing to specifically load only the desired data in downstream analyses. This information is passed to \texttt{prepareCMapPerturbations()} to download (if file is not found) and process CMap differential expression normalised z-scores (GCTX file) and gene and compound information (\shortref{fig:ctrap-cmap-perturbations}). Given that the GCTX file size is around 21GB, we recommend to download the file directly from GEO GSE92742’s Level 5 data link (\sloppy{\small{\url{ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz}}}).
-
-\begin{figure}[!t]
+\begin{figure}[!b]
   \includegraphics[width=.8\textwidth]{images/ctrap/cmap-perturbations}
   \centering
   \caption[Loading data from CMap perturbations]{\textbf{Loading data from CMap perturbations.} Input arguments support either the data themselves (as data frames) or their respective file path. If the file path directs to a non-existing file,  data are first downloaded and then saved to the given file path. To avoid high memory usage, CMap perturbations' differential expression z-scores (CMap zscores) are not loaded into memory when a file path is given. Instead, only metadata are loaded into a \emph{dummy} object that can be subset as a normal R object for downstream analyses.}
   \label{fig:ctrap-cmap-perturbations}
 \end{figure}
 
+CMap perturbations can be categorised into gene knockdown, gene over-expression and compounds. In cTRAP, available perturbation types and respective conditions can be enquired using the function \texttt{getCMapConditions()} that will download CMap perturbation metadata. Afterwards, \texttt{filterCMapMetadata()} allows to filter the metadata based on selected perturbations types, cell lines, dosages and time points, allowing to specifically load only the desired data in downstream analyses. This information is passed to \texttt{prepareCMapPerturbations()} to download (if file is not found) and process CMap differential expression normalised z-scores (GCTX file) and gene and compound information (\shortref{fig:ctrap-cmap-perturbations}). Given that the GCTX file size is around 21GB, we recommend to download the file directly from GEO GSE92742’s Level 5 data link (\sloppy{\small{\url{ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE92nnn/GSE92742/suppl/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz}}}).
 
-After comparing differential expression normalised z-scores from select CMap perturbations against user-provided differential expression results, \texttt{rankSimilarPerturbations()} returns a table with ranked CMap perturbations and their respective correlation coefficients and GSEA scores. Ranks closer to the top indicate perturbations whose differential expression profiles are more similar to the user-provided data, i.e., CMap perturbations that potentially mimic the user-provided transcriptomic changes, whereas higher ranks define perturbations that may revert those changes.
+After comparing differential expression normalised z-scores from select CMap perturbations against user-provided differential expression results, \texttt{rankSimilarPerturbations()} returns a table with ranked CMap perturbations. Ranks closer to the top indicate perturbations whose differential expression profiles are more similar to the user-provided data, i.e., CMap perturbations that potentially mimic the user-provided transcriptomic changes, whereas higher ranks define perturbations that may revert those changes.
 
-To rank CMap perturbations, cTRAP performs Spearman's and Pearson's correlations between the user-provided statistics for differential expression and values from CMap perturbations, and calculates a GSEA-based score (described below). All three methods are run by default. For each method, the similarity scores are averaged across multiple cell lines for the same conditions (i.e., same experimental time point, dose and induced compound or gene target) and those averages are then used to rank CMap perturbations. By default, results for individual cell lines are provided for informative purposes (e.g., to check the heterogeneity of response across cell lines) but not used when ranking. The different ranking scores are combined via the rank product, ultimately used to sort the CMap perturbations. % rank product not properly explained
+To rank CMap perturbations, cTRAP performs Spearman's and Pearson's correlations between the user-provided statistics for differential expression and values from CMap perturbations, and calculates a GSEA-based score (described below). All three methods are run by default. For each method, the similarity scores are averaged across multiple cell lines for the same conditions (i.e., same exposure time, dose and induced compound or gene target) and those averages are then used to rank CMap perturbations. By default, results for individual cell lines are provided for informative purposes (e.g., to check the heterogeneity of response across cell lines) but not used when ranking. The different ranking scores are combined via the rank product \cite{breitling:2004aa}, ultimately used to sort the CMap perturbations. % rank product not properly explained
 
 The GSEA-based score is calculated via the following steps:
 
 \begin{enumerate}
 	\item Order genes by the user-provided differential expression statistics.
 	\item Define the top 150 (by default) and bottom 150 (by default) genes as two sets.
-	\item For each CMap perturbation, sort genes by their differential expression z-scores and calculate the Weighted Connectivity Score (WTCS), a composite and bi-directional version of the weighted Kolmogorov-Smirnov enrichment statistic (ES) \cite{subramanian:2017ul}. To calculate the GSEA score, GSEA is run for the most up- and down-regulated genes from the user’s differential expression profile. The GSEA score is the mean between $\textrm{ES}_{\textrm{top}}$ and $\textrm{ES}_{\textrm{bottom}}$; however, if both sets have the same sign, the GSEA score is 0 \cite{subramanian:2017ul}.
+	\item For each CMap perturbation, sort genes by their differential expression z-scores and calculate the Weighted Connectivity Score (WTCS), a composite and bi-directional version of the weighted Kolmogorov-Smirnov enrichment statistic (ES) \cite{subramanian:2017ul} where GSEA is run for the most up- and down-regulated genes from the user’s differential expression profile. The WTCS is the mean between $\textrm{ES}_{\textrm{top}}$ and $\textrm{ES}_{\textrm{bottom}}$; however, $\textrm{WTCS} = 0$ if both sets have the same sign \cite{subramanian:2017ul}.
 \end{enumerate}
 
 As an example, for a CMap perturbation with a similar differential expression profile to user’s input, we expect to find higher enrichment of the top gene set in the most up-regulated genes and higher enrichment of the bottom gene set in the most down-regulated genes.
 
 To minimise peak RAM usage, \texttt{prepareCMapPerturbations()} downloads the GCTX file (a customised HDF5 file) for the CMap’s perturbation differential expression z-scores (if not previously downloaded) and returns its path without loading the file content itself, creating a \emph{dummy} object that only stores its file path, perturbation names, gene symbols and other associated metadata (\shortref{fig:ctrap-cmap-perturbations}). Based on the file path of this \emph{dummy} object (that can be subset like a normal R object), \texttt{rankSimilarPerturbations()} loads a $\le$ 1 GiB chunk\footnote{The default 1 GiB ($1024^3$ bytes) allows loading chunks of around 10000 columns and 14000 rows ($10000 \times 14000 \times 8 \textrm{ bytes} / 1024^3 = 1.04 \textrm{ GiB}$). CMap's GCTX file has around 14000 rows (genes).}, compares its differential expression z-score values against user-provided data and repeats the analysis for the next chunk (\shortref{fig:ctrap-analyses}). For each chunk, multithreaded support for Linux and macOS can be enabled per comparison method via \texttt{parallel::mclapply()}\footnote{\texttt{mclapply()} parallelises tasks via forking where multiple child processes are spawned and share their parent's memory. Forking is unavailable in Windows and its alternatives were deemed unsatisfactory, given that they copy 1GiB chunks per thread, significantly slowing down runtime.}, enabled by setting the number of threads to 2 or higher.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=.8\textwidth]{images/ctrap/analysis}
   \centering
   \caption[cTRAP similarity analysis]{\textbf{cTRAP similarity analysis.} User-provided differential gene expression statistics are compared with reference data (e.g., differential expression z-scores of CMap perturbations) and ranked by similarity. If the reference is contained in an HDF5 file, the file is processed in 1 GiB chunks (by default) to minimise peak memory usage. These analyses support multiple threads in Linux and macOS.}
   \label{fig:ctrap-analyses}
 \end{figure}
 
-The ranked list from \texttt{rankSimilarPerturbations()} can be plotted using \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot of the results against a single CMap perturbation (examples shown in \fullref{subsec:case-study}).
+The ranked list from \texttt{rankSimilarPerturbations()} can be plotted using \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot of the results for a single CMap perturbation (examples shown in \fullref{subsec:case-study}).
 
+\pagebreak
 \subsection{Prediction of targeting drugs}
 
 Gene expression and drug activity data across multiple cell lines are available from NCI-60 \cite{shoemaker:2006wi}, Cancer Therapeutics Response Portal (CTRP) 2.1 \cite{seashore-ludlow:2015ws} and Genomics of Drug Sensitivity in Cancer (GDSC) 7 \cite{yang:2012vk} (\autoref{tab:drug-sensitivity-datasets}). For each source, the \texttt{prepareExpressionDrugSensitivityAssociation()} function performs the following:
@@ -158,7 +169,7 @@ Gene expression and drug activity data across multiple cell lines are available 
 
 As this process can take multiple hours to finish for all sources, the resulting objects were stored online for each aforementioned source and can be listed with \texttt{listExpressionDrugSensitivityAssociation()} and downloaded and loaded into R using \texttt{loadExpressionDrugSensitivityAssociation()}.
 
-A positive correlation coefficient for a given gene and drug suggests a gene whose expression is associated with sensitivity to that drug across multiple cell lines. By calculating the susceptibility of genes for each annotated drug, we can then correlate this information with a given phenotype to rank compounds based on their potential to selectively target the queried (or similar) phenotypes.
+A positive correlation coefficient for a given gene and drug suggests a gene whose expression is associated with sensitivity to that drug across multiple cell lines. By calculating the susceptibility of genes for each annotated drug, we can then correlate this information with a given phenotype to rank compounds based on their potential to selectively target the queried (or similar) phenotypes, i.e., to selectively target phenotypes characterised by the overexpression of genes conferring susceptibility to the compounds.
 
 \begin{wraptable}{r}{7cm}
 \centering
@@ -178,17 +189,18 @@ CTRP 2.1          &                545 &  823 \\
 \parnotes
 \end{wraptable}
 
-To identify compounds that could target the phenotype associated with specific differential expression profiles, we use \texttt{predictTargetingDrugs()} with those profiles and a correlation matrix of gene expression and drug sensitivity as input. The correlation coefficients between gene expression and drug sensitivity for each drug are compared against user-provided differential expression results by Spearman’s and Pearson’s correlation and GSEA-based scores (as performed when ranking CMap perturbations, results from comparison methods are ranked and then those rankings are finally used to calculate the rank product’s rank). \texttt{predictTargetingDrugs()} returns a table with ranked predicted targeting drugs and their respective correlation coefficients and GSEA scores (\shortref{fig:ctrap-analyses}). The ranks closer to the top comprise drugs that may target phenotypes similar to the user-provided differential expression profile.
+To identify compounds that could target the phenotype associated with specific differential expression profiles, we use \texttt{predictTargetingDrugs()} with those profiles and a correlation matrix of gene expression and drug sensitivity as input. The correlation coefficients between gene expression and drug sensitivity for each drug are compared against user-provided differential expression results by Spearman’s and Pearson’s correlation and WTCS (as performed when ranking CMap perturbations, results from comparison methods are ranked and then those rankings are finally used to calculate the rank product’s rank). \texttt{predictTargetingDrugs()} returns a table with ranked predicted targeting drugs and their respective correlation coefficients and WTCS (\shortref{fig:ctrap-analyses}). The ranks closer to the top comprise drugs that may target phenotypes similar to the user-provided differential expression profile.
 
-The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or either a scatterplot or GSEA plot for the results against a single predicted targeting drug (examples shown in \fullref{subsec:case-study}). The function \texttt{plotTargetingDrugsVSsimilarPerturbations()} compares the results from predicted targeting drugs and CMap perturbations that may mimic or revert the observed phenotype. For the available compound identifiers in the metadata pertaining from the different datasets (e.g., compound name, Broad ID, PubChem CID and SMILES), the function will automatically select the identifiers with higher number of matching values between the two datasets, unless the identifiers are explicitly defined by the user. A scatterplot is then returned using, by default, the rank product’s rank of targeting drugs against the rank product’s rank of similar perturbations (examples shown in \fullref{subsec:case-study}).
+The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or either plots for a single predicted targeting drug. The function \texttt{plotTargetingDrugsVSsimilarPerturbations()} compares the results from predicted targeting drugs and CMap perturbations that may mimic or revert the observed phenotype. For the available compound identifiers in the metadata pertaining from the different datasets (e.g., compound name, Broad ID, PubChem CID and SMILES), the function will automatically select the identifiers with higher number of matching values between the two datasets, unless the identifiers are explicitly defined by the user. A scatterplot is then returned using, by default, the rank product’s rank of targeting drugs against the rank product’s rank of similar perturbations (examples shown in \fullref{subsec:case-study}).
 
 \subsection{Drug descriptor set enrichment analysis}
+\label{subsec:descriptor-set-enrichment}
 
 Juan Carlos, a former member of the lab, computed drug descriptors (e.g., molecu\-lar weight and number of aromatic rings) for compounds from CMap and NCI-60 based on their three-dimensional (3D) and two-dimensional (2D) characteristics. These descriptors were uploaded to \alink{compbio.imm.medicina.ulisboa.pt/public/cTRAP/} and the resulting files can be automatically downloaded and processed to R using \texttt{loadDrugDescriptors()}.
 
 \texttt{prepareDrugSets()} allows to create sets of descriptors. By default, the function creates a maximum of 15 sets per drug descriptor. For each alphanumeric descriptor, one set is created per unique value of that descriptor. Alphanumeric descriptors containing more than 15 unique values (by default) will be discarded. For numerical descriptors, \texttt{prepareDrugSets()} internally uses the \texttt{binr::bins()} function to create evenly-distributed bins of drug descriptors, where each set contains a minimum number of points equal to the number of non-missing values divided by the number of maximum sets (15 by default) divided by a constant (5 by default).
 
-The \texttt{analyseDrugSetEnrichment()} function analyses the enrichment of the created drug descriptor sets in a named numeric vector or an object returned from \texttt{rankSimilarPerturbations()} or \texttt{predictTargetingDrugs()}. The GSEA-based enrichment analysis is internally performed using \texttt{fgsea::fgsea()}. The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or plots for a single predicted targeting drug (examples shown in \fullref{subsec:case-study}).
+The \texttt{analyseDrugSetEnrichment()} function analyses the enrichment of the created drug descriptor sets in a named numeric vector or an object returned from \texttt{rankSimilarPerturbations()} or \texttt{predictTargetingDrugs()}. The GSEA-based enrichment analysis is internally performed using \texttt{fgsea::fgsea()}. The resulting object can be plotted with \texttt{plot()}, showing a list of all results ordered by a given score or plots for a single predicted targeting drug.
 
 \subsection{Time and memory benchmarking}
 
@@ -225,18 +237,18 @@ Using cTRAP functions, we downloaded pre-processed gene quantification data for 
 
 \subsubsection{Comparison with CMap perturbations}
 
-We compared ENCODE's t-statistic for the \emph{EIF4G1} knockdown expression changes against the normalised z-scores associated with CMap's knockdown and small molecule perturbations in HepG2\footnote{This comparison could also be performed to perturbations in a different cell line (or in all cell lines using the average result across cell lines).}. The comparisons were performed using Spearman's correlation, Pearson's correlation and GSEA (using the default 150 up-regulated and 150 down-regulated genes). All results were ordered based on the rank product's rank.
+We compared ENCODE's t-statistic for the \emph{EIF4G1} knockdown expression changes against the normalised z-scores associated with CMap's knockdown and small molecule perturbations in HepG2\footnote{This comparison could also be performed to perturbations in a different cell line (or in all cell lines using the average result across cell lines).}. The comparisons were performed using Spearman's correlation, Pearson's correlation and WTCS (using the default 150 up-regulated and 150 down-regulated genes). All results were ordered based on the rank product's rank.
 
 Within CMap knockdown perturbations, the top result is expectedly the knockdown of \emph{EIF4G1} in CMap data, working as a positive control (\autoref{tab:eif4g1-cmap-kd} and \autoref{fig:eif4g1-compound-plots}).
 
-\begin{table}[!h]
+\begin{table}[!ht]
 \centering
 \footnotesize
-\caption[Top 10 CMap HepG2 gene knockdown perturbations]{\textbf{Top 10 most similar CMap HepG2 gene knockdown perturbations} compared to \emph{EIF4G1} knockdown versus control. Results ordered by rank product's rank. Legend: \emph{rho} is Spearman's coefficient, \emph{r} is Pearson's coefficient and GSEA is the GSEA-based score.}
+\caption[Top 10 CMap HepG2 gene knockdown perturbations]{\textbf{Top 10 most similar CMap HepG2 gene knockdown perturbations} compared to \emph{EIF4G1} knockdown profile. Results ordered by rank product's rank. Legend: \emph{rho} is Spearman's coefficient and \emph{r} is Pearson's coefficient.}
 \label{tab:eif4g1-cmap-kd}
 \begin{tabular}{lllllllllllll}
 \toprule
-\textbf{Gene}     & \textbf{\emph{rho}} & \textbf{\emph{r}} & \textbf{GSEA} & \textbf{Gene description}                           \\
+\textbf{Gene}     & \textbf{\emph{rho}} & \textbf{\emph{r}} & \textbf{WTCS} & \textbf{Gene description}                           \\
 \midrule
 \textbf{EIF4G1}   & 0.18         & 0.19       & 0.49          & eukaryotic translation initiation factor 4 gamma, 1 \\
 \textbf{SKIV2L}   & 0.14         & 0.18       & 0.51          & Ski2 like RNA helicase                              \\
@@ -252,8 +264,9 @@ Within CMap knockdown perturbations, the top result is expectedly the knockdown 
 \end{tabular}
 \end{table}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
+	  \vspace{-\intextsep}
 	\begin{subfigure}[h]{0.45\textwidth}
 		\begin{overpic}[width=\textwidth]{images/ctrap/eif4g1-compound-plot-scatter}
 			\put(1,85){\textsf{\textbf{a}}}
@@ -266,20 +279,21 @@ Within CMap knockdown perturbations, the top result is expectedly the knockdown 
 			\put(.6,54){\textsf{\textbf{d}}}
 		\end{overpic}
 	\end{subfigure}
-    \caption[Comparison of \emph{EIF4G1} knockdown in HepG2 between ENCODE and CMap]{\textbf{Comparison of the \emph{EIF4G1} knockdown experiments in HepG2 cells between ENCODE and CMap.} (a) Scatterplot of differential gene expression values of \emph{EIF4G1} knockdown for intersecting genes between ENCODE (t-statistics; X-axis) and CMap (normalised z-scores; Y-axis). (b-d) GSEA plot of the enrichment of the most up- (b) and down-regulated (c) genes from ENCODE \emph{EIF4G1} knockdown relative to the ranked genes from the CMap perturbation (d). The genes are ranked (X-axis) based on the CMap normalised z-scores (Y-axis).}
+    \caption[Comparison of \emph{EIF4G1} knockdown in HepG2 between ENCODE and CMap]{\textbf{Comparison of the \emph{EIF4G1} knockdown experiments in HepG2 cells between ENCODE and CMap.} (a) Scatterplot of differential gene expression values of \emph{EIF4G1} knockdown for common genes between ENCODE (t-statistics; X-axis) and CMap (normalised z-scores; Y-axis). (b-d) GSEA plot of the enrichment of the most up- (b) and down-regulated (c) genes from ENCODE \emph{EIF4G1} knockdown relative to the ranked genes from the CMap perturbation (d). The genes are ranked (X-axis) based on the CMap normalised z-scores (Y-axis).}
     \label{fig:eif4g1-compound-plots}
 \end{figure}
 
+\pagebreak
 Afterwards, we compared the \emph{EIF4G1} knockdown gene expression changes against those associated with CMap compound perturabtions in HepG2 (\autoref{tab:eif4g1-cmap-compounds}). The knockdown of \emph{EIF4G1}, a gene that encodes for a translation initiation factor subunit relevant in the assembly of the EIF4F complex for initiation of cap-dependent translation \cite{tu:2010vi,jaiswal:2018uq,luo:2019tp}, shows a similar expression profile to the perturbation caused by homoharringtonine, a translation elongation inhibitor.
 
-\begin{table}[!h]
+\begin{table}[!ht]
 \centering
 \footnotesize
-\caption[Top 10 CMap HepG2 compound perturbations]{\textbf{Top 10 most similar CMap HepG2 compound perturbations} compared to the differential expression profile of \emph{EIF4G1} knockdown in HepG2 cells from ENCODE. Results ordered by rank product's rank. Legend: \emph{rho} is Spearman's coefficient, \emph{r} is Pearson's coefficient, Time is the experimental time point and GSEA is the GSEA-based score.}
+\caption[Top 10 CMap HepG2 compound perturbations]{\textbf{Top 10 most similar CMap HepG2 compound perturbations} compared to the differential expression profile of \emph{EIF4G1} knockdown in HepG2 cells from ENCODE. Results ordered by rank product's rank. Legend: \emph{rho} is Spearman's coefficient, \emph{r} is Pearson's coefficient and Time is the exposure time.}
 \label{tab:eif4g1-cmap-compounds}
 \begin{tabular}{llllllll}
 \toprule
-\textbf{Compound}     & \textbf{\emph{rho}} & \textbf{\emph{r}} & \textbf{GSEA} & \textbf{Dose} & \textbf{Time} & \textbf{Mechanism of action} \\
+\textbf{Compound}     & \textbf{\emph{rho}} & \textbf{\emph{r}} & \textbf{WTCS} & \textbf{Dose} & \textbf{Time} & \textbf{Mechanism of action} \\
 \midrule
 homoharringtonine & 0.23                           & 0.21                           & 0.44          & 10 µM         & 6 h                & protein synthesis inhibitor  \\
 homoharringtonine & 0.22                           & 0.21                           & 0.42          & 10 µM         & 24 h               & protein synthesis inhibitor  \\
@@ -299,15 +313,19 @@ puromycin         & 0.23                           & 0.23                       
 
 We can infer compounds targeting the phenotypes associated with the input differential expression profile by comparing them against gene expression and drug sensitivity associations. Gene expression alteration profiles associated with increased drug sensitivity suggest the susceptibility of that (and similar) phenotypes for that compound, whereas profiles associated with decreased drug sensitivity suggest their resistance. We used the gene expression and drug sensitivity association based on CTRP 2.1 to infer targeting drugs for the \emph{EIF4G1} knockdown's differential expression profile (\autoref{tab:eif4g1-ctrp}). Compounds were ranked by their relative targeting potential based on the input differential expression profile (i.e., the 1\textsuperscript{st}-ranked compound has higher targeting potential than the 2\textsuperscript{nd}-ranked one).
 
-\begin{table}[!h]
+% knocking down eif4g1 is a therapeutic strategy in multiple myeloma
+% homoharringtonine is used as cytotoxic for human multiple myeloma cells
+% melphalan (NCI-60) is an alkylating agent that is given in combination with Corticosteroids to treat multiple myeloma
+
+\begin{table}[!ht]
 \centering
 \footnotesize
-\caption[Top 10 CTRP 2.1 targeting drugs]{\textbf{Top 10 CTRP targeting drugs} compared to the differential expression profile of \emph{EIF4G1} knockdown in HepG2 cells from ENCODE. Results ordered by rank product's rank. Legend: \emph{rho} is Spearman's coefficient, \emph{r} is Pearson's coefficient and GSEA is the GSEA-based score.}
+\caption[Top 10 CTRP 2.1 targeting drugs]{\textbf{Top 10 CTRP targeting drugs} compared to the differential expression profile of \emph{EIF4G1} knockdown in HepG2 cells from ENCODE. Results ordered by rank product's rank. Legend: \emph{rho} is Spearman's coefficient and \emph{r} is Pearson's coefficient.}
 \label{tab:eif4g1-ctrp}
 
 \begin{tabular}{llllll}
 \toprule
-\textbf{Compound}           & \textbf{\emph{rho}} & \textbf{\emph{r}} & \textbf{GSEA} & \textbf{Mechanism of action}                                                         \\
+\textbf{Compound}           & \textbf{\emph{rho}} & \textbf{\emph{r}} & \textbf{WTCS} & \textbf{Mechanism of action}                                                         \\
 \midrule
 \textbf{BRD-K75293299}  & 0.14                    & 0.13                   & 0.33          & product of diversity oriented synthesis                              \\
 \textbf{palmostatin B}  & 0.12                    & 0.12                   & 0.36          & inhibitor of acyl-protein thioesterase 1                             \\
@@ -323,23 +341,10 @@ We can infer compounds targeting the phenotypes associated with the input differ
 \end{tabular}
 \end{table}
 
-% knocking down eif4g1 is a therapeutic strategy in multiple myeloma
-% homoharringtonine is used as cytotoxic for human multiple myeloma cells
-% melphalan (NCI-60) is an alkylating agent that is given in combination with Corticosteroids to treat multiple myeloma
-
-For drugs in common between the two analyses (i.e., between CTRP and CMap), we also compared the ranks of targeting potential and similarity with CMap perturbations towards the \emph{EIF4G1} knockdown differential expression profile (\autoref{fig:ctrap-target-revert} and \autoref{tab:ctrap-target-revert-table}). This strategy highlights compounds that may both revert expression changes and target cells with a similar phenotype to the input differential expression. 
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=.5\textwidth]{images/ctrap/eif4g1-target-revert}
-    \caption[Plot of drugs that may target the \emph{EIF4G1} knockdown expression changes]{\textbf{Drugs that may target the \emph{EIF4G1} knockdown phenotype and revert the associated expression changes.} Scatter plot of predicted CTRP 2.1 targeting drugs against similarity scores from CMap compound perturbations. The 13 candidate compounds are highlighted in orange.}
-    \label{fig:ctrap-target-revert}
-\end{figure}
-
-\begin{table}[!h]
+\begin{table}[!b]
 \centering
 \footnotesize
-\caption[Table of drugs that may target the \emph{EIF4G1} knockdown phenotype]{\textbf{Drugs that may target the \emph{EIF4G1} knockdown phenotype and revert the associated expression changes.} Table of predicted CTRP 2.1 targeting drugs against similarity scores from CMap compound perturbations. Legend: Time is the experimental time point.}
+\caption[Table of drugs that may target the \emph{EIF4G1} knockdown phenotype]{\textbf{Drugs that may target the \emph{EIF4G1} knockdown phenotype and revert the associated expression changes.} Table of predicted CTRP 2.1 targeting drugs against similarity scores from CMap compound perturbations. Legend: Time is the exposure time.}
 \label{tab:ctrap-target-revert-table}
 
 \begin{tabular}{llllll}
@@ -363,63 +368,86 @@ For drugs in common between the two analyses (i.e., between CTRP and CMap), we a
 \end{tabular}
 \end{table}
 
-\subsubsection{Molecular descriptor enrichment analysis}
+For drugs in common between the two analyses (i.e., between CTRP and CMap), we also compared the ranks of targeting potential and similarity with CMap perturbations towards the \emph{EIF4G1} knockdown differential expression profile (\autoref{tab:ctrap-target-revert-table} and \autoref{fig:ctrap-target-revert}). This strategy highlights compounds that may both revert expression changes and target cells with a similar phenotype to the input differential expression \cite{almeida:2019wh}. However, the association between those ranks is not statistically significant according to Fisher's exact test. Nevertheless, \emph{EIF4G1} depletion is associated with cell proliferation impairment by increasing levels of cell cycle inhibitor p27, thereby promoting autophagy \cite{ramirez-valle:2008vi}, whereas top candidate targeting drugs purmorphamine \cite{jimenez-sanchez:2012ul} and blebbistatin \cite{wang:2020vy} have been reported to inhibit autophagy.
 
-In order to elucidate a potential consensus in the modes of action of our list of candidate targeting drugs based on CMap compound ranking, we analysed their enrichment in molecular descriptors. Only compounds in the middle of the rank are enriched in all of the 3 significant molecular descriptors: having 2 amides, 12 aromatic atoms and 2 aromatic rings ($\textrm{q-value} < 0.05$; \autoref{fig:ctrap-descriptors}). In this context, as we are only interested in compounds that may promote (top of the ranking list) or revert (bottom) the observed expression changes, this analysis was discarded.
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[h]{0.49\textwidth}
+		\begin{overpic}[width=\textwidth]{images/ctrap/eif4g1-target-revert}
+			\put(1,75){\textsf{\textbf{a}}}
+		\end{overpic}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.49\textwidth}
+		\begin{overpic}[abs,width=\textwidth]{images/ctrap/eif4g1-target-revert-spearman}
+			\put(1,160){\textsf{\textbf{b}}}
+		\end{overpic}
+	\end{subfigure}
+    \caption[Plot of drugs that may target the \emph{EIF4G1} knockdown expression changes]{\textbf{Drugs that may target the \emph{EIF4G1} knockdown phenotype and revert the associated expression changes.} Scatter plot of predicted CTRP 2.1 targeting drugs against similarity scores from CMap compound perturbations based on rank product's rank (a) and Spearman's coefficient (b) for both datasets. The Spearman's coefficient results are displayed for illustrative purposes. The 13 compounds amongst both the top 25\% compounds that may revert \emph{EIF4G1} knockdown and the top 25\% targeting drugs are highlighted.}
+    \label{fig:ctrap-target-revert}
+\end{figure}
 
-\begin{figure}[!h]
+\subsubsection{Drug set enrichment analysis}
+
+In order to elucidate a potential consensus in the modes of action of the most promising CMap chemical perturbations, we analysed their enrichment in 2D molecular descriptor sets (computed from all CMap compounds by collaborator Juan Carlos Gómez Verjan, INGER Mexico).
+
+Enrichment scores are provided based on the signal of the ranked metric, yet ranks are only positive. As such, we centre the ranking so that the top-ranked compounds' values are positive, the bottom-ranked compounds' are negative and the middle-ranked compound is 0 (the additive inverse of the ranking is used so that the top-ranked compounds are positive after scaling). The values are also scaled to hint to the user that the values were transformed.
+
+Based on these results (\autoref{fig:ctrap-descriptors}), the number of rings closures associated with CMap chemical perturbations that mimic the \emph{EIF4G1} knockdown phenotype seems lower (between 0 and 2) than for those perturbations that revert the phenotype (between 6 and 14), potentially indicating a chemical property associated with the phenotype that could be interesting to further study.
+The semblance between the drug sets associated with 2 rings closures and 0 or 1 is due to how cTRAP generates drug sets (described in \fullref{subsec:descriptor-set-enrichment}). If these (or other) sets are usually associated in different contexts, this may suggest the need to further optimise the default generation of drug sets.
+
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[h]{0.32\textwidth}
 		\includegraphics[width=\textwidth]{images/ctrap/molecular-descriptors-a}
-		\caption{\footnotesize{2 amides}}
+		\caption{\footnotesize{Rings Closures: 6 to 14}}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.32\textwidth}
 		\includegraphics[width=\textwidth]{images/ctrap/molecular-descriptors-b}
-		\caption{\footnotesize{12 aromatic atoms}}
+		\caption{\footnotesize{Rings Closures: 0 to 1}}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.32\textwidth}
 		\includegraphics[width=\textwidth]{images/ctrap/molecular-descriptors-c}
-		\caption{\footnotesize{2 aromatic rings}}
+		\caption{\footnotesize{Rings Closures: 2}}
 	\end{subfigure}
-	\caption[Molecular descriptor enrichment analysis]{\textbf{Molecular descriptor enrichment analysis} of CMap ranking similarity results based on \emph{EIF4G1} differential expression profile. Results are ranked based on the rank product's rank. Only descriptors with significant adjusted p-value ($\textrm{q-value} < 0.05$) are shown.}
+	\caption[Drug set enrichment analysis]{\textbf{Drug set enrichment analysis} on CMap compound perturbations ranked by similarity to \emph{EIF4G1} knockdown phenotype. GSEA plots displayed for select molecular descriptors with adjusted p-value $< 0.05$. The rank metric is the scaled and centred additive inverse of the rank product's rank.}
 	\label{fig:ctrap-descriptors}
 \end{figure}
 
 \subsection{Time and memory optimisation}
 \label{subsec:ctrap-optim}
 
-\begin{figure}[!b]
+cTRAP allows comparing user-provided differential expression results against the CMap perturbation z-scores that are contained in a 21GB GCTx file. The GCTX format stores annotated, high-dimensional data matrices and is based on the HDF5 format for efficient indexing and loading of subsets of the whole data \cite{enache:2018wq}. Instead of loading the whole GCTx file into memory, cTRAP 1.4 and newer versions minimise peak RAM usage by loading and processing user-selected subsets of perturbation z-scores (e.g., only compound perturbations) in chunks of 1 GiB (default).
+
+Although processing data by chunks helped reducing the memory footprint of cTRAP, we later refactored the code of the comparisons in cTRAP 1.10, a milestone that included multiple improvements to speed and memory:
+
+\begin{itemize}
+	\item Faster WTCS calculation by improving code efficiency.
+	\item Slightly improved runtime by avoiding redundant loading of data chunks. This change was also required to enable multi-thread support in systems that implement process forking (e.g., Linux and macOS, but not Windows).
+	\item Optional argument to set a custom size for data chunks (1 GiB by default).
+	\item As the NCI-60 gene expression and drug sensitivity correlation matrix is also large (3.3GB), we saved that matrix as a HDF5 file that is then loaded and processed by cTRAP in chunks of 1 GiB (by default), minimising peak RAM usage when predicting targeting drugs based on the NCI-60 data.
+\end{itemize}
+
+We benchmarked time and memory when ranking CMap perturbations based on Spearman's correlation, Pearson's correlation and WTCS using a development version of cTRAP 1.10 (commit \link{https://github.com/nuno-agostinho/cTRAP/commit/296f9b2}{296f9b2}) and using as query the t-statistics for differential expression of \emph{EIF4G1} knockdown in HepG2 cells from ENCODE. The number of CMap compound perturbations (241 258) is much higher than those of the knockdown (48 862) and over-expression (24 627) perturbations and this is expected to reflect on time and memory for data processing.
+
+When ranking CMap compound perturbations in cTRAP 1.8 and 1.10, the runtime was decreased from 95 to 53 minutes when loading the whole data and from 77 to 28 minutes when loading by chunks (\autoref{fig:cmap-ranking-time}). For each chunk, we parallelised the calculations performed per perturbation and this can help to speed up runtime, with 4 threads, from 28 to 12 minutes. However, the usage of 8 threads is not recommended as the runtime is similar to using 4 threads while consuming more resources.
+
+\begin{figure}[!ht]
   \includegraphics[width=\textwidth]{images/ctrap/ranking-time}
   \centering
   \caption[Time benchmark of CMap perturbation ranking]{\textbf{Time benchmark of CMap perturbation ranking.} Times were measured for cTRAP 1.8 (1 thread only) and 1.10 (1, 4 and 8 threads) for over-expression, knockdown and compound perturbations whose data was loaded by 1 GiB chunks or as whole.}
   \label{fig:cmap-ranking-time}
 \end{figure}
 
-cTRAP allows comparing user-provided differential expression results against the CMap perturbation z-scores that are contained in a 21GB GCTx file. The GCTX format stores annotated, high-dimensional data matrices and is based on the HDF5 format for efficient indexing and loading of subsets of the whole data \cite{enache:2018wq}. Instead of loading the whole GCTx file into memory, cTRAP 1.4 and newer versions minimise peak RAM usage by loading and processing user-selected subsets of perturbation z-scores (e.g., only compound perturbations) in chunks of 1 GiB (default).
+Benchmarked memory was annotated based on the different internal steps performed by cTRAP (\autoref{fig:cmap-ranking-memory}). When ranking against the CMap compound perturbations, loading and processing their z-scores at once requires 59.7 GiB, compared to 5.4 GiB when loading and processing 1 GiB chunks. The differences were not as stark when using the knockdown and over-expression perturbations, but were still crucial to allow the possibility of running cTRAP in a common laptop with 8 GiB of RAM. % Although memory profiling expectedly slows down runtime, we can also see in the memory benchmark that loading data by chunks can have a big impact on elapsed time of a run when comparing compound perturbations.
 
-Although processing data by chunks helped reducing the memory footprint of cTRAP, we later refactored the code of the comparisons in cTRAP 1.10, a milestone that included multiple improvements to speed and memory:
-
-\begin{itemize}
-	\item Faster GSEA-based score calculation by improving code efficiency.
-	\item Slightly improved runtime by avoiding redundant loading of data chunks. This change was also required to enable multi-thread support in systems that implement process forking (e.g., Linux and macOS, but not Windows).
-	\item Optional argument to set a custom size for data chunks (1 GiB by default).
-	\item As the NCI-60 gene expression and drug sensitivity correlation matrix is also large (3.3GB), we saved that matrix as a HDF5 file that is then loaded and processed by cTRAP in chunks of 1 GiB (by default), minimising peak RAM usage when predicting targeting drugs based on the NCI-60 data.
-\end{itemize}
-
-We benchmarked time and memory when ranking CMap perturbations based on Spearman's correlation, Pearson's correlation and GSEA-based score using a development version of cTRAP 1.10 (commit \link{https://github.com/nuno-agostinho/cTRAP/commit/296f9b2}{296f9b2}) and using as query the t-statistics for differential expression of \emph{EIF4G1} knockdown in HepG2 cells from ENCODE. The number of CMap compound perturbations (241 258) is much higher than those of the knockdown (48 862) and over-expression (24 627) perturbations and this is expected to reflect on time and memory for data processing.
-
-\begin{figure}[!b]
+\begin{figure}[!ht]
   \vspace{-\intextsep}
   \includegraphics[width=\textwidth]{images/ctrap/ranking-memory}
   \centering
   \vspace{-\intextsep}
-  \caption[Memory benchmark of CMap perturbation ranking]{\textbf{Memory benchmark of CMap perturbation ranking,} annotated using the different steps performed by cTRAP. Memory was benchmarked when ranking compound, knockdown and overexpression perturbations against differential expression results. The peak memory consumed for each condition is labelled.}
+  \caption[Memory benchmark of CMap perturbation ranking]{\textbf{Memory benchmark of CMap perturbation ranking,} annotated using the different steps performed by cTRAP. Memory was benchmarked when ranking compound, knockdown and overexpression perturbations against differential expression results. The maximum memory used for each condition is labelled.}
   \label{fig:cmap-ranking-memory}
 \end{figure}
-
-When ranking CMap compound perturbations in cTRAP 1.8 and 1.10, the runtime was decreased from 95 to 53 minutes when loading the whole data and from 77 to 28 minutes when loading by chunks (\autoref{fig:cmap-ranking-time}). For each chunk, we parallelised the calculations performed per perturbation and this can help to speed up runtime, with 4 threads, from 28 to 12 minutes. However, the usage of 8 threads is not recommended as the runtime is similar to using 4 threads while consuming more resources.
-
-Benchmarked memory was annotated based on the different internal steps performed by cTRAP (\autoref{fig:cmap-ranking-memory}). When ranking against the CMap compound perturbations, loading and processing their z-scores at once requires 59.7 GiB, compared to 5.4 GiB when loading and processing 1 GiB chunks. The differences were not as stark when using the knockdown and over-expression perturbations, but were still crucial to allow the possibility of running cTRAP in a common laptop with 8 GiB of RAM. % Although memory profiling expectedly slows down runtime, we can also see in the memory benchmark that loading data by chunks can have a big impact on elapsed time of a run when comparing compound perturbations.
 
 \subsection{Graphical interface}
 
@@ -433,29 +461,29 @@ To assist users that may prefer graphical interfaces, most cTRAP functionality i
 	\item \texttt{launchDrugSetEnrichmentAnalyser()} to analyse drug set enrichment and visualize respective results.
 \end{itemize}
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[h]{0.3\textwidth}
-		\includegraphics[width=\textwidth]{example-image}
+		\includegraphics[width=\textwidth]{images/ctrap/ui/launchDiffExprLoader}
 		\caption{\footnotesize{\texttt{launchDiffExprLoader}}}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.3\textwidth}
-		\includegraphics[width=\textwidth]{example-image}
+		\includegraphics[width=\textwidth]{images/ctrap/ui/launchCMapDataLoader}
 		\caption{\footnotesize{\texttt{launchCMapDataLoader}}}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.3\textwidth}
-		\includegraphics[width=\textwidth]{example-image}
+		\includegraphics[width=\textwidth]{images/ctrap/ui/launchMetadataViewer}
 		\caption{\footnotesize{\texttt{launchMetadataViewer}}}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{example-image}
+		\includegraphics[width=\textwidth]{images/ctrap/ui/launchResultPlotter}
 		\caption{\footnotesize{\texttt{launchResultPlotter}}}
 	\end{subfigure}
 	\begin{subfigure}[h]{0.45\textwidth}
-		\includegraphics[width=\textwidth]{example-image}
+		\includegraphics[width=\textwidth]{images/ctrap/ui/launchDrugSetEnrichmentAnalyser}
 		\caption{\footnotesize{\texttt{launchDrugSetEnrichmentAnalyser}}}
 	\end{subfigure}
-	\caption[cTRAP graphical interface functions]{\textbf{cTRAP graphical interface functions}.}
+	\caption[cTRAP graphical interface functions]{\textbf{Screenshots of the modular cTRAP graphical interface functions}.}
 	\label{fig:ctrap-ui-functions}
 \end{figure}
 
@@ -514,6 +542,8 @@ cTRAP also provides a Shiny-based global visual interface that encompasses all g
 \subsubsection{User session data}
 \label{sec:ctrap-web}
 
+Session data are saved in folders named after a random alphanumeric string (token) that uniquely identifies each session and can be downloaded as an RDS file -- a list containing data for all datasets from the user session. Users can load these RDS files in any R session and in local instances of cTRAP. Downloading user sessions is encouraged because cTRAP session folders are removed from our server if not accessed in the last 30 days based on the access timestamp to optimise resources and scalability with multiple users\footnote{In Linux, the access timestamp (\texttt{atime} attribute) for a directory indicates the last time a file within was read/written or its contents were listed.}.
+
 \begin{wrapfigure}{r}{.4\textwidth}
   \vspace{-2\intextsep}
   \includegraphics[width=\linewidth]{images/ctrap/welcome}
@@ -522,19 +552,17 @@ cTRAP also provides a Shiny-based global visual interface that encompasses all g
   \label{fig:ctrap-welcome}
 \end{wrapfigure}
 
-Session data are saved in folders named after a random alphanumeric string (token) that uniquely identifies each session and can be downloaded as an RDS file -- a list containing data for all datasets from the user session. Users can load these RDS files in any R session and in local instances of cTRAP. Downloading user sessions is encouraged because cTRAP session folders are removed from our server if not accessed in the last 30 days based on the access timestamp to optimise resources and scalability with multiple users\footnote{In Linux, the access timestamp (\texttt{atime} attribute) for a directory indicates the last time a file within was read/written or its contents were listed.}.
-
 cTRAP visitors are greeted with a welcome screen that allows them to create a new session or restore previous ones (\autoref{fig:ctrap-welcome}), a dialog that can be opened at any time from the session menu.
 
-\begin{figure}[!t]
+% TODO: mention other files in common across cTRAP?
+When creating a new session, a unique token is created. As soon as session-specific data are loaded, a new folder is created in the working directory and named after the session token (\autoref{fig:user-session}). Any updates to the session data are automatically saved to the session folder. To avoid downloading commonly-used files (e.g., the 21GB CMap perturbations z-scores file), an appropriate folder stores data shared across sessions, thus avoiding downloading, storing and processing redundant data.
+
+\begin{figure}[!ht]
   \includegraphics[width=\textwidth]{images/ctrap/user-session}
   \centering
   \caption[User session workflow]{\textbf{User session workflow.} cTRAP allows to create new sessions or load a previous one via a given token or RDS file. When loading session via a RDS file, a new cTRAP session is created before loading the data from RDS file. Sessions can also be loaded using a token if any folder with such token exists in cTRAP's working directory.}
   \label{fig:user-session}
 \end{figure}
-
-% TODO: mention other files in common across cTRAP?
-When creating a new session, a unique token is created. As soon as session-specific data are loaded, a new folder is created in the working directory and named after the session token (\autoref{fig:user-session}). Any updates to the session data are automatically saved to the session folder. To avoid downloading commonly-used files (e.g., the 21GB CMap perturbations z-scores file), an appropriate folder stores data shared across sessions, thus avoiding downloading, storing and processing redundant data.
 
 When restoring a session via a token, cTRAP loads the contents of the folder named after the token located in cTRAP working directory or warns the user if no such folder exists (\autoref{fig:user-session}). In case the user uploads the RDS file of a previous session, cTRAP will load its contents into a new session (\autoref{fig:user-session}).
 
@@ -551,7 +579,6 @@ Celery requires a \texttt{tasks.py} file detailing the tasks to run. As we inten
 import os, time
 from datetime import datetime
 from subprocess import run, PIPE
-
 # Celery configuration
 from celery import Celery
 os.environ.setdefault('C_FORCE_ROOT', 'true')
@@ -607,7 +634,7 @@ taskList()
 
 cTRAP currently supports ranking similar CMap perturbation and predicting targeting drugs as background processes by submitting jobs to Celery with the exact R commands to run via the \texttt{Rscript} command \cite{r-core-team:2021wf}. Users can monitor the status of background tasks in their cTRAP session (\shortref{fig:job-progress})\footnote{Flower allows to monitor and manage Celery jobs, but its web interface is only accessible in the iMM network (via ethernet cable or VPN). More information in \fullref{sec:background-tasks}.}.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \includegraphics[width=.5\textwidth]{images/ctrap/job-progress}
   \centering
   \caption[Progress of Celery jobs in cTRAP]{\textbf{Progress of Celery jobs in cTRAP,} updated every 5 seconds. Job status can be: \textcolor{gray}{Waiting} in job queue to start, \textcolor{orange}{Running}, \textcolor{teal}{Loaded}, \textcolor{red}{Error} for unknown failures, and \textcolor{red}{Not Found} if the job results cannot be found (e.g., when re-uploading the same RDS file, the job results were already removed). When job results are loaded, the respective dataset name is a link to access them (in blue).}
@@ -635,18 +662,20 @@ All Celery jobs are saved as \emph{dummy} objects in cTRAP's user session data, 
 % what are the limitations (LIMITATIONS)
 % what are the next steps (ENDING/FUTURE WORK)
 
-The \alink{clue.io} website is a collection of web apps that allow to explore CMap data and to compare user-provided differential expression results against those from genetic and pharmacological CMap perturbations. However, its shortcomings include limiting queries to a maximum of 150 up-regulated and 150 down-regulated genes. We thus present cTRAP as a tool to identify causal perturbations from differential expression data, as well as pinpoint compounds that may promote or revert observed differences in gene expression.
+The analysis of uncharacterised phenotypes may help understanding relevant biological insights and developing novel therapies by comparing changes in gene expression against a large reference database -- such as CMap -- containing differential expression data associated with known perturbagens \cite{subramanian:2017ul,hughes:2000ww}. The \alink{clue.io} website is a collection of web apps to explore CMap data and to compare user-provided differential expression results against those from genetic and pharmacological CMap perturbations \cite{subramanian:2017ul}. However, its shortcomings include limited queries with a maximum of 150 up-regulated and 150 down-regulated genes, poor automation with downstream analyses and lack of support to run with local computing resources.
 
-Unlike \alink{clue.io}, cTRAP also uses publicly available drug sensitivity and gene expression data from NCI-60, GDSC and CTRP. The comparison of these data with user-provided differential expression profiles may help unravel compounds that selectively target cells. Furthermore, integrating such results with those from CMap comparisons allow to identify putative compounds associated with the queried expression changes and that may target cells with a similar profile to the user input.
+We thus present cTRAP as a R package and web app to identify causal molecular perturbations from differential expression data, as well as pinpoint compounds that may promote or revert observed differences in gene expression. Besides the WTCS used by \alink{clue.io} that only considers the top 150 up- and top 150 down-regulated genes, cTRAP also allows to measure similarity based on Pearson's and Spearman's correlations, thus considering the expression of all common genes between datasets. Moreover, cTRAP allows to customise the number of up- and down-regulated genes in the set (by default, 150 like \alink{clue.io}). When performing multiple comparisons, cTRAP also returns the rank product's rank as a ranked summary of selected comparison methods.
 
-Inspired by gene set enrichment analysis, cTRAP allows to analyse the enrichment of drug sets based on 2D and 3D molecular descriptors computed from NCI-60 and CMap compounds. This feature may assist in identifying common characteristics across ordered lists of compounds, therefore discerning candidate chemical properties to guide researchers in finding sets of similar compounds associated with the observed phenotype from previous results. %However, its usefulness may require tweaking the original sets of compounds.
+Unlike \alink{clue.io}, cTRAP also uses publicly available drug sensitivity and gene expression data from NCI-60, GDSC and CTRP. The comparison of these data with user-provided differential expression profiles may help unravel compounds that selectively target cells. Furthermore, integrating such results with those from CMap comparisons allow to identify putative compounds associated with the queried expression changes and that may target cells with a similar profile to the user input \cite{almeida:2019wh}.
 
-Besides its command-line interface, most of cTRAP's functionality can be accessed via multiple graphical user interface functions that can be intertwined with R code. cTRAP also features a global user interface that combines all other visual interfaces and that is available as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}. From our experience with psichomics, we expect the graphical interface to be popular among users that are less comfortable with coding in R.
+Inspired by gene set enrichment analysis, cTRAP allows to analyse the enrichment of drug sets based on 2D and 3D molecular descriptors computed from NCI-60 and CMap compounds. This feature may assist in identifying common characteristics across ordered lists of compounds, therefore discerning candidate chemical properties to guide researchers in finding sets of similar compounds associated with the observed phenotype from previous results. However, the biological insights of (gene) set enrichment analysis is dependent on the sets used as input \cite{davies:2010wf}. Although cTRAP allows to customise the drug set generation from the molecular descriptor data\footnote{As described in \fullref{subsec:descriptor-set-enrichment}.}, the default drug sets could be further optimised and benchmarked for biological relevance.
 
-Given the large input data from CMap, we optimised cTRAP for speed and memory usage. When comparing user-provided data against the 241 258 CMap compound perturbations in our benchmarks, cTRAP took 28 minutes to run in a single thread with a peak memory consumption of 5.4 GiB. This reduced memory consumption is due to loading and processing CMap data in 1 GiB chunks by default.
+Given the large input data from CMap (21GB of differential expression data), we optimised cTRAP for speed and memory usage. When comparing user-provided data against the 241 258 CMap compound perturbations in our benchmarks, cTRAP took 28 minutes to run in a single thread with a peak memory usage of 5.4 GiB. This reduced memory demand is due to loading and processing CMap data in 1 GiB chunks by default. The speed and memory optimisations also apply when predicting targeting drugs based on the 3.3GB pre-processed dataset from NCI-60.
+
+Besides its command-line interface, most of cTRAP's functionality can be accessed via multiple, modular graphical user interface functions that can be intertwined with R code. cTRAP also features a global user interface that is available as a web app at \alink{compbio.imm.medicina.ulisboa.pt/cTRAP}. The web app allows users to download a RDS file to load cTRAP output into a local R session (e.g., to use with cTRAP locally or to perform other downstream analyses) or into the web app at a later time.
+
+From our experience with psichomics, we expect the graphical interfaces of cTRAP to be popular among users that are less comfortable with coding in R. Nevertheless, the web app could benefit from emailing users when jobs finish (successfully or not). This would require to set up an email address to which to send emails from, preferentially from an official institutional account. Unfortunately, Celery does not have built-in support for emails and this is not trivial to implement.
 
 In future cTRAP iterations, we aim to add support for CMap LINCS 2020, a CMap data expansion described as a \emph{3-fold expansion on the previous resource, and [whose] notable new subsets of data include CRISPSR knockout of \textgreater 5k genes and hematopoietic and non-cancer cell models} (\alink{clue.io/data/CMap2020\#LINCS2020}). However, this dataset is still in beta and requires some adjustments to cTRAP given the files are now provided individually per perturbation type.
-
-Regarding background tasks, the web app could benefit from emailing users when jobs finish (successfully or not). This would require to set up an email address to which to send emails from, preferentially from an official institutional account. Unfortunately, Celery does not have built-in support for emails and this is not trivial to implement.
 
 We hope that users will be able to successfully employ cTRAP in identifying candidate causal molecular perturbations of phenotypes and compounds target them, better understanding the biological mechanisms underlying differences in gene expression alterations, as well as in prioritising targeted therapeutic agents for disease-associated queries.
