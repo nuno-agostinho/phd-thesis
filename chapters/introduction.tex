@@ -354,11 +354,13 @@ To facilitate continuous iterations, some steps can be automated using continuou
 
 Many popular CI tools, like Travis-CI, GitHub Actions and AppVeyor, can be used for free in open-source projects. This approach promotes software quality by allowing peer-reviewing the code, reusing parts, fixing bugs, extending features and collaborating with external developers \cite{silva:2017wl,hewitt:2019uj}, as well as it facilitates analysis transparency and reproducibility \cite{silva:2017wl}. Moreover, it has educational value, allowing others to learn from the developed code, implemented solutions and project organisation \cite{hewitt:2019uj}.
 
-Open-source bioinformatic R packages are supported by Bioconductor and its community \cite{huber:2015wt}, facilitating the distribution of R packages and Docker images that allow easy access to their most popular R packages. Bioconductor also hosts packages that make use of the Shiny framework to create web apps from R \cite{chang:2021ul}.
+%Open-source bioinformatic R packages are supported by Bioconductor and its community \cite{huber:2015wt}, facilitating the distribution of R packages and Docker images that allow easy access to their most popular R packages. Bioconductor also hosts packages that make use of the Shiny framework to create web apps from R \cite{chang:2021ul}.
+
+\subsection{Web apps and graphical user interfaces}
 
 The advent and popularisation of the Internet made software easier to distribute by simply allowing to download apps or use web browsers to directly present web apps. Web apps follow a client-server architecture usually composed by three layers:
 \begin{itemize}
-	\item \textbf{Presentation layer} is the user interface rendered by the user's local computer in their web browser based on standard web technologies: HTML, CSS and JavaScript.
+	\item \textbf{Presentation layer} is the user interface locally rendered by the user's web browser based on standard web technologies: HTML, CSS and JavaScript.
 	\item \textbf{Database layer} contains app-associated data such as user login details. The database may be stored remotely (most commonly using a MySQL, PostgreSQL, MariaDB or MongoDB server) or in the user's computer.
 	\item \textbf{Application layer}, the core logic of the application. The application layer can be run in its own remote server or in the same server as the database layer based on Python, Java, PHP or Perl. However, simpler web apps may opt for running the application layer as part of the presentation layer, thus using local resources.
 \end{itemize}
@@ -371,4 +373,21 @@ Another vital aspect of any app is its interface, no matter whether graphical or
 
 Unfortunately, there is a lack of documentation on creating proper visual interfaces for bioinformatic apps. Even so, combining the concepts behind proper software development with dashboard design, big data visualisation and state-of-the-art transcriptomic analysis in freely available, open-source tools allows us to create potentially useful and (hopefully) popular web apps for sharing data insights with collaborators and even the whole scientific community.
 
-The code for this PhD thesis can be found at \alink{github.com/nuno-agostinho/phd-thesis}.
+\subsection{R programming language}
+
+The work presented in this thesis was mostly developed using R \cite{r-core-team:2021wf}. R is a programming language with a strong foundation in statistics and includes native support for data manipulation, clustering, survival analysis, principal component analysis, linear modelling and classical statistical tests, such as Mann-Whitney U, Kruskal–Wallis and Fligner–Killeen tests \cite{r-core-team:2021wf,therneau:2000tk}. We also used RStudio (\alink{rstudio.com}), a popular integrated development environment (IDE), to assist using R for data analysis and package development.
+
+Besides the built-in functions, R is extendable with open-source packages from multiple repositories, e.g., CRAN for generic R packages and Bioconductor for bioinformatic R packages \cite{huber:2015wt}. We used packages from such repositories to:
+
+\begin{itemize}
+	\item perform bioinformatic analyses, including differential gene expression (\texttt{limma} \cite{ritchie:2015tm} and \texttt{edgeR} \cite{robinson:2010wx});
+	\item create interactive data visualisations based on \texttt{ggplot2} \cite{wickham:2016aa} for standard R plots and \texttt{highcharter} \cite{kunst:2022aa} for interactive JavaScript plots;
+	\item design web apps using the \texttt{shiny} \cite{chang:2021ul} framework;
+	\item integrate C++ in R with \texttt{Rcpp} \cite{eddelbuettel:2018aa}, a more efficient and low-level programming language, allowing to speed up computationally-intensive tasks;
+	\item profile time and memory to pinpoint bottlenecks that need improvement by using \texttt{profvis} \cite{chang:2020aa} and \texttt{microbenchmark} \cite{mersmann:2021aa};
+	\item develop R packages with \texttt{devtools} \cite{wickham:2021aa} and write their documentation using \texttt{roxygen2} \cite{wickham:2022aa}.
+\end{itemize}
+
+To facilitate the use of the code in this thesis, our programs are distributed as open-source in GitHub and Bioconductor. Moreover, our tools were encapsulated with their dependencies in Docker images, making them quick to set up in any machine and easy-to-use in high-performance computing (HPC) environments. We also used these Docker images to deploy our tools as free web apps.
+
+The LaTeX code to compile this PhD thesis is open-source and can be found at \alink{github.com/nuno-agostinho/phd-thesis}.
