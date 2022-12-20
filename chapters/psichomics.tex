@@ -30,7 +30,7 @@ psichomics was first available in 2016 via Bioconductor to quantify, analyse and
 1.0.8  & 18 Feb 2017 & Analyse GTEx data \\
 1.4  & 31 Oct 2017 & Analyse gene expression from TCGA and GTEx data \\
 1.4.2  & 19 Dec 2017 & Support human genome assembly hg38 \\
-1.4.3  & 13 Jan 2018 & Faster alternative splicing quantification using Rcpp/C++ \\
+1.4.3  & 13 Jan 2018 & Faster alternative splicing quantification via \texttt{Rcpp}/C++ \cite{eddelbuettel:2018aa} \\
 1.6.1  &  5 Jul 2018 & Analyse recount2 and user-provided data \\
 \rowcolor{lightgray}
        &  2 Oct 2018 & psichomics' original article \cite{saraiva-agostinho:2018uq} is published online \\
@@ -38,7 +38,7 @@ psichomics was first available in 2016 via Bioconductor to quantify, analyse and
 \rowcolor{lightgray}
        & 21 Jan 2020 & psichomics' book chapter \cite{saraiva-agostinho:2020wz} is published online \\
 1.12.1 & 29 Jan 2020 & Display visual diagrams of alternative splicing events \\
-1.14.2 & 11 Aug 2020 & Load VAST-TOOLS output\parnote{First time supporting intron retention events (psichomics does not quantify intron retention). More information in \fullref{sec:psi-quantification}.} and more data formats \\
+1.14.2 & 11 Aug 2020 & Load VAST-TOOLS \cite{irimia:2014wt,tapial:2017ui} output\parnote{First time supporting intron retention events (psichomics does not quantify intron retention). More information in \fullref{sec:psi-quantification}.} and more formats \\
 1.18.6 & 4 Oct 2021  & Add web server support (optimised to run in ShinyProxy)\parnote{First version available online.} \\
 1.20 & 28 Oct 2021 & Support alternative splicing annotation for 14 species\parnote{Alternative splicing annotations for multiple species are available on-demand based on VAST-TOOLS annotation. \shortref{tab:as-annot} lists all supported species/assemblies. Custom alternative splicing annotations can also be imported.} \\
 \bottomrule
@@ -589,4 +589,4 @@ Another limitation is psichomics' reliance on existing alternative splicing even
 % \textcolor{red}{Using psichomics, we are able not only to identify novel exons differentially spliced between tumour stage I and normal breast samples but also to pinpoint potentially clinically relevant splicing events by embracing clinical data and evaluating their prognostic value.}
 % For future iterations of psichomics, potentially support recount3?
 
-Since its publication, psichomics has been used to analyse alternative splicing in multiple scientific articles, such as \cite{coomer:2019wz,baeza-centurion:2019tb,munkley:2019wr,baeza-centurion:2020vb}. Based on these citations and positive user feedback, we believe that fellow researchers and clinicians are able to intuitively employ psichomics to assist them in uncovering novel splicing-associated prognostic factors and therapeutic targets, as well as in advancing our understanding of how alternative splicing is regulated in physiological and disease contexts.
+Since its publication, psichomics has been used to analyse alternative splicing in multiple scientific articles, such as \cite{coomer:2019wz,baeza-centurion:2019tb,munkley:2019wr,kumar:2022aa}. Based on these citations and positive user feedback, we believe that fellow researchers and clinicians are able to intuitively employ psichomics to assist them in uncovering novel splicing-associated prognostic factors and therapeutic targets, as well as in advancing our understanding of how alternative splicing is regulated in physiological and disease contexts.
